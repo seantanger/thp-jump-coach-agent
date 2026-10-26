@@ -15,7 +15,8 @@ import os
 import random
 import time
 
-from scripts.build_chunks import METHODS, TIMING_MARKER, chunks_dir, read_jsonl
+from scripts.build_chunks import METHODS, TIMING_MARKER
+from src.kb.paths import chunks_dir, read_jsonl
 from src.llm import get_embeddings
 
 SEED = 7

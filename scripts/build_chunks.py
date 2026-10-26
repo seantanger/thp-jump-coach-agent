@@ -14,14 +14,10 @@ this repo. Same input + settings give the same files and chunk IDs.
 from __future__ import annotations
 
 import json
-import os
 import random
 import statistics
-import sys
 from collections import Counter
 from pathlib import Path
-
-from dotenv import load_dotenv
 
 from src.kb.chunk import (
     CHARSPLIT_CONFIG,
@@ -34,6 +30,7 @@ from src.kb.chunk import (
     speech_segments,
     timewindow_chunks,
 )
+from src.kb.paths import chunks_dir, data_dir
 
 METHODS = ("timewindow", "charsplit_350", "charsplit_matched")
 SAMPLE_SEED = 42
@@ -42,29 +39,12 @@ MATCH_TOLERANCE = 0.02  # stop the size search within 2% of timewindow's median 
 TIMING_MARKER = "<!-- embedding timing: written by scripts/time_embeddings.py -->"
 
 
-def data_dir() -> Path:
-    load_dotenv()
-    raw = os.getenv("THP_DATA_DIR")
-    if not raw:
-        sys.exit("Set THP_DATA_DIR (e.g. ~/git/thp-ai/data) in .env or the environment.")
-    return Path(raw).expanduser().resolve()
-
-
-def chunks_dir() -> Path:
-    return data_dir() / "chunks"
-
-
 def load_videos(clean_dir: Path) -> list[tuple[str, dict]]:
     """(relative path, video) for every transcript, in sorted path order."""
     return [
         (str(path.relative_to(clean_dir)), json.loads(path.read_text()))
         for path in sorted(clean_dir.glob("*/*.json"))
     ]
-
-
-def read_jsonl(path: Path) -> list[dict]:
-    with path.open() as f:
-        return [json.loads(line) for line in f]
 
 
 def write_jsonl(path: Path, records: list[dict]) -> None:

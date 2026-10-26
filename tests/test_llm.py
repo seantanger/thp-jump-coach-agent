@@ -134,3 +134,10 @@ def test_embeddings_explicit_spec_and_missing_config(monkeypatch):
     with patch.object(llm, "init_embeddings", return_value=MagicMock()) as fake:
         get_embeddings("ollama:nomic-embed-text")
     assert fake.call_args.args[0] == "ollama:nomic-embed-text"
+
+
+def test_embedding_prefixes():
+    from src.llm import embedding_prefixes
+
+    assert embedding_prefixes("ollama:nomic-embed-text") == ("search_document: ", "search_query: ")
+    assert embedding_prefixes("openai:text-embedding-3-small") == ("", "")

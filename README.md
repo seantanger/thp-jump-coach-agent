@@ -4,16 +4,18 @@ WatSPEED Agentic AI course project (UWaterloo). A vertical-jump coaching agent
 that answers from John Evans and THP Strength YouTube transcripts with
 timestamped citations.
 
-**Status: Milestone 1 (setup) + Phase 3 (chunking).** Provider-switchable LLM
-and embeddings factory, a 2-node LangGraph agent with one tool (`jump_height`),
-prompt scaffolding, a Claude-vs-Ollama comparison, and transcript chunking
-(time-window method plus the course's character-splitter baseline). Embedding,
-indexing, and retrieval come next.
+**Status: Milestone 2 (retrieval).** Provider-switchable LLM and embeddings
+factory, a 2-node LangGraph agent with one tool (`jump_height`), prompt
+scaffolding, transcript chunking (time-window method plus the course's
+character-splitter baselines), a Chroma + BM25 index per chunking method,
+`search()` (dense / BM25 / hybrid), and a retrieval eval against time-range gold.
+Wiring retrieval into the agent comes next.
 
 > The transcript dataset lives in `$THP_DATA_DIR/clean/<channel>/<video_id>.json`
 > (`THP_DATA_DIR=~/git/thp-ai/data`). It is **private**: read it in place, never
-> copy it into this repo, upload it, or publish it. Chunks are written next to
-> it in `$THP_DATA_DIR/chunks/`, never here. `data/` is gitignored as a safety net.
+> copy it into this repo, upload it, or publish it. Everything derived from it
+> (chunks, vectors, eval questions with gold quotes) lives next to it in
+> `$THP_DATA_DIR/{chunks,index,eval}/`, never here. `data/` is gitignored as a safety net.
 
 ## Layout
 
@@ -23,6 +25,10 @@ src/graph.py       agent node <-> tool node (LangGraph)
 src/tools.py       jump_height(flight_time_s) -> cm, h = g*t^2/8
 src/prompts.py     loads AGENTS.md + prompts/<agent>.v<N>.md
 src/kb/chunk.py    transcript chunkers: timewindow_chunks(), charsplit_chunks()
+src/kb/index.py    persistent Chroma collection per method; resumable build_index()
+src/kb/search.py   search(query, k, method, mode="dense"|"bm25"|"hybrid", exclude_promo)
+src/kb/evaluate.py time-range hit test, recall@k / MRR, gold review page
+src/kb/paths.py    $THP_DATA_DIR locations
 config/promo_patterns.yaml  regexes for the promo_candidate flag
 prompts/           one versioned prompt per agent: coach, planner, verifier, safety, router
 AGENTS.md          shared rules prepended to every agent's system prompt
@@ -30,6 +36,8 @@ scripts/ask.py     ask one question, print the full message trace
 scripts/compare_models.py   same 5 prompts on each model: tool use, correctness, speed
 scripts/build_chunks.py     chunk every included transcript with each method + report
 scripts/time_embeddings.py  time embedding 200 chunks, estimate full-corpus time
+scripts/build_index.py      embed chunks into Chroma (hours on CPU; resumable)
+scripts/eval_retrieval.py   score every method x mode; writes results/retrieval_eval.{json,md}
 tests/             pytest; mocks the models and blocks all network access
 ```
 
@@ -127,6 +135,60 @@ empty `tags`, and `chunker_version` (code version + settings hash).
 `chunk_id` is `<video_id>@<int(start)>` for timewindow and
 `<video_id>@<int(start)>#<n>` for charsplit (`@` because video IDs contain `-`
 and `_`).
+
+## Retrieval index
+
+```bash
+# ~6 h on CPU for all three methods (timewindow first). Survives the session,
+# keeps the Mac awake, and is resumable: rerun the same command after any stop.
+mkdir -p ~/git/thp-ai/data/index
+nohup caffeinate -i uv run python -u -m scripts.build_index >> ~/git/thp-ai/data/index/build.log 2>&1 &
+tail -f ~/git/thp-ai/data/index/build.log     # progress + ETA every 10 batches
+```
+
+- One persistent Chroma collection per method in `$THP_DATA_DIR/index/<method>/`
+  (cosine). Each chunk is embedded with `get_embeddings()` as
+  `search_document: title: <title>\n<text>`; queries get `search_query: `
+  (nomic-embed-text's task prefixes, from `embedding_prefixes()` in `src/llm.py`).
+- Metadata = every chunk field except `text` / `tags` (`promo_hits` joined with
+  commas) plus `text_sha1`. Rerunning skips chunks already embedded with the same
+  text, re-embeds changed ones, and deletes IDs no longer in the chunk file. A
+  collection built with one embedding model refuses to be reused with another.
+- Chunks under 15 words are not indexed (`INDEX_CONFIG["min_words"]`, or
+  `--min-words`). Skipped: timewindow 86, charsplit_matched 0, charsplit_350 82.
+- `promo_candidate` chunks stay in the index (they mostly contain real coaching);
+  `search(..., exclude_promo=True)` filters them out.
+- BM25 (`rank_bm25` Okapi, lowercase alphanumeric tokens, over the same filtered
+  chunks and the same title + text) is rebuilt at load in a few seconds.
+- Hybrid = reciprocal rank fusion (k=60) of the dense and BM25 top-50.
+- Don't query a method's collection while `build_index` is still writing to it:
+  Chroma's on-disk store isn't safe for a second process mid-write (filtered
+  queries can fail with "Error finding id"). Each method has its own directory,
+  so a finished method can be searched while the next one builds.
+
+```python
+from src.kb.search import search
+search("my knee hurts after dunking", k=5, method="timewindow", mode="hybrid")
+```
+
+## Retrieval eval
+
+```bash
+uv run python -m scripts.eval_retrieval --review   # also (re)writes questions_review.md
+```
+
+- Questions: `$THP_DATA_DIR/eval/questions.yaml` (private: gold quotes are
+  transcript text). 30 in-scope questions across nine topics plus 5
+  out-of-scope ones (`gold: []`, excluded from recall, kept for refusal tests).
+  Gold is a list of `{video_id, start, end, quote}` **time ranges**, not chunk IDs,
+  so every chunking method is scored the same way.
+- Hit = a retrieved chunk from a gold video whose `[start, end]` overlaps a gold
+  range. Reported per method x mode: recall@1/5/10 (share of questions with at
+  least one hit), MRR, video@5 (a gold video in the top 5; a diagnostic for
+  incomplete gold), and % of top-5 results that are `promo_candidate`.
+- Results are labelled *preliminary* while any question is `status: unverified`.
+  Check them with `questions_review.md` (YouTube links at each gold range).
+- Dense / hybrid are skipped for methods whose index is still building.
 
 ## Shared agent rules
 

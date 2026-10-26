@@ -105,3 +105,15 @@ def get_embeddings(model_spec: str | None = None) -> Embeddings:
         kwargs["client_kwargs"] = {"timeout": timeout}
         kwargs["base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
     return init_embeddings(spec, **kwargs)
+
+
+def embedding_prefixes(model_spec: str | None = None) -> tuple[str, str]:
+    """(document prefix, query prefix) the embedding model expects, if any.
+
+    nomic-embed-text is trained with task prefixes and retrieves noticeably
+    worse without them; other models get none.
+    """
+    spec = (model_spec or os.getenv("EMBEDDING_MODEL") or "").lower()
+    if "nomic-embed" in spec:
+        return "search_document: ", "search_query: "
+    return "", ""

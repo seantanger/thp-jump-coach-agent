@@ -1,12 +1,14 @@
 # Promo / call-to-action patterns for chunk.promo_candidate.
 # Case-insensitive Python regexes, matched against a chunk's clean text.
 # A hit only FLAGS the chunk (promo_hits lists the ids); nothing is dropped.
-# Auto-captions mangle the site name ("tb strength.com", "teachbstrength.com",
-# "thpstrike.com"), so thp_site allows those spellings.
+# thpstrength.com is the only "...strength.com" site in the corpus. thp-ai's
+# cleaning rules normalise most caption spellings ("teachbstrength.com") to it;
+# the rest are split across segments ("go to THP" | "Strength.com"), so match
+# any "strength.com" rather than the full name.
 
 patterns:
   - id: thp_site
-    regex: '\b(?:t\s?h\s?p|tb|tp|thb|teach\s?b)\s*(?:strength|strike)\s*(?:\.|dot)\s*com\b'
+    regex: '(?:strength|strike)\s?(?:\.|\s?dot\s?)\s?com\b'
   - id: link_in_description
     regex: '\blinks? (?:is |are )?(?:down )?(?:in|below in) (?:the|my|our) description\b|\bin the description(?: below| box)?\b|\bdescription below\b'
   - id: pinned_comment
