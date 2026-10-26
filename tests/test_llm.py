@@ -111,3 +111,26 @@ def test_temperature_only_sent_when_configured(monkeypatch, fake_init):
     monkeypatch.setenv("LLM_TEMPERATURE", "0.3")
     get_llm("coach")
     assert fake_init.call_args.kwargs["temperature"] == 0.3
+
+
+def test_embeddings_ollama(monkeypatch):
+    from langchain_ollama import OllamaEmbeddings
+
+    from src.llm import get_embeddings
+
+    monkeypatch.setenv("EMBEDDING_MODEL", "ollama:nomic-embed-text")
+    emb = get_embeddings()
+    assert isinstance(emb, OllamaEmbeddings)
+    assert emb.model == "nomic-embed-text"
+    assert emb.client_kwargs["timeout"] >= 300
+
+
+def test_embeddings_explicit_spec_and_missing_config(monkeypatch):
+    from src.llm import get_embeddings
+
+    monkeypatch.delenv("EMBEDDING_MODEL", raising=False)
+    with pytest.raises(RuntimeError, match="EMBEDDING_MODEL"):
+        get_embeddings()
+    with patch.object(llm, "init_embeddings", return_value=MagicMock()) as fake:
+        get_embeddings("ollama:nomic-embed-text")
+    assert fake.call_args.args[0] == "ollama:nomic-embed-text"

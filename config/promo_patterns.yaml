@@ -1,0 +1,25 @@
+# Promo / call-to-action patterns for chunk.promo_candidate.
+# Case-insensitive Python regexes, matched against a chunk's clean text.
+# A hit only FLAGS the chunk (promo_hits lists the ids); nothing is dropped.
+# Auto-captions mangle the site name ("tb strength.com", "teachbstrength.com",
+# "thpstrike.com"), so thp_site allows those spellings.
+
+patterns:
+  - id: thp_site
+    regex: '\b(?:t\s?h\s?p|tb|tp|thb|teach\s?b)\s*(?:strength|strike)\s*(?:\.|dot)\s*com\b'
+  - id: link_in_description
+    regex: '\blinks? (?:is |are )?(?:down )?(?:in|below in) (?:the|my|our) description\b|\bin the description(?: below| box)?\b|\bdescription below\b'
+  - id: pinned_comment
+    regex: '\bpinned comment\b'
+  - id: use_code
+    regex: '\b(?:use|using) (?:the |my |our )?(?:discount |promo )?code\b|\b(?:discount|promo|coupon) code\b'
+  - id: sponsor
+    regex: '\bsponsor\w*'
+  - id: sign_up
+    regex: '\bsign(?:ing|ed)? up\b'
+  - id: first_month_offer
+    regex: '(?:\d+ ?%|percent) off (?:of )?(?:your |the )?first month|\bfirst month\b.{0,80}\brefund|\brefund\b.{0,80}\bfirst month\b'
+  - id: coaching_program
+    regex: '\bcoaching program\b|\bonline coaching\b|\bget coached by (?:me|us)\b|\bdiagnosis call\b|\bset up a call\b'
+  - id: like_subscribe
+    regex: '\blike,? comment,? (?:and )?subscribe\b|\bsubscribe to (?:the|my|our|this) channel\b'

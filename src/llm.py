@@ -1,4 +1,4 @@
-"""Chat model factory. The ONLY module that knows about specific providers.
+"""Chat model + embeddings factory. The ONLY module that knows about specific providers.
 
 Each agent role reads its model from an env var named <ROLE>_MODEL, written as
 "<provider>:<model>", e.g.
@@ -6,7 +6,10 @@ Each agent role reads its model from an env var named <ROLE>_MODEL, written as
     COACH_MODEL=anthropic:claude-sonnet-5-5
     COACH_MODEL=ollama:qwen3:4b
 
-Everything else in the repo calls get_llm(role) and stays provider-agnostic.
+Embeddings read EMBEDDING_MODEL the same way, e.g. ollama:nomic-embed-text.
+
+Everything else in the repo calls get_llm(role) / get_embeddings() and stays
+provider-agnostic.
 """
 
 from __future__ import annotations
@@ -15,6 +18,8 @@ import os
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
+from langchain.embeddings import init_embeddings
+from langchain_core.embeddings import Embeddings
 from langchain_core.language_models import BaseChatModel
 
 load_dotenv()
@@ -86,3 +91,17 @@ def get_llm(role: str = "coach", model_spec: str | None = None) -> BaseChatModel
         kwargs["max_retries"] = 2
 
     return init_chat_model(spec, **kwargs)
+
+
+def get_embeddings(model_spec: str | None = None) -> Embeddings:
+    """Build the embedding model from EMBEDDING_MODEL (or an explicit spec)."""
+    spec = model_spec or os.getenv("EMBEDDING_MODEL")
+    if not spec:
+        raise RuntimeError("No embedding model configured. Set EMBEDDING_MODEL in .env.")
+    provider = provider_of(spec)
+    kwargs: dict = {}
+    if provider == "ollama":
+        timeout = _env_float("OLLAMA_TIMEOUT_S", DEFAULT_OLLAMA_TIMEOUT_S)
+        kwargs["client_kwargs"] = {"timeout": timeout}
+        kwargs["base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    return init_embeddings(spec, **kwargs)
