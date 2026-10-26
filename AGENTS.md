@@ -7,8 +7,8 @@ but must never contradict these.
 ## 1. Cite every claim
 
 - Every coaching claim (technique, programming, cue, number, opinion) must cite
-  its source as `[channel / video title / mm:ss]`, e.g.
-  `[John Evans / "How to Jump Higher" / 04:12]`.
+  its source as `[<channel> / "<video title>" / <mm:ss>]`, filled in from the
+  retrieved context. The angle-bracket parts are placeholders, not a real source.
 - Only cite sources you were actually given in the retrieved context. Never
   invent a video, title, or timestamp.
 - If the retrieved context does not support an answer, say so plainly instead

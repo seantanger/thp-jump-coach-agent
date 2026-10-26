@@ -63,8 +63,8 @@ Related settings:
 |---|---|---|
 | `LLM_TIMEOUT_S` | 60 | API request timeout |
 | `OLLAMA_TIMEOUT_S` | 600 | CPU inference can take minutes per turn |
-| `OLLAMA_REASONING` | false | qwen3 thinking mode; much slower on CPU |
-| `LLM_TEMPERATURE` | 0 | |
+| `OLLAMA_REASONING` | true | qwen3:4b always thinks (thinking-only build); true keeps the reasoning out of the answer text |
+| `LLM_TEMPERATURE` | unset (model default) | Sonnet 5.5 and Fable 5 reject non-default values |
 
 To try a different model for one run, skip `.env` and pass it on the command line:
 
@@ -80,8 +80,9 @@ uv run python -m scripts.compare_models                         # models in COMP
 uv run python -m scripts.compare_models ollama:qwen3:4b         # or list specs explicitly
 ```
 
-For each model it reports tool-call success (`jump_height` called with exactly
-the right flight times), correct result (the final answer states the right cm
+For each model it reports tool-call success (`jump_height` called with every
+needed flight time, no wrong arguments, no tool errors; repeated correct calls are
+counted separately as redundant calls), correct result (the final answer states the right cm
 value, within 0.2 cm), and seconds per prompt. A warm-up call is excluded from
 the timing. Full answers are written to `results/compare_models.json`.
 

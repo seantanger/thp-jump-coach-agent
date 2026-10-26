@@ -62,6 +62,7 @@ class Result:
     expected_cm: float
     tool_args: list[float] = field(default_factory=list)
     tool_ok: bool = False
+    extra_calls: int = 0
     correct: bool = False
     seconds: float = 0.0
     answer: str = ""
@@ -91,10 +92,13 @@ def run_case(graph, case: Case) -> Result:
                 if call["name"] == "jump_height":
                     result.tool_args.append(float(call["args"].get("flight_time_s", "nan")))
     tool_errors = [m for m in messages if isinstance(m, ToolMessage) and m.status == "error"]
+    # Success = every needed flight time used, no wrong args, no tool errors.
+    # Repeating a correct call is counted separately as wasted calls.
     result.tool_ok = (
-        sorted(round(a, 3) for a in result.tool_args) == sorted(case.flight_times_s)
+        {round(a, 3) for a in result.tool_args} == set(case.flight_times_s)
         and not tool_errors
     )
+    result.extra_calls = max(0, len(result.tool_args) - len(case.flight_times_s))
     result.answer = messages[-1].text.strip()
     result.correct = any(abs(n - case.expected_cm) <= TOLERANCE_CM
                          for n in _numbers(result.answer))
@@ -114,7 +118,7 @@ def run_model(spec: str) -> dict:
     for i, case in enumerate(CASES, 1):
         r = run_case(graph, case)
         results.append(r)
-        print(f"[{i}] tool={'OK ' if r.tool_ok else 'FAIL'} args={r.tool_args} "
+        print(f"[{i}] tool={'OK ' if r.tool_ok else 'FAIL'} args={r.tool_args} extra={r.extra_calls} "
               f"correct={'OK ' if r.correct else 'FAIL'} "
               f"(expected {r.expected_cm} cm) {r.seconds:.1f}s", flush=True)
         if r.error:
@@ -127,6 +131,7 @@ def run_model(spec: str) -> dict:
         "model": spec,
         "warmup_s": round(warmup, 1),
         "tool_success": sum(r.tool_ok for r in results),
+        "extra_calls": sum(r.extra_calls for r in results),
         "correct": sum(r.correct for r in results),
         "n": n,
         "mean_s": round(sum(r.seconds for r in results) / n, 1),
@@ -140,12 +145,23 @@ def main(argv: list[str]) -> None:
     if not specs:
         sys.exit("No models given. Pass specs as arguments or set COMPARE_MODELS in .env.")
 
-    summaries = [run_model(spec) for spec in specs]
+    summaries = []
+    for spec in specs:
+        try:
+            summaries.append(run_model(spec))
+        except Exception as exc:  # e.g. bad key or model not pulled; keep the other models
+            print(f"FAILED: {type(exc).__name__}: {exc}", flush=True)
+            summaries.append({"model": spec, "error": f"{type(exc).__name__}: {exc}"})
 
-    print("\n| model | tool-call success | correct result | mean s/prompt | max s | warm-up s |")
-    print("|---|---|---|---|---|---|")
+    print("\n| model | tool-call success | redundant calls | correct result "
+          "| mean s/prompt | max s | warm-up s |")
+    print("|---|---|---|---|---|---|---|")
     for s in summaries:
-        print(f"| {s['model']} | {s['tool_success']}/{s['n']} | {s['correct']}/{s['n']} "
+        if "error" in s:
+            print(f"| {s['model']} | failed to run: {s['error'][:80]} | | | | | |")
+            continue
+        print(f"| {s['model']} | {s['tool_success']}/{s['n']} | {s['extra_calls']} "
+              f"| {s['correct']}/{s['n']} "
               f"| {s['mean_s']} | {s['max_s']} | {s['warmup_s']} |")
 
     RESULTS_PATH.parent.mkdir(exist_ok=True)

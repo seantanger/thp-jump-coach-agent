@@ -39,7 +39,7 @@ def test_ollama_spec_gets_long_timeout(monkeypatch, fake_init):
     spec, kwargs = fake_init.call_args.args[0], fake_init.call_args.kwargs
     assert spec == "ollama:qwen3:4b"
     assert kwargs["client_kwargs"]["timeout"] >= 300
-    assert kwargs["reasoning"] is False
+    assert kwargs["reasoning"] is True  # keeps qwen3 thinking out of content
     assert "timeout" not in kwargs
 
 
@@ -102,3 +102,12 @@ def test_real_classes_built_without_network(monkeypatch):
     assert isinstance(local, ChatOllama)
     assert local.model == "qwen3:4b"
     assert local.client_kwargs["timeout"] >= 300
+
+
+def test_temperature_only_sent_when_configured(monkeypatch, fake_init):
+    monkeypatch.setenv("COACH_MODEL", "anthropic:claude-sonnet-5-5")
+    get_llm("coach")
+    assert "temperature" not in fake_init.call_args.kwargs
+    monkeypatch.setenv("LLM_TEMPERATURE", "0.3")
+    get_llm("coach")
+    assert fake_init.call_args.kwargs["temperature"] == 0.3

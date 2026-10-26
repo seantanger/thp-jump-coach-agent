@@ -67,14 +67,20 @@ def get_llm(role: str = "coach", model_spec: str | None = None) -> BaseChatModel
     """
     spec = model_spec or model_spec_for(role)
     provider = provider_of(spec)
-    kwargs: dict = {"temperature": _env_float("LLM_TEMPERATURE", 0.0)}
+    kwargs: dict = {}
+    # Only sent when set: Sonnet 5.5 / Fable 5 reject non-default temperatures.
+    if os.getenv("LLM_TEMPERATURE"):
+        kwargs["temperature"] = _env_float("LLM_TEMPERATURE", 1.0)
 
     if provider == "ollama":
         timeout = _env_float("OLLAMA_TIMEOUT_S", DEFAULT_OLLAMA_TIMEOUT_S)
         kwargs["client_kwargs"] = {"timeout": timeout}
         kwargs["base_url"] = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-        # qwen3 "thinks" by default, which is very slow on CPU. Off unless enabled.
-        kwargs["reasoning"] = _env_bool("OLLAMA_REASONING", False)
+        # The qwen3:4b build is thinking-only: think=false is ignored and the
+        # reasoning leaks into content. reasoning=True moves it out of content
+        # (into additional_kwargs["reasoning_content"]). Set false for models
+        # without thinking support.
+        kwargs["reasoning"] = _env_bool("OLLAMA_REASONING", True)
     else:
         kwargs["timeout"] = _env_float("LLM_TIMEOUT_S", DEFAULT_TIMEOUT_S)
         kwargs["max_retries"] = 2
