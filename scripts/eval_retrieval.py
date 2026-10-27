@@ -5,6 +5,7 @@ Usage:
     uv run python -m scripts.eval_retrieval --review   # also write questions_review.md
     uv run python -m scripts.eval_retrieval --methods timewindow --modes bm25 hybrid
     uv run python -m scripts.eval_retrieval --prefer-recent 1.0   # also score newest-first re-ranking
+    uv run python -m scripts.eval_retrieval --since 2026          # also score search limited to 2026+ videos
 
 Reads   $THP_DATA_DIR/eval/questions.yaml (private)
 Writes  results/retrieval_eval.json and results/retrieval_eval.md (scores, chunk
@@ -41,10 +42,11 @@ TOP_K = max(KS)
 OLD_BEFORE = "2024"  # "old" = uploaded before this year (diagnostic for prefer_recent)
 
 
-def evaluate_config(retriever, method: str, mode: str, questions: list[dict], prefer_recent: float = 0.0) -> dict:
+def evaluate_config(retriever, method: str, mode: str, questions: list[dict], prefer_recent: float = 0.0,
+                    since: str | None = None) -> dict:
     per_question, results_by_q, oos_top = [], [], []
     for q in questions:
-        results = retriever.search(q["question"], k=TOP_K, mode=mode, prefer_recent=prefer_recent)
+        results = retriever.search(q["question"], k=TOP_K, mode=mode, prefer_recent=prefer_recent, since=since)
         if not q["gold"]:
             oos_top.append(results[0]["score"] if results else None)
             continue
@@ -67,7 +69,7 @@ def evaluate_config(retriever, method: str, mode: str, questions: list[dict], pr
     top5 = [r for results in results_by_q for r in results[:5]]
     return {
         "method": method,
-        "mode": f"{mode}+recent{prefer_recent:g}" if prefer_recent else mode,
+        "mode": mode + (f"+recent{prefer_recent:g}" if prefer_recent else "") + (f" since {since}" if since else ""),
         "status": "ok",
         **{k: round(v, 4) for k, v in aggregate(per_question).items()},
         "promo_top5_pct": round(100 * promo_share(results_by_q), 1),
@@ -122,6 +124,7 @@ def main() -> None:
     parser.add_argument("--review", action="store_true", help="write questions_review.md")
     parser.add_argument("--prefer-recent", type=float, default=0.0,
                         help="also score each mode with newest-first re-ranking at this weight")
+    parser.add_argument("--since", help="also score each mode limited to videos uploaded on/after this date")
     args = parser.parse_args()
 
     questions = load_questions(eval_dir() / "questions.yaml")
@@ -140,9 +143,11 @@ def main() -> None:
                 configs.append({"method": method, "mode": mode, "status": f"not indexed yet ({have}/{want})"})
                 print(f"{method}/{mode}: skipped, index {have}/{want}")
                 continue
-            for weight in [0.0] + ([args.prefer_recent] if args.prefer_recent else []):
+            variants = [(0.0, None)] + ([(args.prefer_recent, None)] if args.prefer_recent else []) \
+                + ([(0.0, args.since)] if args.since else [])
+            for weight, since in variants:
                 t0 = time.perf_counter()
-                result = evaluate_config(retriever, method, mode, questions, weight)
+                result = evaluate_config(retriever, method, mode, questions, weight, since)
                 configs.append(result)
                 print(f"{method}/{result['mode']}: recall@5 {result['recall@5']:.2f}, MRR {result['mrr']:.2f} "
                       f"({time.perf_counter() - t0:.0f} s)")

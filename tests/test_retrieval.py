@@ -185,6 +185,19 @@ def test_search_modes_and_exclude_promo(retriever, mode):
     assert clean and not any(r["promo_candidate"] for r in clean)
 
 
+@pytest.mark.parametrize("mode", ["dense", "bm25", "hybrid"])
+@pytest.mark.parametrize("exclude_promo", [False, True])
+def test_since_keeps_only_newer_videos(tmp_path, mode, exclude_promo):
+    chunks = [dict(c, upload_date="20261001") if c["video_id"] == "vidB" else c for c in CHUNKS]
+    emb = FakeEmbeddings()
+    build_index("timewindow", chunks, emb, SPEC, tmp_path, log=lambda s: None)
+    r = Retriever("timewindow", chunks=chunks, collection=open_collection("timewindow", tmp_path),
+                  embeddings=emb, embedding_spec=SPEC)
+    results = r.search("alpha bravo golf", k=5, mode=mode, exclude_promo=exclude_promo, since="20260601")
+    assert {x["chunk_id"] for x in results} == ({"vidB@50"} if exclude_promo else {"vidB@0", "vidB@50"})
+    assert r.search("alpha bravo", k=5, mode=mode, since="20270101") == []
+
+
 def test_prefer_recent_lifts_newer_candidates():
     chunks = [dict(c, upload_date="20261001") if c["chunk_id"] == "vidB@0" else c for c in CHUNKS]
     r = Retriever("timewindow", chunks=chunks)  # bm25 only: no collection needed

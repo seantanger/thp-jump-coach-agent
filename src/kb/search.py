@@ -5,7 +5,8 @@
 Returns chunk records (the JSONL fields) plus "score", "rank" and, for
 hybrid, "dense_rank" / "bm25_rank". Dense and BM25 cover the same chunks:
 the method's chunk file after the index's word-count filter. promo_candidate
-chunks are included unless exclude_promo=True.
+chunks are included unless exclude_promo=True. since="2026" (or "2025-06-01")
+keeps only chunks from videos uploaded on or after that date.
 
 prefer_recent=w (> 0) re-ranks the top-50 by fusing the relevance ranking with
 a newest-first ranking of the same candidates (weight w on the date ranking);
@@ -82,14 +83,26 @@ class Retriever:
             self._embeddings = get_embeddings(self._embedding_spec)
         return self._embeddings
 
-    def dense(self, query: str, n: int, exclude_promo: bool = False) -> list[tuple[str, float]]:
+    def _where(self, exclude_promo: bool, since: str | None) -> dict | None:
+        """Chroma filter for the same rules as _allowed()."""
+        clauses = [{"promo_candidate": False}] if exclude_promo else []
+        if since:
+            videos = sorted({c["video_id"] for c in self.chunks if c["upload_date"] >= since})
+            clauses.append({"video_id": {"$in": videos or [""]}})
+        return clauses[0] if len(clauses) == 1 else ({"$and": clauses} if clauses else None)
+
+    @staticmethod
+    def _allowed(chunk: dict, exclude_promo: bool, since: str | None) -> bool:
+        return not (exclude_promo and chunk["promo_candidate"]) and not (since and chunk["upload_date"] < since)
+
+    def dense(self, query: str, n: int, exclude_promo: bool = False, since: str | None = None) -> list[tuple[str, float]]:
         """(chunk_id, cosine similarity), best first."""
         _, query_prefix = embedding_prefixes(self._embedding_spec)
         vector = self.embeddings.embed_query(query_prefix + query)
         result = self.collection.query(
             query_embeddings=[vector],
             n_results=n,
-            where={"promo_candidate": False} if exclude_promo else None,
+            where=self._where(exclude_promo, since),
             include=["distances"],
         )
         return [
@@ -105,7 +118,7 @@ class Retriever:
             self._bm25 = BM25Okapi([tokenize(document_text(c)) for c in self.chunks])
         return self._bm25
 
-    def keyword(self, query: str, n: int, exclude_promo: bool = False) -> list[tuple[str, float]]:
+    def keyword(self, query: str, n: int, exclude_promo: bool = False, since: str | None = None) -> list[tuple[str, float]]:
         """(chunk_id, BM25 score), best first; chunks sharing no query term are dropped."""
         scores = self.bm25.get_scores(tokenize(query))
         order = sorted(range(len(scores)), key=lambda i: (-scores[i], i))
@@ -114,18 +127,18 @@ class Retriever:
             if scores[i] <= 0 or len(out) == n:
                 break
             chunk = self.chunks[i]
-            if exclude_promo and chunk["promo_candidate"]:
+            if not self._allowed(chunk, exclude_promo, since):
                 continue
             out.append((chunk["chunk_id"], float(scores[i])))
         return out
 
     # -- public -----------------------------------------------------------
     def search(self, query: str, k: int = 5, mode: str = "dense", exclude_promo: bool = False,
-               prefer_recent: float = 0.0) -> list[dict]:
+               prefer_recent: float = 0.0, since: str | None = None) -> list[dict]:
         if mode not in MODES:
             raise ValueError(f"mode must be one of {MODES}, not {mode!r}")
         if prefer_recent > 0:
-            base = self.search(query, max(k, FUSION_DEPTH), mode, exclude_promo)
+            base = self.search(query, max(k, FUSION_DEPTH), mode, exclude_promo, since=since)
             ids = [r["chunk_id"] for r in base]
             newest = sorted(ids, key=lambda cid: (self.by_id[cid]["upload_date"], cid), reverse=True)
             base_rank = {cid: r for r, cid in enumerate(ids, 1)}
@@ -134,14 +147,14 @@ class Retriever:
                 for rank, (cid, score) in enumerate(rrf([ids, newest], weights=[1.0, prefer_recent])[:k], 1)
             ]
         if mode == "dense":
-            hits = self.dense(query, k, exclude_promo)
+            hits = self.dense(query, k, exclude_promo, since)
             extra = [{} for _ in hits]
         elif mode == "bm25":
-            hits = self.keyword(query, k, exclude_promo)
+            hits = self.keyword(query, k, exclude_promo, since)
             extra = [{} for _ in hits]
         else:
-            dense = [cid for cid, _ in self.dense(query, FUSION_DEPTH, exclude_promo)]
-            sparse = [cid for cid, _ in self.keyword(query, FUSION_DEPTH, exclude_promo)]
+            dense = [cid for cid, _ in self.dense(query, FUSION_DEPTH, exclude_promo, since)]
+            sparse = [cid for cid, _ in self.keyword(query, FUSION_DEPTH, exclude_promo, since)]
             hits = rrf([dense, sparse])[:k]
             dense_rank = {cid: r for r, cid in enumerate(dense, 1)}
             bm25_rank = {cid: r for r, cid in enumerate(sparse, 1)}
@@ -164,6 +177,7 @@ def search(
     mode: str = "dense",
     exclude_promo: bool = False,
     prefer_recent: float = 0.0,
+    since: str | None = None,
 ) -> list[dict]:
     return get_retriever(method).search(query, k=k, mode=mode, exclude_promo=exclude_promo,
-                                        prefer_recent=prefer_recent)
+                                        prefer_recent=prefer_recent, since=since)
