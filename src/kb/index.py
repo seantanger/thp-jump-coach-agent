@@ -32,6 +32,8 @@ INDEX_CONFIG = {
     "max_retries": 3,
 }
 
+PAGE_SIZE = 5000  # Chroma get/delete page; SQLite caps variables per query
+
 EXCLUDED_FIELDS = ("text", "tags")
 
 
@@ -82,10 +84,14 @@ def open_collection(method: str, path: Path | None = None, embedding_spec: str =
     return collection
 
 
-def plan(collection: chromadb.Collection, chunks: list[dict]) -> tuple[list[dict], list[str]]:
+def plan(collection: chromadb.Collection, chunks: list[dict],
+         page_size: int = PAGE_SIZE) -> tuple[list[dict], list[str]]:
     """(chunks to embed, stale IDs to delete) given what the collection holds."""
-    existing = collection.get(include=["metadatas"])
-    have = {i: (m or {}).get("text_sha1") for i, m in zip(existing["ids"], existing["metadatas"])}
+    have: dict[str, str | None] = {}
+    # Paged: one get() over ~64k items exceeds SQLite's variable limit.
+    for offset in range(0, collection.count(), page_size):
+        page = collection.get(include=["metadatas"], limit=page_size, offset=offset)
+        have.update((i, (m or {}).get("text_sha1")) for i, m in zip(page["ids"], page["metadatas"]))
     wanted = {c["chunk_id"] for c in chunks}
     todo = [c for c in chunks if have.get(c["chunk_id"]) != text_sha1(c)]
     stale = [i for i in have if i not in wanted]
@@ -121,8 +127,8 @@ def build_index(
     kept, skipped = filter_chunks(chunks, config["min_words"])
     collection = open_collection(method, path, spec)
     todo, stale = plan(collection, kept)
-    if stale:
-        collection.delete(ids=stale)
+    for i in range(0, len(stale), PAGE_SIZE):
+        collection.delete(ids=stale[i:i + PAGE_SIZE])
     log(f"[{method}] {len(kept)} chunks to index ({len(skipped)} under {config['min_words']} words skipped), "
         f"{len(kept) - len(todo)} already embedded, {len(todo)} to embed, {len(stale)} stale removed")
 

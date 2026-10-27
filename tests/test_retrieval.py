@@ -8,7 +8,7 @@ import pytest
 from langchain_core.embeddings import Embeddings
 
 from src.kb.evaluate import aggregate, in_scope, is_hit, promo_share, score_question
-from src.kb.index import build_index, chunk_metadata, filter_chunks, open_collection
+from src.kb.index import build_index, chunk_metadata, filter_chunks, open_collection, plan
 from src.kb.search import Retriever, rrf
 
 SPEC = "fake:bag-of-words"
@@ -144,6 +144,16 @@ def test_build_index_resumes_and_prunes(tmp_path):
     assert third["embedded"] == 1  # only the chunk whose text changed
     assert third["stale_removed"] == 6  # vidA@50 and the vidD chunks are no longer in the chunk file
     assert sorted(open_collection("timewindow", tmp_path).get()["ids"]) == ["vidA@0", "vidB@0", "vidB@50"]
+
+
+def test_plan_reads_the_collection_in_pages(tmp_path):
+    build_index("timewindow", CHUNKS, FakeEmbeddings(), SPEC, tmp_path, log=lambda s: None)
+    collection = open_collection("timewindow", tmp_path)
+    kept, _ = filter_chunks(CHUNKS)
+    changed = [dict(kept[0], text=kept[0]["text"] + " zulu"), *kept[1:-1]]
+    todo, stale = plan(collection, changed, page_size=2)  # 9 items over 5 pages
+    assert [c["chunk_id"] for c in todo] == [kept[0]["chunk_id"]]
+    assert stale == [kept[-1]["chunk_id"]]
 
 
 def test_refuses_to_mix_embedding_models(tmp_path):
