@@ -26,7 +26,7 @@ src/tools.py       jump_height(flight_time_s) -> cm, h = g*t^2/8
 src/prompts.py     loads AGENTS.md + prompts/<agent>.v<N>.md
 src/kb/chunk.py    transcript chunkers: timewindow_chunks(), charsplit_chunks()
 src/kb/index.py    persistent Chroma collection per method; resumable build_index()
-src/kb/search.py   search(query, k, method, mode="dense"|"bm25"|"hybrid", exclude_promo)
+src/kb/search.py   search(query, k, method, mode="dense"|"bm25"|"hybrid", exclude_promo, prefer_recent)
 src/kb/evaluate.py time-range hit test, recall@k / MRR, gold review page
 src/kb/paths.py    $THP_DATA_DIR locations
 config/promo_patterns.yaml  regexes for the promo_candidate flag
@@ -158,6 +158,9 @@ tail -f ~/git/thp-ai/data/index/build.log     # progress + ETA every 10 batches
   `--min-words`). Skipped: timewindow 86, charsplit_matched 0, charsplit_350 82.
 - `promo_candidate` chunks stay in the index (they mostly contain real coaching);
   `search(..., exclude_promo=True)` filters them out.
+- `search(..., prefer_recent=w)` re-ranks the top 50 toward newer uploads (RRF of
+  the relevance ranking and a newest-first ranking, weight `w` on the date side).
+  Off by default: at `w=1` recall@5 drops ~0.2; at `w=0.2` it is roughly neutral.
 - BM25 (`rank_bm25` Okapi, lowercase alphanumeric tokens, over the same filtered
   chunks and the same title + text) is rebuilt at load in a few seconds.
 - Hybrid = reciprocal rank fusion (k=60) of the dense and BM25 top-50.
@@ -175,6 +178,7 @@ search("my knee hurts after dunking", k=5, method="timewindow", mode="hybrid")
 
 ```bash
 uv run python -m scripts.eval_retrieval --review   # also (re)writes questions_review.md
+uv run python -m scripts.eval_retrieval --prefer-recent 0.2   # also score recency re-ranking
 ```
 
 - Questions: `$THP_DATA_DIR/eval/questions.yaml` (private: gold quotes are

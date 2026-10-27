@@ -6,6 +6,10 @@ Returns chunk records (the JSONL fields) plus "score", "rank" and, for
 hybrid, "dense_rank" / "bm25_rank". Dense and BM25 cover the same chunks:
 the method's chunk file after the index's word-count filter. promo_candidate
 chunks are included unless exclude_promo=True.
+
+prefer_recent=w (> 0) re-ranks the top-50 by fusing the relevance ranking with
+a newest-first ranking of the same candidates (weight w on the date ranking);
+"base_rank" is the chunk's rank before that.
 """
 
 from __future__ import annotations
@@ -31,14 +35,15 @@ def tokenize(text: str) -> list[str]:
     return _TOKEN_RE.findall(text.lower())
 
 
-def rrf(rankings: list[list[str]], k: int = RRF_K) -> list[tuple[str, float]]:
-    """Reciprocal rank fusion: score(id) = sum over rankings of 1 / (k + rank),
-    rank starting at 1. Ties break on best single rank, then id (deterministic)."""
+def rrf(rankings: list[list[str]], k: int = RRF_K, weights: list[float] | None = None) -> list[tuple[str, float]]:
+    """Reciprocal rank fusion: score(id) = sum over rankings of w / (k + rank),
+    rank starting at 1, w = 1 unless weights are given. Ties break on best
+    single rank, then id (deterministic)."""
     scores: dict[str, float] = {}
     best: dict[str, int] = {}
-    for ranking in rankings:
+    for ranking, w in zip(rankings, weights or [1.0] * len(rankings)):
         for rank, item in enumerate(ranking, 1):
-            scores[item] = scores.get(item, 0.0) + 1.0 / (k + rank)
+            scores[item] = scores.get(item, 0.0) + w / (k + rank)
             best[item] = min(best.get(item, rank), rank)
     return sorted(scores.items(), key=lambda kv: (-kv[1], best[kv[0]], kv[0]))
 
@@ -115,9 +120,19 @@ class Retriever:
         return out
 
     # -- public -----------------------------------------------------------
-    def search(self, query: str, k: int = 5, mode: str = "dense", exclude_promo: bool = False) -> list[dict]:
+    def search(self, query: str, k: int = 5, mode: str = "dense", exclude_promo: bool = False,
+               prefer_recent: float = 0.0) -> list[dict]:
         if mode not in MODES:
             raise ValueError(f"mode must be one of {MODES}, not {mode!r}")
+        if prefer_recent > 0:
+            base = self.search(query, max(k, FUSION_DEPTH), mode, exclude_promo)
+            ids = [r["chunk_id"] for r in base]
+            newest = sorted(ids, key=lambda cid: (self.by_id[cid]["upload_date"], cid), reverse=True)
+            base_rank = {cid: r for r, cid in enumerate(ids, 1)}
+            return [
+                {**self.by_id[cid], "score": score, "rank": rank, "base_rank": base_rank[cid]}
+                for rank, (cid, score) in enumerate(rrf([ids, newest], weights=[1.0, prefer_recent])[:k], 1)
+            ]
         if mode == "dense":
             hits = self.dense(query, k, exclude_promo)
             extra = [{} for _ in hits]
@@ -148,5 +163,7 @@ def search(
     method: str = "timewindow",
     mode: str = "dense",
     exclude_promo: bool = False,
+    prefer_recent: float = 0.0,
 ) -> list[dict]:
-    return get_retriever(method).search(query, k=k, mode=mode, exclude_promo=exclude_promo)
+    return get_retriever(method).search(query, k=k, mode=mode, exclude_promo=exclude_promo,
+                                        prefer_recent=prefer_recent)

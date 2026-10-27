@@ -4,6 +4,7 @@ Usage:
     uv run python -m scripts.eval_retrieval            # all methods/modes that are ready
     uv run python -m scripts.eval_retrieval --review   # also write questions_review.md
     uv run python -m scripts.eval_retrieval --methods timewindow --modes bm25 hybrid
+    uv run python -m scripts.eval_retrieval --prefer-recent 1.0   # also score newest-first re-ranking
 
 Reads   $THP_DATA_DIR/eval/questions.yaml (private)
 Writes  results/retrieval_eval.json and results/retrieval_eval.md (scores, chunk
@@ -37,12 +38,13 @@ from src.kb.search import MODES, get_retriever
 
 RESULTS_DIR = Path(__file__).resolve().parent.parent / "results"
 TOP_K = max(KS)
+OLD_BEFORE = "2024"  # "old" = uploaded before this year (diagnostic for prefer_recent)
 
 
-def evaluate_config(retriever, method: str, mode: str, questions: list[dict]) -> dict:
+def evaluate_config(retriever, method: str, mode: str, questions: list[dict], prefer_recent: float = 0.0) -> dict:
     per_question, results_by_q, oos_top = [], [], []
     for q in questions:
-        results = retriever.search(q["question"], k=TOP_K, mode=mode)
+        results = retriever.search(q["question"], k=TOP_K, mode=mode, prefer_recent=prefer_recent)
         if not q["gold"]:
             oos_top.append(results[0]["score"] if results else None)
             continue
@@ -56,17 +58,20 @@ def evaluate_config(retriever, method: str, mode: str, questions: list[dict]) ->
             "top": [
                 {"rank": r["rank"], "chunk_id": r["chunk_id"], "video_id": r["video_id"],
                  "timestamp": r["timestamp"], "start": r["start"], "end": r["end"],
+                 "upload_date": r["upload_date"],
                  "score": round(r["score"], 4), "hit": hit, "promo": r["promo_candidate"]}
                 for r, hit in zip(results, s["hits"])
             ],
         })
     in_top1 = [p["top"][0]["score"] for p in per_question if p["top"]]
+    top5 = [r for results in results_by_q for r in results[:5]]
     return {
         "method": method,
-        "mode": mode,
+        "mode": f"{mode}+recent{prefer_recent:g}" if prefer_recent else mode,
         "status": "ok",
         **{k: round(v, 4) for k, v in aggregate(per_question).items()},
         "promo_top5_pct": round(100 * promo_share(results_by_q), 1),
+        "old_top5_pct": round(100 * sum(r["upload_date"][:4] < OLD_BEFORE for r in top5) / max(1, len(top5)), 1),
         "top1_score_mean": {
             "in_scope": round(sum(in_top1) / len(in_top1), 4) if in_top1 else None,
             "out_of_scope": round(sum(x for x in oos_top if x is not None) / max(1, len(oos_top)), 4),
@@ -85,16 +90,17 @@ def to_markdown(report: dict, questions: list[dict]) -> str:
         "overlapping a gold time range. recall@k = share of questions with at least one hit in the top k. "
         "video@5 = a gold video is in the top 5 (diagnostic: separates wrong-place-in-right-video from wrong-video misses).",
         "",
-        "| method | mode | recall@1 | recall@5 | recall@10 | MRR | video@5 | promo in top-5 |",
-        "|---|---|---:|---:|---:|---:|---:|---:|",
+        f"| method | mode | recall@1 | recall@5 | recall@10 | MRR | video@5 | promo in top-5 | pre-{OLD_BEFORE} in top-5 |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for c in report["configs"]:
         if c["status"] != "ok":
-            lines.append(f"| `{c['method']}` | {c['mode']} | _{c['status']}_ | | | | | |")
+            lines.append(f"| `{c['method']}` | {c['mode']} | _{c['status']}_ | | | | | | |")
             continue
         lines.append(
             f"| `{c['method']}` | {c['mode']} | {c['recall@1']:.2f} | {c['recall@5']:.2f} "
-            f"| {c['recall@10']:.2f} | {c['mrr']:.2f} | {c['video@5']:.2f} | {c['promo_top5_pct']:.1f}% |"
+            f"| {c['recall@10']:.2f} | {c['mrr']:.2f} | {c['video@5']:.2f} | {c['promo_top5_pct']:.1f}% "
+            f"| {c['old_top5_pct']:.1f}% |"
         )
     best = report.get("best")
     if best:
@@ -114,6 +120,8 @@ def main() -> None:
     parser.add_argument("--methods", nargs="*", default=list(METHODS))
     parser.add_argument("--modes", nargs="*", default=list(MODES))
     parser.add_argument("--review", action="store_true", help="write questions_review.md")
+    parser.add_argument("--prefer-recent", type=float, default=0.0,
+                        help="also score each mode with newest-first re-ranking at this weight")
     args = parser.parse_args()
 
     questions = load_questions(eval_dir() / "questions.yaml")
@@ -132,11 +140,12 @@ def main() -> None:
                 configs.append({"method": method, "mode": mode, "status": f"not indexed yet ({have}/{want})"})
                 print(f"{method}/{mode}: skipped, index {have}/{want}")
                 continue
-            t0 = time.perf_counter()
-            result = evaluate_config(retriever, method, mode, questions)
-            configs.append(result)
-            print(f"{method}/{mode}: recall@5 {result['recall@5']:.2f}, MRR {result['mrr']:.2f} "
-                  f"({time.perf_counter() - t0:.0f} s)")
+            for weight in [0.0] + ([args.prefer_recent] if args.prefer_recent else []):
+                t0 = time.perf_counter()
+                result = evaluate_config(retriever, method, mode, questions, weight)
+                configs.append(result)
+                print(f"{method}/{result['mode']}: recall@5 {result['recall@5']:.2f}, MRR {result['mrr']:.2f} "
+                      f"({time.perf_counter() - t0:.0f} s)")
 
     ok = [c for c in configs if c["status"] == "ok"]
     best = max(ok, key=lambda c: (c["recall@5"], c["mrr"])) if ok else None

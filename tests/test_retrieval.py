@@ -185,6 +185,15 @@ def test_search_modes_and_exclude_promo(retriever, mode):
     assert clean and not any(r["promo_candidate"] for r in clean)
 
 
+def test_prefer_recent_lifts_newer_candidates():
+    chunks = [dict(c, upload_date="20261001") if c["chunk_id"] == "vidB@0" else c for c in CHUNKS]
+    r = Retriever("timewindow", chunks=chunks)  # bm25 only: no collection needed
+    assert [x["chunk_id"] for x in r.search("alpha bravo", k=2, mode="bm25")] == ["vidA@0", "vidB@0"]
+    recent = r.search("alpha bravo", k=2, mode="bm25", prefer_recent=2.0)
+    assert [x["chunk_id"] for x in recent] == ["vidB@0", "vidA@0"]
+    assert recent[0]["base_rank"] == 2 and [x["rank"] for x in recent] == [1, 2]
+
+
 def test_bm25_drops_chunks_without_query_terms(retriever):
     assert [r["chunk_id"] for r in retriever.search("golf", k=5, mode="bm25")] == ["vidB@50"]
 
