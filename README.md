@@ -4,12 +4,13 @@ WatSPEED Agentic AI course project (UWaterloo). A vertical-jump coaching agent
 that answers from John Evans and THP Strength YouTube transcripts with
 timestamped citations.
 
-**Status: Milestone 2 (retrieval).** Provider-switchable LLM and embeddings
-factory, a 2-node LangGraph agent with one tool (`jump_height`), prompt
-scaffolding, transcript chunking (time-window method plus the course's
+**Status: Milestone 3 (Q&A agent, first step).** Provider-switchable LLM and
+embeddings factory, transcript chunking (time-window method plus the course's
 character-splitter baselines), a Chroma + BM25 index per chunking method,
-`search()` (dense / BM25 / hybrid), and a retrieval eval against time-range gold.
-Wiring retrieval into the agent comes next.
+`search()` (dense / BM25 / hybrid), a retrieval eval against time-range gold,
+and a 2-node LangGraph coach (coach <-> tools) that answers from the library
+via `search_library`, with a code-only citation check and local traces. The
+safety check, router and Verifier come next.
 
 > The transcript dataset lives in `$THP_DATA_DIR/clean/<channel>/<video_id>.json`
 > (`THP_DATA_DIR=~/git/thp-ai/data`). It is **private**: read it in place, never
@@ -21,8 +22,11 @@ Wiring retrieval into the agent comes next.
 
 ```
 src/llm.py         get_llm(role), get_embeddings(): the only provider-aware code in the repo
-src/graph.py       agent node <-> tool node (LangGraph)
-src/tools.py       jump_height(flight_time_s) -> cm, h = g*t^2/8
+src/graph.py       coach node <-> tool node (LangGraph); search_library capped at 4 calls per question
+src/tools.py       jump_height(flight_time_s) -> cm; search_library(query, k) over the index
+src/qa.py          answer_question(): run the graph, check + render citations, write a trace
+src/citations.py   citation check (fabricated IDs, uncited claims) and [chunk_id] -> link rendering
+src/trace.py       one JSONL trace per run in $THP_DATA_DIR/traces/
 src/prompts.py     loads AGENTS.md + prompts/<agent>.v<N>.md
 src/kb/chunk.py    transcript chunkers: timewindow_chunks(), charsplit_chunks()
 src/kb/index.py    persistent Chroma collection per method; resumable build_index()
@@ -32,12 +36,13 @@ src/kb/paths.py    $THP_DATA_DIR locations
 config/promo_patterns.yaml  regexes for the promo_candidate flag
 prompts/           one versioned prompt per agent: coach, planner, verifier, safety, router
 AGENTS.md          shared rules prepended to every agent's system prompt
-scripts/ask.py     ask one question, print the full message trace
+scripts/ask.py     ask one question: rendered answer, citation check, search queries
 scripts/compare_models.py   same 5 prompts on each model: tool use, correctness, speed
 scripts/build_chunks.py     chunk every included transcript with each method + report
 scripts/time_embeddings.py  time embedding 200 chunks, estimate full-corpus time
 scripts/build_index.py      embed chunks into Chroma (hours on CPU; resumable)
 scripts/eval_retrieval.py   score every method x mode; writes results/retrieval_eval.{json,md}
+scripts/rescore_eval.py     re-mark the saved results against edited gold (no search)
 tests/             pytest; mocks the models and blocks all network access
 ```
 
@@ -197,6 +202,36 @@ uv run python -m scripts.eval_retrieval --since 2026          # also score a 202
 - Results are labelled *preliminary* while any question is `status: unverified`.
   Check them with `questions_review.md` (YouTube links at each gold range).
 - Dense / hybrid are skipped for methods whose index is still building.
+- After editing gold, `uv run python -m scripts.rescore_eval [--review]` re-marks
+  the saved top-10 per question and recomputes every metric without searching
+  (no Ollama). Gold added outside the saved top 10 can't change recall@10;
+  rerun `eval_retrieval` for that.
+
+## Asking the coach
+
+```bash
+RETRIEVAL_MODE=bm25 uv run python -m scripts.ask "Why would eccentric strength help my vertical?"
+```
+
+- `search_library(query, k)` returns `[{chunk_id, channel, title, timestamp,
+  url_t, promo_candidate, text}]` from the index chosen by `RETRIEVAL_METHOD`
+  (default `charsplit_matched`), `RETRIEVAL_MODE` (`dense`, needs Ollama for the
+  query embedding; `bm25` doesn't) and `RETRIEVAL_K` (default 5, max 10). Chunks
+  under 15 words are skipped.
+- The coach (`prompts/coach.v2.md`) rewrites the athlete's wording into coaching
+  terms, tries 2-3 phrasings, answers only from the passages and cites them
+  inline as `[chunk_id]`. The tools node refuses search calls past 4 per question.
+- After the coach finishes, `check_citations()` (plain code) fails the answer if
+  it cites an ID not retrieved in this run (recorded as fabricated) or has a
+  claim (paragraph / bullet of 8+ words) without a citation; "the library doesn't
+  cover this" statements are exempt. Markers are rendered as
+  `[Channel – Title @ mm:ss](url_t)`. A failed check only adds a visible warning
+  for now.
+- Each run appends to `$THP_DATA_DIR/traces/<run_id>.jsonl`: start (question,
+  retrieval config), each coach turn (latency, tokens, tool calls), each tool
+  call (args, returned chunk IDs, latency, capped or not), end (queries,
+  retrieved and cited IDs, check, answer). Private: traces hold transcript-derived
+  answers.
 
 ## Shared agent rules
 

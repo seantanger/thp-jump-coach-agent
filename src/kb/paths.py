@@ -37,3 +37,7 @@ def read_jsonl(path: Path) -> list[dict]:
 
 def load_chunks(method: str) -> list[dict]:
     return read_jsonl(chunks_dir() / f"{method}.jsonl")
+
+
+def traces_dir() -> Path:
+    return data_dir() / "traces"

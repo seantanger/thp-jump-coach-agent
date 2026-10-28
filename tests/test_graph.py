@@ -37,7 +37,7 @@ def test_agent_calls_tool_and_uses_result():
     state = build_graph(llm=model).invoke({"messages": [HumanMessage("0.52 s flight?")]})
     messages = state["messages"]
 
-    assert model.bound_tools == ["jump_height"]
+    assert model.bound_tools == ["jump_height", "search_library"]
     assert [type(m) for m in messages] == [HumanMessage, AIMessage, ToolMessage, AIMessage]
     assert messages[2].tool_call_id == "call_1"
     assert float(messages[2].content) == 33.16

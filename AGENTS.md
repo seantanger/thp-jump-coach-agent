@@ -9,6 +9,8 @@ but must never contradict these.
 - Every coaching claim (technique, programming, cue, number, opinion) must cite
   its source as `[<channel> / "<video title>" / <mm:ss>]`, filled in from the
   retrieved context. The angle-bracket parts are placeholders, not a real source.
+- When the retrieved passages carry a `chunk_id`, cite `[<chunk_id>]` instead:
+  code checks the IDs and renders them as channel, title and timestamp.
 - Only cite sources you were actually given in the retrieved context. Never
   invent a video, title, or timestamp.
 - If the retrieved context does not support an answer, say so plainly instead

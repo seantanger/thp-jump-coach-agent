@@ -42,6 +42,17 @@ TOP_K = max(KS)
 OLD_BEFORE = "2024"  # "old" = uploaded before this year (diagnostic for prefer_recent)
 
 
+def gold_label(questions: list[dict]) -> str:
+    """How far the answer key has been checked, for the report header."""
+    scoped = in_scope(questions)
+    verified = sum(q["status"] != "unverified" for q in scoped)
+    if verified == len(scoped):
+        return "gold verified"
+    if verified:
+        return f"gold partly verified ({verified}/{len(scoped)})"
+    return f"preliminary: gold unverified ({len(scoped)}/{len(scoped)} questions)"
+
+
 def evaluate_config(retriever, method: str, mode: str, questions: list[dict], prefer_recent: float = 0.0,
                     since: str | None = None) -> dict:
     per_question, results_by_q, oos_top = [], [], []
@@ -154,11 +165,10 @@ def main() -> None:
 
     ok = [c for c in configs if c["status"] == "ok"]
     best = max(ok, key=lambda c: (c["recall@5"], c["mrr"])) if ok else None
-    unverified = sum(q["status"] == "unverified" for q in questions)
     report = {
-        "label": f"preliminary: gold unverified ({unverified}/{len(questions)} questions)" if unverified
-        else "gold verified",
+        "label": gold_label(questions),
         "generated_at": time.strftime("%Y-%m-%d %H:%M"),
+        "searched_at": time.strftime("%Y-%m-%d %H:%M"),
         "n_in_scope": len(scoped),
         "n_out_of_scope": len(questions) - len(scoped),
         "best": {"method": best["method"], "mode": best["mode"]} if best else None,
