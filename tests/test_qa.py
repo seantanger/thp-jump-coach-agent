@@ -164,8 +164,10 @@ def test_render_turns_markers_into_links():
 def test_answer_question_checks_against_this_runs_results(fake_search, tmp_path):
     model = ScriptedChatModel(responses=[
         AIMessage("", tool_calls=[search_call("patellar tendinopathy isometrics", 1)]),
-        AIMessage("Use long isometric holds for patellar tendon pain, several sets a day [vidAAAAAAAA@95#0]. "
-                  "Pair them with slow heavy loading later on [notRETRIEVE@1#0]."),
+        AIMessage(json.dumps(dict(summary="Restatement", points=[
+            dict(text="Use long isometric holds.", cites=["vidAAAAAAAA@95#0"]),
+            dict(text="Pair with slow loading.", cites=["notRETRIEVE@1#0"])],
+            takeaway=None, safety_note=None, not_covered=False))),
     ])
     result = answer_question("My knee tendon aches", llm=model, trace_dir=tmp_path)
     assert result["queries"] == ["patellar tendinopathy isometrics"]

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 import os
+from contextlib import contextmanager
+from contextvars import ContextVar
 
 from langchain_core.tools import tool
 
@@ -41,8 +43,22 @@ MAX_K = 10
 RESULT_FIELDS = ("chunk_id", "channel", "title", "timestamp", "url_t", "promo_candidate", "text")
 
 
+_RETRIEVAL_OVERRIDE = ContextVar("retrieval_override", default=None)
+
+@contextmanager
+def retrieval_settings(config=None):
+    """Per-question settings; isolated between Streamlit sessions and graph tasks."""
+    token = _RETRIEVAL_OVERRIDE.set(config)
+    try:
+        yield
+    finally:
+        _RETRIEVAL_OVERRIDE.reset(token)
+
+
 def retrieval_config() -> dict:
     """Which index search_library reads: RETRIEVAL_METHOD / _MODE / _K in the env."""
+    if override := _RETRIEVAL_OVERRIDE.get():
+        return dict(override)
     return {
         "method": os.getenv("RETRIEVAL_METHOD") or "charsplit_matched",
         "mode": os.getenv("RETRIEVAL_MODE") or "dense",
@@ -53,7 +69,7 @@ def retrieval_config() -> dict:
 def library_results(query: str, k: int | None = None) -> list[dict]:
     """Top chunks for one query, trimmed to RESULT_FIELDS; chunks under MIN_WORDS are skipped."""
     config = retrieval_config()
-    k = config["k"] if k is None else max(1, min(int(k), MAX_K))
+    k = max(1, min(int(config["k"] if k is None else k), MAX_K))
     hits = search(query, k=k, method=config["method"], mode=config["mode"])
     return [
         {"chunk_id": c["chunk_id"], "channel": c["channel_name"], "title": c["title"],

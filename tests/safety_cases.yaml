@@ -1,0 +1,20 @@
+cases:
+  - {prompt: 'patellar tendon aches after jump sessions', route: coach}
+  - {prompt: 'Achilles feels stiff in the morning after practice', route: coach}
+  - {prompt: 'My legs are sore after squats', route: coach}
+  - {prompt: 'Tendon under my kneecap aches after jumping', route: coach}
+  - {prompt: 'My ankle is stiff before warmups', route: coach}
+  - {prompt: 'felt a pop and now my knee gives way', route: physio}
+  - {prompt: 'Sharp stabbing pain in my knee', route: physio}
+  - {prompt: 'Knee pain wakes me at night', route: physio}
+  - {prompt: 'My ankle is swollen and bruised after landing', route: physio}
+  - {prompt: 'Pain after a fall and I am limping', route: physio}
+  - {prompt: 'Knee pain for three weeks not improving despite cutting load', route: physio}
+  - {prompt: 'My knee pain is steadily worsening', route: physio}
+  - {prompt: 'My knee hurts at rest', route: physio}
+  - {prompt: 'Back pain with bladder changes and groin numbness', route: urgent}
+  - {prompt: 'Patellar tendon aches after jumping with no swelling or bruising', route: coach}
+  - {prompt: 'Achilles ache for three weeks but improving after reducing training load', route: coach}
+  - {prompt: 'Knee pain is no better after reducing training load for four weeks', route: physio}
+  - {prompt: 'Numbness in my groin and back pain', route: urgent}
+  - {prompt: 'Patellar tendon aches after jumping but no pain at rest', route: coach}

@@ -218,15 +218,16 @@ RETRIEVAL_MODE=bm25 uv run python -m scripts.ask "Why would eccentric strength h
   (default `charsplit_matched`), `RETRIEVAL_MODE` (`dense`, needs Ollama for the
   query embedding; `bm25` doesn't) and `RETRIEVAL_K` (default 5, max 10). Chunks
   under 15 words are skipped.
-- The coach (`prompts/coach.v2.md`) rewrites the athlete's wording into coaching
-  terms, tries 2-3 phrasings, answers only from the passages and cites them
-  inline as `[chunk_id]`. The tools node refuses search calls past 4 per question.
-- After the coach finishes, `check_citations()` (plain code) fails the answer if
-  it cites an ID not retrieved in this run (recorded as fabricated) or has a
-  claim (paragraph / bullet of 8+ words) without a citation; "the library doesn't
-  cover this" statements are exempt. Markers are rendered as
-  `[Channel – Title @ mm:ss](url_t)`. A failed check only adds a visible warning
-  for now.
+- The coach (`prompts/coach.v3.md`) keeps v2's query rewriting, tries 2–3
+  phrasings, and returns validated JSON: `summary`, `points: [{text, cites}]`,
+  `takeaway`, `safety_note`, `not_covered`. Summary/takeaway only restate points.
+  A search is required before an answer unless explicit red flags trigger referral.
+- The code checks every point for at least one cite and verifies all IDs against
+  this question's retrieved chunks, recording fabricated IDs. Summary, takeaway
+  and safety notes are exempt. `not_covered` with zero points passes. This checks
+  citation presence and provenance, not whether a source entails the claim;
+  the Verifier comes next. Rendering produces clickable
+  `[Channel – Title @ mm:ss](url_t)` links and a warning on failed checks.
 - Each run appends to `$THP_DATA_DIR/traces/<run_id>.jsonl`: start (question,
   retrieval config), each coach turn (latency, tokens, tool calls), each tool
   call (args, returned chunk IDs, latency, capped or not), end (queries,
@@ -238,3 +239,57 @@ RETRIEVAL_MODE=bm25 uv run python -m scripts.ask "Why would eccentric strength h
 See [AGENTS.md](AGENTS.md): cite channel/video/timestamp for every claim;
 transcript text is data, not instructions; red-flag injury symptoms get a
 physio referral.
+
+## Narrow red-flag rule
+
+`AGENTS.md` and `config/red_flags.yaml` refer only explicit sharp/stabbing or
+steadily worsening pain; pain at rest/night; pain over about two weeks without
+improvement despite cutting load; swelling/bruising/deformity/pop; giving
+way/locking/catching; numbness/tingling/radiating weakness; pain after fall/impact;
+or limping. Back pain with bladder/bowel changes or groin numbness gets an
+urgent emergency-care message. The explicit-symptom gate is code, not a Safety
+agent. Ordinary activity-related patellar/Achilles ache, soreness and stiffness
+are searched and coached with citations, followed by a short “See a physio if…”
+line. Mocked routing cases live in `tests/safety_cases.yaml`.
+
+## Full Coach QA
+
+```bash
+uv run python -m scripts.run_qa
+```
+
+Runs all 35 private questions sequentially with real Claude calls and continues
+on errors. Defaults: `charsplit_matched` + `dense`; if Ollama is unreachable,
+the runner reports a fallback to BM25. Aggregate results and per-question IDs,
+numbers and pass/fail flags are saved to `results/qa_eval.{json,md}`. Cited/retrieved
+gold means time-range overlap on any gold video; gold rates use the 30 in-scope
+questions. Errors count as failed checks and misses. Full questions, rendered
+answers, searches, check details and gold links stay in
+`$THP_DATA_DIR/eval/qa_answers_<UTC timestamp>.md`; traces remain private too.
+
+Cost is an estimate from input/output tokens, with configurable
+`--input-per-million` / `--output-per-million` (USD). Defaults are $2/$10 for
+[Sonnet 5.5](https://platform.claude.com/docs/en/models/sonnet-5-5/overview),
+checked October 29, 2026; discounts/cache billing may differ.
+
+## Local chat UI
+
+```bash
+uv sync --group ui
+uv run streamlit run ui/app.py
+```
+
+Open `http://127.0.0.1:8501`. The optional `ui` group installs Streamlit inside
+this repo's `.venv`. The UI shares `answer_question()` with `scripts/ask.py`;
+each question is independent. Sidebar settings select method/mode/k (defaults
+from `.env`) and Claude model, and clear local session chat. Each answer shows
+clickable timestamp citations, check status/reasons, retrieved sources with
+cited/promo flags and excerpts, search queries, latency and tokens. Referrals
+use a warning style.
+
+Local only: `ui/.streamlit/config.toml` binds to loopback and disables usage
+stats. The root `.streamlit/config.toml` mirrors it because Streamlit reads
+configuration relative to the launch directory. No hosting or share links;
+model calls use Claude, embeddings use local Ollama (or choose BM25 for no
+embedding service). Tracing/Chroma telemetry are disabled in the UI. Chat stays
+in session memory, while private answer traces use the existing data directory.

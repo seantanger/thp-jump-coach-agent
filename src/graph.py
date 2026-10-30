@@ -9,7 +9,7 @@ from __future__ import annotations
 import time
 
 from langchain_core.language_models import BaseChatModel
-from langchain_core.messages import SystemMessage, ToolMessage
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import tools_condition
 
@@ -40,7 +40,7 @@ def run_tool(tools: dict, call: dict) -> ToolMessage:
 
 
 def build_graph(llm: BaseChatModel | None = None, role: str = "coach", tracer: Tracer | None = None,
-                search_cap: int = SEARCH_CAP):
+                search_cap: int = SEARCH_CAP, require_search: bool = False):
     """Compile the agent graph. Pass `llm` to inject a model (tests, comparisons)."""
     llm = llm or get_llm(role)
     llm_with_tools = llm.bind_tools(TOOLS)
@@ -51,6 +51,10 @@ def build_graph(llm: BaseChatModel | None = None, role: str = "coach", tracer: T
     def coach(state: CoachState) -> dict:
         t0 = time.perf_counter()
         response = llm_with_tools.invoke([system, *state["messages"]])
+        if require_search and not response.tool_calls and not state.get("search_calls", 0):
+            question = next(m.content for m in state["messages"] if isinstance(m, HumanMessage))
+            response = AIMessage(content=response.content, usage_metadata=response.usage_metadata,
+                tool_calls=[{"name": SEARCH_TOOL, "args": {"query": question}, "id": "required_search"}])
         tracer.log("coach", latency_s=round(time.perf_counter() - t0, 3), tokens=usage(response),
                    tool_calls=[{"name": c["name"], "args": c["args"]} for c in response.tool_calls],
                    text_chars=len(response.text))

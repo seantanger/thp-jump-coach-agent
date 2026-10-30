@@ -1,0 +1,19 @@
+# Explicit symptoms only; ordinary activity-related tendon ache is coached.
+referral_patterns:
+- \b(?:sharp|stabbing)\b.{0,30}\b(?:pain|hurts?|ache)\b|\b(?:pain|hurts?|ache)\b.{0,30}\b(?:sharp|stabbing)\b
+- \b(?:steadily worsening|progressively worse|worse (?:each|every) day|getting steadily worse)\b
+- \b(?:pain|hurts?|aches?)\b.{0,40}\bat rest\b|\bat rest\b.{0,40}\b(?:pain|hurts?|aches?)\b
+- \b(?:pain|hurts?|aches?|knee|ankle|back|tendon)\b.{0,50}\b(?:wakes? (?:me|up)|waking (?:me|at night)|night pain)\b
+- \b(?:swelling|swollen|bruising|bruised|deformity|giving way|gives way|locking|locks|catching|numbness|tingling|limping|limp)\b
+- \b(?:felt|heard) (?:a |the )?pop\b|\bpop\b.{0,40}\b(?:injury|injured|knee|ankle|pain|landing)\b
+- \b(?:radiating weakness|weakness radiating)\b|\bweakness\b.{0,30}\b(?:radiates?|radiating)\b
+- \b(?:pain|hurts?|aches?)\b.{0,60}\b(?:fall|fell|impact|collision)\b
+- \b(?:fall|fell|impact|collision)\b.{0,60}\b(?:pain|hurts?|aches?)\b
+urgent_patterns:
+- \bback (?:pain|hurts?|ache)\b.{0,100}\b(?:bladder|bowel)\b.{0,30}\b(?:changes?|control|incontinence|retention)\b
+- \bback (?:pain|hurts?|ache)\b.{0,100}\b(?:groin numbness|numbness (?:in|around) (?:my |the )?groin|numb groin)\b
+- \b(?:bladder|bowel)\b.{0,30}\b(?:changes?|control|incontinence|retention)\b.{0,100}\bback (?:pain|hurts?|ache)\b
+- \b(?:groin numbness|numb groin|numbness (?:in|around) (?:my |the )?groin)\b.{0,100}\bback (?:pain|hurts?|ache)\b
+duration_pattern: \b(?:[2-9]|[1-9][0-9]+|two|three|four|five|six|several) weeks\b|\b(?:month|months)\b
+no_improvement_pattern: \b(?:not improving|no better|hasn.t improved|isn.t improving|not getting better)\b
+cut_load_pattern: \b(?:cutting|cut|reduced|reducing|lowered|lowering|resting)\b.{0,30}\b(?:load|training|volume|jumping)\b

@@ -1,12 +1,8 @@
-"""Citation check and rendering for coach answers (plain code, no LLM).
+"""Check structured Coach points for citation presence and retrieved-ID provenance.
 
-The coach cites retrieved chunks inline as [chunk_id] (several as [id1, id2]).
-check_citations() fails an answer that cites an ID not retrieved in this run
-(fabricated) or makes a claim with no citation at all. A "claim" is any
-paragraph or list item of MIN_CLAIM_WORDS+ words, except headings, lead-ins
-ending in ":", questions back to the user, and "the library doesn't cover
-this" statements. render() turns the markers into
-[Channel – Title @ mm:ss](url_t) links for display.
+Render valid IDs as timestamp links. Summary, takeaway and policy safety notes
+are exempt; this is not an entailment check. Legacy text helpers remain for
+historical callers and tests; live Q&A validates CoachAnswer before checking.
 """
 
 from __future__ import annotations
@@ -54,7 +50,7 @@ def _claims(answer: str) -> list[str]:
     return claims
 
 
-def check_citations(answer: str, retrieved_ids) -> dict:
+def _legacy_check(answer: str, retrieved_ids) -> dict:
     retrieved = set(retrieved_ids)
     cited = cited_ids(answer)
     fabricated = [cid for cid in cited if cid not in retrieved]
@@ -82,7 +78,7 @@ def _link(chunk: dict) -> str:
     return f"[{chunk['channel']} – {title} @ {chunk['timestamp']}]({chunk['url_t']})"
 
 
-def render(answer: str, retrieved: dict[str, dict], check: dict | None = None) -> str:
+def _legacy_render(answer: str, retrieved: dict[str, dict], check: dict | None = None) -> str:
     """Answer with [chunk_id] markers replaced by source links, plus a warning if the check failed."""
 
     def replace(m: re.Match) -> str:
@@ -92,6 +88,67 @@ def render(answer: str, retrieved: dict[str, dict], check: dict | None = None) -
         return " ".join(_link(retrieved[cid]) if cid in retrieved else f"[⚠ unknown source {cid}]" for cid in ids)
 
     text = _MARKER_RE.sub(replace, answer)
+    if check and not check["passed"]:
+        text = f"> ⚠ Citation check failed: {'; '.join(check['reasons'])}. Treat this answer with caution.\n\n{text}"
+    return text
+
+
+from pydantic import BaseModel, ConfigDict
+
+class Point(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    text: str
+    cites: list[str]
+
+class CoachAnswer(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    summary: str
+    points: list[Point]
+    takeaway: str | None
+    safety_note: str | None
+    not_covered: bool
+
+
+def parse_answer(raw: str) -> dict:
+    import json
+    raw = raw.strip()
+    if raw.startswith("```"):
+        raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw)
+    return CoachAnswer.model_validate(json.loads(raw)).model_dump()
+
+
+def check_citations(answer, retrieved_ids, *, referral=False) -> dict:
+    # Legacy helper retained for historical traces; live Coach always uses dicts.
+    if isinstance(answer, str):
+        return _legacy_check(answer, retrieved_ids)
+    answer = CoachAnswer.model_validate(answer).model_dump()
+    cited = list(dict.fromkeys(cid for p in answer["points"] for cid in p["cites"]))
+    fabricated = [cid for cid in cited if cid not in retrieved_ids]
+    uncited = [p["text"] for p in answer["points"] if not p["cites"]]
+    reasons = []
+    if fabricated:
+        reasons.append(f"cites {len(fabricated)} chunk ID(s) not retrieved in this run: {', '.join(fabricated)}")
+    if uncited:
+        reasons.append(f"{len(uncited)} point(s) with no citation")
+    if not answer["points"] and not answer["not_covered"] and not referral:
+        reasons.append("no points without not_covered or referral")
+    return dict(passed=not reasons, cited=cited, fabricated=fabricated,
+                uncited_claims=uncited, not_covered=answer["not_covered"], reasons=reasons)
+
+
+def render(answer, retrieved, check=None) -> str:
+    if isinstance(answer, str):
+        return _legacy_render(answer, retrieved, check)
+    parts = [answer["summary"]]
+    for point in answer["points"]:
+        links = " ".join(_link(retrieved[c]) if c in retrieved else f"[⚠ unknown source {c}]"
+                         for c in point["cites"])
+        parts.append(f"- {point['text']} {links}".rstrip())
+    if answer.get("takeaway"):
+        parts.append(answer["takeaway"])
+    if answer.get("safety_note"):
+        parts.append(answer["safety_note"])
+    text = "\n\n".join(p for p in parts if p)
     if check and not check["passed"]:
         text = f"> ⚠ Citation check failed: {'; '.join(check['reasons'])}. Treat this answer with caution.\n\n{text}"
     return text

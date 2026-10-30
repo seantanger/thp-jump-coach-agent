@@ -15,7 +15,11 @@ dependencies = [
     "rank-bm25>=0.2.2",
 ]
 
+[project.optional-dependencies]
+ui = ["streamlit>=1.40"]
+
 [dependency-groups]
+ui = ["streamlit>=1.40"]
 dev = [
     "pytest>=9.1.1",
 ]

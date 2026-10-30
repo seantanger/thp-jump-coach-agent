@@ -13,6 +13,7 @@ to $THP_DATA_DIR/traces/.
 from __future__ import annotations
 
 import argparse
+import json
 
 from src.llm import get_llm
 from src.qa import answer_question
@@ -30,7 +31,7 @@ def main() -> None:
     check = result["check"]
     print(result["rendered"])
     if args.raw:
-        print("\n--- raw answer ---\n" + result["answer"])
+        print("\n--- raw answer ---\n" + json.dumps(result["answer"], indent=2))
     print("\n--- citation check:", "PASS" if check["passed"] else "FAIL", "---")
     for reason in check["reasons"]:
         print(f"  {reason}")
