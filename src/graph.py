@@ -39,6 +39,40 @@ def run_tool(tools: dict, call: dict) -> ToolMessage:
                            tool_call_id=call["id"], name=call["name"], status="error")
 
 
+def run_capped(calls: list[dict], tools: dict, used: dict[str, int], caps: dict[str, int],
+               total_cap: int | None, tracer: Tracer) -> tuple[list[ToolMessage], dict[str, int]]:
+    """Run tool calls in order; calls past a per-tool cap or the total cap get an error message, not a run.
+
+    `used` counts calls per tool name plus "_total"; the updated counts are returned.
+    """
+    used = {**used}
+    out = []
+    for call in calls:
+        name, t0 = call["name"], time.perf_counter()
+        tool_capped = name in caps and used.get(name, 0) >= caps[name]
+        capped = tool_capped or (total_cap is not None and used.get("_total", 0) >= total_cap)
+        if capped and tool_capped and name == SEARCH_TOOL:
+            message = ToolMessage(
+                f"Search limit reached ({caps[name]} searches per question); this search was not run. "
+                "Answer from the chunks you already have, or say the library doesn't cover it.",
+                tool_call_id=call["id"], name=name, status="error")
+        elif capped:
+            limit = f"{caps[name]} {name} calls" if tool_capped else f"{total_cap} tool calls"
+            message = ToolMessage(f"Limit reached ({limit}); this call was not run. Finish with what you have.",
+                                  tool_call_id=call["id"], name=name, status="error")
+        else:
+            used[name] = used.get(name, 0) + 1
+            used["_total"] = used.get("_total", 0) + 1
+            message = run_tool(tools, call)
+        returned = message.artifact if isinstance(message.artifact, list) else None
+        tracer.log("tools", tool=name, args=call["args"], status=message.status, capped=capped,
+                   chunk_ids=[r["chunk_id"] for r in returned if "chunk_id" in r] if returned is not None else None,
+                   latency_s=round(time.perf_counter() - t0, 3))
+        out.append(message)
+    used.setdefault(SEARCH_TOOL, 0)
+    return out, used
+
+
 def build_graph(llm: BaseChatModel | None = None, role: str = "coach", tracer: Tracer | None = None,
                 search_cap: int = SEARCH_CAP, require_search: bool = False):
     """Compile the agent graph. Pass `llm` to inject a model (tests, comparisons)."""
@@ -61,25 +95,9 @@ def build_graph(llm: BaseChatModel | None = None, role: str = "coach", tracer: T
         return {"messages": [response]}
 
     def run_tools(state: CoachState) -> dict:
-        used = state.get("search_calls", 0)
-        out = []
-        for call in state["messages"][-1].tool_calls:
-            t0 = time.perf_counter()
-            capped = call["name"] == SEARCH_TOOL and used >= search_cap
-            if capped:
-                message = ToolMessage(
-                    f"Search limit reached ({search_cap} searches per question); this search was not run. "
-                    "Answer from the chunks you already have, or say the library doesn't cover it.",
-                    tool_call_id=call["id"], name=call["name"], status="error")
-            else:
-                used += call["name"] == SEARCH_TOOL
-                message = run_tool(tools, call)
-            returned = message.artifact if isinstance(message.artifact, list) else None
-            tracer.log("tools", tool=call["name"], args=call["args"], status=message.status, capped=capped,
-                       chunk_ids=[r["chunk_id"] for r in returned] if returned is not None else None,
-                       latency_s=round(time.perf_counter() - t0, 3))
-            out.append(message)
-        return {"messages": out, "search_calls": used}
+        out, used = run_capped(state["messages"][-1].tool_calls, tools,
+                               {SEARCH_TOOL: state.get("search_calls", 0)}, {SEARCH_TOOL: search_cap}, None, tracer)
+        return {"messages": out, "search_calls": used[SEARCH_TOOL]}
 
     graph = StateGraph(CoachState)
     graph.add_node("coach", coach)
