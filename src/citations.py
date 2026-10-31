@@ -152,3 +152,24 @@ def render(answer, retrieved, check=None) -> str:
     if check and not check["passed"]:
         text = f"> ⚠ Citation check failed: {'; '.join(check['reasons'])}. Treat this answer with caution.\n\n{text}"
     return text
+
+
+def render_compact(answer: dict, retrieved: dict[str, dict], check: dict | None = None) -> str:
+    """Athlete view: numbered citations and one sources line per video moment, not a link per claim."""
+    numbers: dict[str, int] = {}
+    bullets = []
+    for point in answer["points"]:
+        marks = "".join(f"[{numbers.setdefault(c, len(numbers) + 1)}]" if c in retrieved else "[⚠]"
+                        for c in point["cites"])
+        bullets.append(f"- {point['text']} {marks}".rstrip())
+    parts = [answer["summary"], "\n".join(bullets)]
+    if answer.get("takeaway"):
+        parts.append(answer["takeaway"])
+    if answer.get("safety_note"):
+        parts.append(f"*{answer['safety_note']}*")
+    if numbers:
+        parts.append("**Sources**\n" + "\n".join(f"{n}. {_link(retrieved[c])}" for c, n in numbers.items()))
+    text = "\n\n".join(p for p in parts if p)
+    if check and not check["passed"]:
+        text = f"> ⚠ Some of this answer isn't backed by a retrieved source. Treat it with caution.\n\n{text}"
+    return text

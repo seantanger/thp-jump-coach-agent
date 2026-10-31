@@ -5,8 +5,9 @@ from unittest.mock import Mock
 import pytest
 import yaml
 from langchain_core.messages import AIMessage
-from src.citations import check_citations, render
+from src.citations import check_citations, render, render_compact
 from src.qa import answer_question
+from src.red_flags import SAFETY_NOTE
 from tests.test_graph import ScriptedChatModel
 from tests.test_qa import fake_search, search_call, RETRIEVED
 
@@ -68,3 +69,32 @@ def test_ui_renders_mocked_graph(monkeypatch, tmp_path):
     assert not app.exception
     assert graph.invoke.called
     assert len(app.chat_message) == 2
+
+
+def test_compact_render_numbers_sources_once():
+    data = answer([dict(text='Hold it', cites=['vidAAAAAAAA@95#0']),
+                   dict(text='Squat deep', cites=['vidBBBBBBBB@0#1', 'vidAAAAAAAA@95#0'])])
+    out = render_compact(data, RETRIEVED, check_citations(data, RETRIEVED))
+    assert '- Hold it [1]' in out and '- Squat deep [2][1]' in out
+    assert out.count('](https://') == 2  # each source linked once, in the sources list
+    assert out.endswith('2. [Synth Channel – Squats (Part 2) @ 00:00](https://www.youtube.com/watch?v=vidBBBBBBBB&t=0s)')
+    data['points'][0]['cites'] = ['invented']
+    failed = render_compact(data, RETRIEVED, check_citations(data, RETRIEVED))
+    assert failed.startswith('> ⚠') and '- Hold it [⚠]' in failed
+
+
+@pytest.mark.parametrize('question, expected', [
+    ('Why would getting stronger in the lowering phase make me jump higher?', False),
+    ('How long should a jump session last? My coach says an hour.', False),
+    ('My Achilles has been sore for months.', True),
+    ('The tendon under my kneecap aches after jumping.', True),
+    ('My ankles are stiff when I squat deep.', True),
+    ('I injured my hamstring last week, can I still jump?', True),
+])
+def test_physio_line_only_for_pain_or_injury(question, expected, fake_search, tmp_path):
+    model_answer = answer([dict(text='Supported point', cites=['vidAAAAAAAA@95#0'])])
+    model_answer['safety_note'] = 'See a physio if anything hurts.'  # the model's own note is always replaced
+    model = ScriptedChatModel(responses=[AIMessage('', tool_calls=[search_call('q', 1)]),
+                                         AIMessage(json.dumps(model_answer))])
+    result = answer_question(question, llm=model, trace_dir=tmp_path)
+    assert result['answer']['safety_note'] == (SAFETY_NOTE if expected else None)

@@ -10,6 +10,16 @@ SAFETY_NOTE = ("See a physio if pain is sharp/stabbing or steadily worsening, oc
                "numbness, tingling, radiating weakness or limping. Back pain with bladder/bowel changes "
                "or groin numbness needs emergency care.")
 
+# Questions that get the "See a physio if..." line (AGENTS.md rule 3); whole words, so "coach" isn't "ache".
+_PAIN_RE = re.compile(
+    r"\b(?:pain\w*|ach(?:e|es|ed|ing|y)|sore\w*|stiff\w*|hurts?|hurting|injur\w*|tendons?|"
+    r"tendin\w*|tendon\w*|strain\w*|sprain\w*)\b", re.I)
+
+
+def mentions_pain(question):
+    return bool(_PAIN_RE.search(question))
+
+
 def referral_kind(question):
     # Exclude simple negated symptom lists ("no swelling or bruising").
     # This deliberately handles explicit language, not a clinical diagnosis.

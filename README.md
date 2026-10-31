@@ -218,16 +218,22 @@ RETRIEVAL_MODE=bm25 uv run python -m scripts.ask "Why would eccentric strength h
   (default `charsplit_matched`), `RETRIEVAL_MODE` (`dense`, needs Ollama for the
   query embedding; `bm25` doesn't) and `RETRIEVAL_K` (default 5, max 10). Chunks
   under 15 words are skipped.
-- The coach (`prompts/coach.v3.md`) keeps v2's query rewriting, tries 2–3
+- The coach (`prompts/coach.v4.md`) keeps v2's query rewriting, tries 2–3
   phrasings, and returns validated JSON: `summary`, `points: [{text, cites}]`,
   `takeaway`, `safety_note`, `not_covered`. Summary/takeaway only restate points.
+  v4 adds hard length limits over v3: a summary of at most 2 sentences, at most
+  3 points (5 for multi-part questions) of at most 30 words each, the 1–2 best
+  cites per point, and `takeaway` always null.
   A search is required before an answer unless explicit red flags trigger referral.
 - The code checks every point for at least one cite and verifies all IDs against
   this question's retrieved chunks, recording fabricated IDs. Summary, takeaway
   and safety notes are exempt. `not_covered` with zero points passes. This checks
   citation presence and provenance, not whether a source entails the claim;
-  the Verifier comes next. Rendering produces clickable
-  `[Channel – Title @ mm:ss](url_t)` links and a warning on failed checks.
+  the Verifier comes next. Two renderings, both with a warning on failed checks:
+  `compact` (the default in `ask.py` and the UI) numbers the cites `[1][2]` and
+  lists each source once as a `[Channel – Title @ mm:ss](url_t)` link at the end;
+  `rendered` (`ask.py --full`, UI "Developer view") puts the full link after
+  every point.
 - Each run appends to `$THP_DATA_DIR/traces/<run_id>.jsonl`: start (question,
   retrieval config), each coach turn (latency, tokens, tool calls), each tool
   call (args, returned chunk IDs, latency, capped or not), end (queries,
@@ -282,10 +288,11 @@ uv run streamlit run ui/app.py
 Open `http://127.0.0.1:8501`. The optional `ui` group installs Streamlit inside
 this repo's `.venv`. The UI shares `answer_question()` with `scripts/ask.py`;
 each question is independent. Sidebar settings select method/mode/k (defaults
-from `.env`) and Claude model, and clear local session chat. Each answer shows
-clickable timestamp citations, check status/reasons, retrieved sources with
-cited/promo flags and excerpts, search queries, latency and tokens. Referrals
-use a warning style.
+from `.env`) and Claude model, and clear local session chat. Answers use the
+compact view: numbered cites with a sources list. Tick "Developer view" for the
+full per-point links, check status/reasons, retrieved sources with cited/promo
+flags and excerpts, search queries, latency and tokens. Referrals use a warning
+style.
 
 Local only: `ui/.streamlit/config.toml` binds to loopback and disables usage
 stats. The root `.streamlit/config.toml` mirrors it because Streamlit reads

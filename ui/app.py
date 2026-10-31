@@ -25,6 +25,7 @@ def main():
         mode = st.selectbox('Retrieval mode', ['dense', 'bm25', 'hybrid'], index=['dense','bm25','hybrid'].index(defaults['mode']))
         k = st.number_input('k', 1, 10, min(10, max(1, defaults['k'])))
         model = st.text_input('Coach model', model_spec_for('coach'))
+        developer = st.checkbox('Developer view', help='Full source links, citation check, queries and tokens')
         if st.button('Clear chat'):
             st.session_state['chat'] = []
     history = st.session_state.setdefault('chat', [])
@@ -43,8 +44,11 @@ def main():
         with st.chat_message('user'):
             st.write(question)
         with st.chat_message('assistant'):
-            (st.warning if result['referral'] else st.markdown)(result['rendered'])
+            body = result['rendered'] if developer else result.get('compact', result['rendered'])
+            (st.warning if result['referral'] else st.markdown)(body)
             check = result['check']
+            if not developer:
+                continue
             (st.success if check['passed'] else st.error)('Citation check: ' + ('PASS' if check['passed'] else 'FAIL') +
                                                          (' — ' + '; '.join(check['reasons']) if check['reasons'] else ''))
             with st.expander('Sources'):
