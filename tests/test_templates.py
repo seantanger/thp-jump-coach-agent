@@ -76,3 +76,12 @@ def test_list_templates_skips_unreviewed(tdir):
     other["id"] = "draft"
     write_template(tdir, other)
     assert list_templates() == ["synth_macro"]
+
+
+def test_numbers_the_transcript_doesnt_give_stay_empty(tdir):
+    data = template_dict()
+    data["cycles"][0]["prescriptions"][0].update(sets=None, reps=None, intensity=None)
+    data["cycles"][1]["weeks"] = None
+    write_template(tdir, data)
+    t = load_template("synth_macro")
+    assert t.cycles[0].prescriptions[0].sets is None and t.cycles[1].weeks is None

@@ -49,8 +49,8 @@ class Prescription(_Strict):
     day_type: str
     exercise: str
     equipment: list[str]
-    sets: Range
-    reps: Range
+    sets: Range | None  # None: the transcript gives no number
+    reps: Range | None
     intensity: Range | None
     rest: str | None
     notes: str | None
@@ -62,7 +62,7 @@ class Cycle(_Strict):
     name: str
     emphasis: str
     goal: str
-    weeks: Range
+    weeks: Range | None  # None: the transcript gives no length
     entry_criteria: str
     exit_criteria: str
     primes_next: str | None
