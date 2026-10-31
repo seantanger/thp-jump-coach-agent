@@ -18,6 +18,9 @@ def template_dict(reviewed: bool = True) -> dict:
         "sources": ["vidAAAAAAAA"],
         "defaults": {"values": {"lift_days": ["mon", "wed", "fri"], "jump_session_minutes": 40}, "cites": [C]},
         "elastic_exercises": ["depth jump", "approach jump"],
+        "scheduling": {"pattern": ["lift", "jump", "lift"], "hard_day_types": ["lift", "jump"],
+                       "min_days_between_hard": 2, "allowed_back_to_back": [], "missed_sessions": "skip",
+                       "cites": [C]},
         "cycles": [
             {"id": "volume", "name": "Volume", "emphasis": "volume", "goal": "build work capacity",
              "weeks": {"min": 4, "max": 4}, "entry_criteria": "none", "exit_criteria": "4 weeks done",

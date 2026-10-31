@@ -85,3 +85,23 @@ def test_numbers_the_transcript_doesnt_give_stay_empty(tdir):
     write_template(tdir, data)
     t = load_template("synth_macro")
     assert t.cycles[0].prescriptions[0].sets is None and t.cycles[1].weeks is None
+
+
+def test_scheduling_is_a_pattern_with_cited_spacing(tdir):
+    write_template(tdir)
+    s = load_template("synth_macro").scheduling
+    assert s.pattern == ["lift", "jump", "lift"] and s.min_days_between_hard == 2
+    assert s.missed_sessions == "skip"
+    data = template_dict()
+    data["scheduling"]["cites"] = []
+    write_template(tdir, data)
+    with pytest.raises(ValidationError, match="scheduling"):
+        load_template("synth_macro")
+
+
+def test_scheduling_pattern_uses_known_day_types(tdir):
+    data = template_dict()
+    data["scheduling"]["pattern"] = ["lift", "sprint"]
+    write_template(tdir, data)
+    with pytest.raises(ValidationError, match="sprint"):
+        load_template("synth_macro")

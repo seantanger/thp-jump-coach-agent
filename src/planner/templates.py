@@ -93,6 +93,16 @@ class Gate(_Strict):
     cites: list[str]
 
 
+class Scheduling(_Strict):
+    """How a week is laid out: an order of day types and spacing rules, not fixed weekdays."""
+    pattern: list[str]                      # day types in order within a week (or a repeating cycle)
+    hard_day_types: list[str]               # day types that count as hard for spacing
+    min_days_between_hard: int              # 2 = at least one easy day between hard days
+    allowed_back_to_back: list[list[str]]   # hard pairs the source does run on consecutive days
+    missed_sessions: Literal["skip"]        # a missed session is dropped, not made up
+    cites: list[str]
+
+
 class Review(_Strict):
     drafted: date
     reviewed_by_user: bool
@@ -107,6 +117,7 @@ class Template(_Strict):
     sources: list[str]
     defaults: Defaults
     elastic_exercises: list[str]
+    scheduling: Scheduling
     cycles: list[Cycle]
     week_kinds: dict[str, WeekKind]
     end: TemplateEnd | None
@@ -118,11 +129,18 @@ class Template(_Strict):
         missing = [path for path, obj in _cited_parts(self) if not obj.cites]
         if missing:
             raise ValueError(f"uncited: {', '.join(missing)}")
+        known = {d.id for c in self.cycles for d in c.day_types}
+        s = self.scheduling
+        unknown = [d for d in (*s.pattern, *s.hard_day_types, *(x for pair in s.allowed_back_to_back for x in pair))
+                   if d not in known]
+        if unknown:
+            raise ValueError(f"scheduling uses unknown day types: {', '.join(sorted(set(unknown)))}")
         return self
 
 
 def _cited_parts(t: Template):
     yield "defaults", t.defaults
+    yield "scheduling", t.scheduling
     for i, c in enumerate(t.cycles):
         yield f"cycles[{i}]", c
         for j, d in enumerate(c.day_types):
