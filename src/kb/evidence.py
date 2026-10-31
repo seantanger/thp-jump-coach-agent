@@ -20,3 +20,9 @@ def chunk_meta(ids: Iterable[str], method: str | None = None) -> dict[str, dict]
     return {cid: {"channel": chunks[cid]["channel_name"], "title": chunks[cid]["title"],
                   "timestamp": chunks[cid]["timestamp"], "url_t": chunks[cid]["url_t"]}
             for cid in ids if cid in chunks}
+
+
+def chunk_texts(ids: Iterable[str], method: str | None = None) -> dict[str, str]:
+    """{chunk_id: text} for the IDs that exist (the Verifier's evidence)."""
+    chunks = _by_id(method or retrieval_config()["method"])
+    return {cid: chunks[cid]["text"] for cid in ids if cid in chunks}

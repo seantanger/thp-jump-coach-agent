@@ -28,12 +28,13 @@ def main() -> None:
     parser.add_argument("--model", help="override COACH_MODEL, e.g. ollama:qwen3:4b")
     parser.add_argument("--raw", action="store_true", help="also print the unrendered answer")
     parser.add_argument("--full", action="store_true", help="developer view: full source link after every point")
+    parser.add_argument("--no-verify", action="store_true", help="skip the fresh-context Verifier call")
     args = parser.parse_args()
 
     if route(args.question) == "program":
         print("This looks like a plan request. Use the Planner: `uv run python -m scripts.plan new | next | show`.")
         return
-    result = answer_question(args.question, llm=get_llm("coach", model_spec=args.model))
+    result = answer_question(args.question, llm=get_llm("coach", model_spec=args.model), verify=not args.no_verify)
     check = result["check"]
     print(result["rendered"] if args.full else result["compact"])
     if args.raw:

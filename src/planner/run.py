@@ -34,6 +34,18 @@ class RunResult:
     trace: Path | None = None
 
 
+DEFAULT = object()  # "use the real Verifier"; tests switch it off via default_verifier
+
+
+def default_verifier():
+    from src.verifier import make_program_verifier
+    return make_program_verifier()
+
+
+def _verifier(verify):
+    return default_verifier() if verify is DEFAULT else verify
+
+
 def now() -> datetime:
     return datetime.now().replace(microsecond=0)
 
@@ -71,16 +83,16 @@ def _result(thread_id: str, state: dict, tracer: Tracer) -> RunResult:
 
 
 def start(action: Literal["new", "roll_forward"], request: str | None = None, llm: BaseChatModel | None = None,
-          verify: Verify | None = None, thread_id: str | None = None, today: date | None = None) -> RunResult:
+          verify: Verify | None = DEFAULT, thread_id: str | None = None, today: date | None = None) -> RunResult:
     thread_id = thread_id or uuid.uuid4().hex[:12]
-    graph, config, tracer = _graph(thread_id, llm, verify)
+    graph, config, tracer = _graph(thread_id, llm, _verifier(verify))
     state = graph.invoke({"messages": [], "action": action, "request": request,
                           "today": (today or date.today()).isoformat()}, config)
     return _result(thread_id, state, tracer)
 
 
 def resume(thread_id: str, decision: Literal["approve", "reject", "revise"], comment: str | None = None,
-           llm: BaseChatModel | None = None, verify: Verify | None = None) -> RunResult:
-    graph, config, tracer = _graph(thread_id, llm, verify)
+           llm: BaseChatModel | None = None, verify: Verify | None = DEFAULT) -> RunResult:
+    graph, config, tracer = _graph(thread_id, llm, _verifier(verify))
     state = graph.invoke(Command(resume={"decision": decision, "comment": comment}), config)
     return _result(thread_id, state, tracer)

@@ -50,6 +50,9 @@ def chat_tab(st, developer, model, retrieval):
                 continue
             (st.success if check['passed'] else st.error)('Citation check: ' + ('PASS' if check['passed'] else 'FAIL') +
                                                          (' — ' + '; '.join(check['reasons']) if check['reasons'] else ''))
+            if check.get('verifier'):
+                st.caption('Verifier: ' + check['verifier']['verdict'] +
+                           ''.join(f" · {w}" for w in check.get('verifier_warnings', [])))
             with st.expander('Sources'):
                 for cid, source in result['retrieved'].items():
                     st.markdown(f"[{source['channel']} – {source['title']} @ {source['timestamp']}]({source['url_t']})")
