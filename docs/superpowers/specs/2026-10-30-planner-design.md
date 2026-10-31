@@ -35,6 +35,8 @@ Success means:
 | Citation strictness | Strict in v1, loosened later one knob at a time with eval evidence (§9) |
 | Display | Lean athlete view by default; full detail only in developer mode |
 | Units | Loads in pounds (lb); verticals, reach, height and box heights in inches (in) |
+| Scheduling | Templates store a day-type pattern and cited spacing rules, not weekdays; sessions go on the athlete's available days ("this week only Tue/Thu/Sat" is a life change). Hard days at least 2 days apart unless the template allows the pair (the tendon track's elastic → heavy slow) |
+| Missed sessions | Dropped, not made up: the plan continues with the next planned session ("training is cyclic", START HERE Hhl7vONBAEs 9:30) |
 | Where data lives | Everything transcript-derived or personal under `$THP_DATA_DIR` (`~/git/thp-ai/data`); the repo holds schemas, code, prompts, tests |
 
 ## 3. Storage
@@ -58,7 +60,10 @@ Success means:
 Template
   id, name, kind (macrocycle | tendon_track), model (long_conjugate | ...)
   sources: [video_id]                     # videos the template was built from
-  defaults: {lift_days, general_days, jump_session_minutes, ...}, cites[]
+  defaults: {values: {...}, cites[]}
+  elastic_exercises[]                     # exercise names that count as jumping / elastic loading
+  scheduling: pattern[day_type], hard_day_types[], min_days_between_hard,
+              allowed_back_to_back[[a, b]], missed_sessions: skip, cites[]
   cycles[]:                               # mesocycles, or tendon stages
     id, name, emphasis, goal, weeks {min, max}
     entry_criteria, exit_criteria, primes_next, cites[]
@@ -94,7 +99,7 @@ Profile
 
 ### Training log (SQLite tables)
 
-- `sessions(date, program_version, planned_ref, exercise, sets, reps, load, feel, notes)`
+- `sessions(date, program_version, planned_ref, status (done | modified | missed), exercise, sets, reps, load, feel, notes)`
 - `daily(date, morning_pain, test_movement)`
 - `next_day_pain(date, after_session_date, score)`
 - `jump_results(date, kind, height_in, flight_time_s)`
@@ -180,6 +185,7 @@ message / action
       question → Coach route (existing answer_question)
       program  → load context (profile, program, log summary, gate results)
                → Planner agent (tool loop, caps) → Proposal
+                 (roll-forward: missed sessions are logged, never rescheduled)
                → merge → code checks → Verifier
                    fail → back to Planner with reasons (max 2 retries,
                           then stop and show what failed)
@@ -221,7 +227,7 @@ stays visible.
 2. **Provenance**: every cite was returned this run by `search_library` or `get_cycle`.
 3. **Coverage**: every session, mesocycle and tendon stage has ≥ 1 cite; every `deviation` has a reason and ≥ 1 cite (or `requested_by_user`).
 4. **Template fidelity**: sets / reps / intensity within the template range for that cycle and day type, and the exercise is in the template — otherwise a `deviation` is required.
-5. **Calendar**: mesocycles contiguous with no overlap; weeks inside their mesocycle; nothing scheduled before today; training days match the profile; with an event date, the taper ends on it and loading meets the template's `min_loading_weeks`.
+5. **Calendar**: mesocycles contiguous with no overlap; weeks inside their mesocycle; nothing scheduled before today; training days within the profile's available days and count; hard day types at least `min_days_between_hard` apart except `allowed_back_to_back` pairs; with an event date, the taper ends on it and loading meets the template's `min_loading_weeks`.
 6. **Week kinds**: unload / taper volume modifiers within the template range.
 7. **Gates**: no progression where `check_gate` said hold or step_back; elastic work within the tendon stage's `allowed_jumping`.
 8. **Equipment**: no exercise whose `equipment` is missing from the profile.
@@ -368,3 +374,5 @@ chunk IDs.
   compression.
 - How the tendon track and the macrocycle interact week to week (e.g. which
   macrocycle sessions are replaced while in a tendon stage).
+- What the transcripts say about missing a week or more (the skip rule comes
+  from a beginner video about single missed workouts).
