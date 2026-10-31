@@ -21,29 +21,33 @@ safety check, router and Verifier come next.
 ## Layout
 
 ```
-src/llm.py         get_llm(role), get_embeddings(): the only provider-aware code in the repo
-src/graph.py       coach node <-> tool node (LangGraph); search_library capped at 4 calls per question
-src/tools.py       jump_height(flight_time_s) -> cm; search_library(query, k) over the index
-src/qa.py          answer_question(): run the graph, check + render citations, write a trace
-src/citations.py   citation check (fabricated IDs, uncited claims) and [chunk_id] -> link rendering
-src/trace.py       one JSONL trace per run in $THP_DATA_DIR/traces/
-src/prompts.py     loads AGENTS.md + prompts/<agent>.v<N>.md
-src/kb/chunk.py    transcript chunkers: timewindow_chunks(), charsplit_chunks()
-src/kb/index.py    persistent Chroma collection per method; resumable build_index()
-src/kb/search.py   search(query, k, method, mode="dense"|"bm25"|"hybrid", exclude_promo, prefer_recent, since)
+src/llm.py              get_llm(role), get_embeddings(): the only provider-aware code in the repo
+src/coach/graph.py      coach node <-> tool node (LangGraph); search_library capped at 4 calls per question
+src/tools.py            jump_height(flight_time_s) -> cm and in; search_library(query, k) over the index
+src/coach/qa.py         answer_question(): run the graph, check + render citations, Verifier, trace
+src/coach/citations.py  citation check (fabricated IDs, uncited claims) and [chunk_id] -> link rendering
+src/agent.py            capped tool loop shared by the Coach and the Planner
+src/planner/            Planner: templates, schema, store, checks, graph, run, render
+src/verifier.py         fresh-context Verifier for plans and answers
+src/router.py           code router: plan requests vs Coach questions
+src/trace.py            one JSONL trace per run in $THP_DATA_DIR/traces/
+src/prompts.py          loads AGENTS.md + prompts/<agent>.v<N>.md
+src/kb/chunk.py         transcript chunkers: timewindow_chunks(), charsplit_chunks()
+src/kb/index.py         persistent Chroma collection per method; resumable build_index()
+src/kb/search.py        search(query, k, method, mode="dense"|"bm25"|"hybrid", exclude_promo, prefer_recent, since)
 src/kb/evaluate.py time-range hit test, recall@k / MRR, gold review page
-src/kb/paths.py    $THP_DATA_DIR locations
-config/promo_patterns.yaml  regexes for the promo_candidate flag
-prompts/           one versioned prompt per agent: coach, planner, verifier, safety, router
-AGENTS.md          shared rules prepended to every agent's system prompt
-scripts/ask.py     ask one question: rendered answer, citation check, search queries
-scripts/compare_models.py   same 5 prompts on each model: tool use, correctness, speed
-scripts/build_chunks.py     chunk every included transcript with each method + report
-scripts/time_embeddings.py  time embedding 200 chunks, estimate full-corpus time
-scripts/build_index.py      embed chunks into Chroma (hours on CPU; resumable)
-scripts/eval_retrieval.py   score every method x mode; writes results/retrieval_eval.{json,md}
-scripts/rescore_eval.py     re-mark the saved results against edited gold (no search)
-tests/             pytest; mocks the models and blocks all network access
+src/kb/paths.py         $THP_DATA_DIR locations
+config/promo_patterns.yamlregexes for the promo_candidate flag
+prompts/                one versioned prompt per agent: coach, planner, verifier, safety, router
+AGENTS.md               shared rules prepended to every agent's system prompt
+scripts/ask.py          ask one question: rendered answer, citation check, search queries
+scripts/compare_models.pysame 5 prompts on each model: tool use, correctness, speed
+scripts/build_chunks.py chunk every included transcript with each method + report
+scripts/time_embeddings.pytime embedding 200 chunks, estimate full-corpus time
+scripts/build_index.py  embed chunks into Chroma (hours on CPU; resumable)
+scripts/eval_retrieval.pyscore every method x mode; writes results/retrieval_eval.{json,md}
+scripts/rescore_eval.py re-mark the saved results against edited gold (no search)
+tests/                  pytest; mocks the models and blocks all network access
 ```
 
 ## Setup

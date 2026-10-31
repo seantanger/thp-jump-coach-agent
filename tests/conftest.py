@@ -17,5 +17,5 @@ def no_network(monkeypatch):
 @pytest.fixture(autouse=True)
 def no_default_verifiers(monkeypatch):
     """The real Verifier calls a model; tests that exercise it pass or patch in a stub."""
-    monkeypatch.setattr("src.qa.answer_verifier", lambda: None, raising=False)
+    monkeypatch.setattr("src.coach.qa.answer_verifier", lambda: None, raising=False)
     monkeypatch.setattr("src.planner.run.default_verifier", lambda: None, raising=False)

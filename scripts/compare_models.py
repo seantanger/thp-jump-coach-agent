@@ -22,7 +22,7 @@ from pathlib import Path
 
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
-from src.graph import build_graph
+from src.coach.graph import build_graph
 from src.llm import get_llm
 from src.tools import jump_height_cm
 

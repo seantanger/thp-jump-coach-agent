@@ -17,7 +17,7 @@ import argparse
 import json
 
 from src.llm import get_llm
-from src.qa import answer_question
+from src.coach.qa import answer_question
 from src.router import route
 from src.tools import retrieval_config
 

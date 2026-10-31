@@ -171,3 +171,13 @@ def parse_proposal(raw: str) -> Proposal:
     if start == -1 or end < start:
         raise ValueError("no JSON object in the Planner output")
     return Proposal.model_validate_json(text[start:end + 1])
+
+
+def cites_in(obj) -> set[str]:
+    """Every chunk ID under a "cites" key anywhere in a dumped (JSON-mode) structure."""
+    if isinstance(obj, dict):
+        found = set(obj["cites"]) if isinstance(obj.get("cites"), list) else set()
+        return found.union(*(cites_in(v) for k, v in obj.items() if k != "cites"))
+    if isinstance(obj, list):
+        return set().union(*(cites_in(v) for v in obj))
+    return set()

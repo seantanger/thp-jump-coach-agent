@@ -95,7 +95,7 @@ def test_planted_faults_code_catches_two_verifier_sees_two(athlete):
 
 
 def test_answer_question_retries_then_warns(fake_search, tmp_path, monkeypatch):
-    from src.qa import answer_question
+    from src.coach.qa import answer_question
     answer = json.dumps(dict(summary="Hold isometrics.", points=[dict(text="Hold 45 s.", cites=["vidAAAAAAAA@95#0"])],
                              takeaway=None, safety_note=None, not_covered=False))
     calls = []
@@ -104,7 +104,7 @@ def test_answer_question_retries_then_warns(fake_search, tmp_path, monkeypatch):
         calls.append(evidence)
         return result(verdict="fail", items=[item("unsupported", "points[0]")])
 
-    monkeypatch.setattr("src.qa.answer_verifier", lambda: failing)
+    monkeypatch.setattr("src.coach.qa.answer_verifier", lambda: failing)
     model = ScriptedChatModel(responses=[AIMessage("", tool_calls=[search_call("isometrics", 1)])]
                               + [AIMessage(answer) for _ in range(3)])   # distinct messages, as a real model returns
     out = answer_question("Do isometrics help?", llm=model, trace_dir=tmp_path)

@@ -5,8 +5,8 @@ from unittest.mock import Mock
 import pytest
 import yaml
 from langchain_core.messages import AIMessage
-from src.citations import check_citations, render, render_compact
-from src.qa import answer_question
+from src.coach.citations import check_citations, render, render_compact
+from src.coach.qa import answer_question
 from src.red_flags import SAFETY_NOTE
 from tests.test_graph import ScriptedChatModel
 from tests.test_qa import fake_search, search_call, RETRIEVED
@@ -50,7 +50,7 @@ def test_search_required_before_final(fake_search, tmp_path):
 
 
 def test_import_ui_with_mocked_graph(monkeypatch):
-    monkeypatch.setattr('src.qa.build_graph', Mock())
+    monkeypatch.setattr('src.coach.qa.build_graph', Mock())
     module = importlib.import_module('ui.app')
     assert callable(module.main)
 
@@ -59,8 +59,8 @@ def test_ui_renders_mocked_graph(monkeypatch, tmp_path):
     testing = pytest.importorskip('streamlit.testing.v1')
     graph = Mock()
     graph.invoke.return_value = {'messages': [AIMessage(json.dumps(answer(not_covered=True)))]}
-    monkeypatch.setattr('src.qa.build_graph', Mock(return_value=graph))
-    monkeypatch.setattr('src.qa.traces_dir', lambda: tmp_path)
+    monkeypatch.setattr('src.coach.qa.build_graph', Mock(return_value=graph))
+    monkeypatch.setattr('src.coach.qa.traces_dir', lambda: tmp_path)
     monkeypatch.setattr('ui.app.get_llm', Mock())
     monkeypatch.setattr('src.llm.get_llm', Mock())
     app = testing.AppTest.from_file(str(Path(__file__).resolve().parents[1] / 'ui/app.py')).run()

@@ -11,7 +11,7 @@ from urllib.request import urlopen
 from src.kb.paths import eval_dir, load_chunks
 from src.kb.evaluate import load_questions, is_hit
 from src.llm import model_spec_for, provider_of
-from src.qa import answer_question
+from src.coach.qa import answer_question
 from src.tools import retrieval_config
 
 

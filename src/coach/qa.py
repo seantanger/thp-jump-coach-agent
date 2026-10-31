@@ -8,9 +8,9 @@ from pathlib import Path
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
-from src.citations import check_citations, render, render_compact, parse_answer
+from src.coach.citations import check_citations, render, render_compact, parse_answer
 from src.red_flags import mentions_pain, referral_kind, SAFETY_NOTE
-from src.graph import SEARCH_TOOL, build_graph
+from src.coach.graph import SEARCH_TOOL, build_graph
 from src.kb.paths import traces_dir
 from src.tools import retrieval_config, retrieval_settings
 from src.trace import Tracer, usage

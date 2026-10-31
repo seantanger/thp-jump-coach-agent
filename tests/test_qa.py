@@ -5,9 +5,9 @@ import json
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
-from src.citations import check_citations, cited_ids, render
-from src.graph import SEARCH_CAP, build_graph
-from src.qa import answer_question
+from src.coach.citations import check_citations, cited_ids, render
+from src.coach.graph import SEARCH_CAP, build_graph
+from src.coach.qa import answer_question
 from src.tools import RESULT_FIELDS, search_library
 from tests.test_graph import ScriptedChatModel
 

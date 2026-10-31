@@ -5,7 +5,7 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, Tool
 from langchain_core.outputs import ChatGeneration, ChatResult
 from pydantic import Field
 
-from src.graph import build_graph
+from src.coach.graph import build_graph
 from src.prompts import available_versions, load_prompt
 
 

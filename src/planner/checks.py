@@ -13,7 +13,7 @@ from typing import Literal
 from pydantic import BaseModel
 
 from src.planner.merge import diff_programs
-from src.planner.schema import Day, GateResult, Profile, Program, Session, Week
+from src.planner.schema import Day, GateResult, Profile, Program, Week, cites_in
 from src.planner.templates import Cycle, Range, Scheduling, Template, find_prescription
 from src.units import ATHLETE_UNIT, Quantity, convert
 
@@ -29,15 +29,6 @@ class CheckFailure(BaseModel):
 
 def _fail(check: str, path: str, reason: str) -> CheckFailure:
     return CheckFailure(check=check, path=path, reason=reason)
-
-
-def _cites_in(obj) -> set[str]:
-    if isinstance(obj, dict):
-        found = set(obj.get("cites") or []) if isinstance(obj.get("cites"), list) else set()
-        return found.union(*(_cites_in(v) for k, v in obj.items() if k != "cites"))
-    if isinstance(obj, list):
-        return set().union(*(_cites_in(v) for v in obj))
-    return set()
 
 
 def _changed_weeks(candidate: Program, previous: Program | None) -> list[Week]:
@@ -79,7 +70,7 @@ def _session_paths(weeks: list[Week]):
 def _provenance(candidate, previous, retrieved_ids) -> list[CheckFailure]:
     failures = []
     for change in diff_programs(previous, candidate):
-        unknown = sorted(_cites_in(change.after) - retrieved_ids)
+        unknown = sorted(cites_in(change.after) - retrieved_ids)
         if unknown:
             failures.append(_fail("provenance", change.path, f"cites not retrieved this run: {', '.join(unknown)}"))
     return failures

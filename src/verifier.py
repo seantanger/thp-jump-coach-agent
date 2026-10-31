@@ -15,9 +15,8 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from pydantic import BaseModel, ConfigDict
 
 from src.llm import get_llm
-from src.planner.checks import _cites_in
 from src.planner.merge import Change
-from src.planner.schema import Proposal
+from src.planner.schema import Proposal, cites_in
 from src.prompts import load_prompt
 
 
@@ -58,7 +57,7 @@ def verify_program(changes: list[Change], proposal: Proposal, evidence: dict[str
     payload = {"mode": "program", "request": proposal.request, "summary": proposal.summary,
                "reasons": [r.model_dump() for r in proposal.reasons],
                "changes": [{"path": c.path, "before": c.before, "after": c.after,
-                            "cites": sorted(_cites_in(c.after))} for c in changes],
+                            "cites": sorted(cites_in(c.after))} for c in changes],
                "evidence": evidence}
     return _ask(payload, llm)
 
@@ -88,7 +87,7 @@ def make_program_verifier(llm: BaseChatModel | None = None):
     from src.kb.evidence import chunk_texts
 
     def verify(changes: list[Change], proposal: Proposal):
-        cites = set().union(*(_cites_in(c.after) for c in changes), *(set(r.cites) for r in proposal.reasons))
+        cites = set().union(*(cites_in(c.after) for c in changes), *(set(r.cites) for r in proposal.reasons))
         try:
             r = verify_program(changes, proposal, chunk_texts(cites), llm=llm)
         except (ValueError, TypeError) as exc:

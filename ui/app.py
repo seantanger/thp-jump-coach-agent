@@ -10,7 +10,7 @@ os.environ['LANGSMITH_TRACING'] = 'false'
 os.environ['STREAMLIT_SERVER_ADDRESS'] = '127.0.0.1'
 os.environ['STREAMLIT_BROWSER_GATHER_USAGE_STATS'] = 'false'
 
-from src import qa
+from src.coach import qa
 from src.llm import model_spec_for, get_llm
 from src.planner import run, store
 from src.planner.render import render_outline, render_proposal, render_week

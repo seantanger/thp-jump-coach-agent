@@ -39,7 +39,7 @@ def test_ui_plan_tab_new_plan_flow(ui):
 def test_chat_routes_plan_requests_to_the_plan_tab(ui, monkeypatch):
     app, start, _ = ui
     answer = Mock()
-    monkeypatch.setattr("src.qa.answer_question", answer)
+    monkeypatch.setattr("src.coach.qa.answer_question", answer)
     app.run()
     app.chat_input[0].set_value("make me a plan for 3 days a week").run()
     assert not answer.called and not start.called
