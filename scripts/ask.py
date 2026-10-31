@@ -18,6 +18,7 @@ import json
 
 from src.llm import get_llm
 from src.qa import answer_question
+from src.router import route
 from src.tools import retrieval_config
 
 
@@ -29,6 +30,9 @@ def main() -> None:
     parser.add_argument("--full", action="store_true", help="developer view: full source link after every point")
     args = parser.parse_args()
 
+    if route(args.question) == "program":
+        print("This looks like a plan request. Use the Planner: `uv run python -m scripts.plan new | next | show`.")
+        return
     result = answer_question(args.question, llm=get_llm("coach", model_spec=args.model))
     check = result["check"]
     print(result["rendered"] if args.full else result["compact"])

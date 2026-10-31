@@ -6,7 +6,6 @@ Verifier when one is given), pauses for the athlete's decision, and saves only o
 
 from __future__ import annotations
 
-import json
 import time
 from datetime import date, datetime
 from typing import Callable
