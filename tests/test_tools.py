@@ -36,4 +36,5 @@ def test_rejects_milliseconds():
 def test_tool_invoke_and_schema():
     assert jump_height.name == "jump_height"
     assert jump_height.args["flight_time_s"]["type"] == "number"
-    assert math.isclose(jump_height.invoke({"flight_time_s": 0.5}), 30.66, abs_tol=0.01)
+    out = jump_height.invoke({"flight_time_s": 0.5})
+    assert math.isclose(out["cm"], 30.66, abs_tol=0.01) and math.isclose(out["in"], 12.07, abs_tol=0.01)

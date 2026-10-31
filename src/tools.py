@@ -10,6 +10,7 @@ from contextvars import ContextVar
 from langchain_core.tools import tool
 
 from src.kb.search import search
+from src.units import CM_PER_IN
 
 G = 9.81  # m/s^2
 
@@ -24,16 +25,17 @@ def jump_height_cm(flight_time_s: float) -> float:
 
 
 @tool
-def jump_height(flight_time_s: float) -> float:
+def jump_height(flight_time_s: float) -> dict:
     """Convert a vertical jump's flight time (air time) into jump height.
 
     Args:
         flight_time_s: Time in the air in SECONDS (convert ms to s first, e.g. 520 ms -> 0.52).
 
     Returns:
-        Jump height in centimetres, from h = g * t^2 / 8.
+        Jump height as {"cm": ..., "in": ...}, from h = g * t^2 / 8.
     """
-    return jump_height_cm(flight_time_s)
+    cm = jump_height_cm(flight_time_s)
+    return {"cm": cm, "in": round(cm / CM_PER_IN, 2)}
 
 
 # --- search_library ----------------------------------------------------------

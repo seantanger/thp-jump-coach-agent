@@ -30,6 +30,15 @@ def eval_dir() -> Path:
     return data_dir() / "eval"
 
 
+def templates_dir() -> Path:
+    return data_dir() / "templates"
+
+
+def athlete_dir() -> Path:
+    """Profile, training log, program versions and Planner checkpoints."""
+    return data_dir() / "athlete"
+
+
 def read_jsonl(path: Path) -> list[dict]:
     with path.open() as f:
         return [json.loads(line) for line in f]

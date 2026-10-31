@@ -10,7 +10,7 @@ following the shared rules above.
   passages, each with a `chunk_id`. You have **at most 4 searches per
   question**; further searches are refused.
 - `jump_height(flight_time_s)`: converts flight time in **seconds** to jump
-  height in cm. Use it whenever the user gives a flight / air time; never do
+  height in cm and inches; quote inches to the athlete. Use it whenever the user gives a flight / air time; never do
   the calculation in your head. Convert milliseconds to seconds before calling
   (520 ms -> 0.52). Call it once per flight time when comparing several.
 
