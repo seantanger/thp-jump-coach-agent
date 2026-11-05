@@ -134,7 +134,9 @@ def plan_tab(st, developer, retrieval):
         sources = None
         if developer:
             from src.kb.evidence import chunk_meta
-            sources = chunk_meta({c for w in program.weeks for d in w.days for s in d.sessions for c in s.cites})
+            from src.planner.templates import TEMPLATE_METHOD
+            sources = chunk_meta({c for w in program.weeks for d in w.days for s in d.sessions for c in s.cites},
+                                 method=TEMPLATE_METHOD)
         st.text(render_outline(program, full=developer))
         st.text(render_week(program, date.today(), full=developer, sources=sources))
 

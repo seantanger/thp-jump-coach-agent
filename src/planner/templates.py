@@ -17,6 +17,10 @@ from pydantic import BaseModel, ConfigDict, model_validator
 
 from src.kb.paths import templates_dir
 
+# Templates cite this method's chunk IDs. IDs are only unique within one method (charsplit_350 has a different
+# "vid@0#0"), so the Planner, its Verifier and plan source links must all read this method.
+TEMPLATE_METHOD = "charsplit_matched"
+
 
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)

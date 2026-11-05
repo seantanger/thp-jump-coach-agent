@@ -15,11 +15,18 @@ from langgraph.types import Command
 from src.kb.paths import athlete_dir, traces_dir
 from src.planner.graph import Verify, build_plan_graph
 from src.planner.merge import Change
+from src.planner.templates import TEMPLATE_METHOD
+from src.tools import retrieval_config, retrieval_settings
 from src.trace import Tracer
 
 RECURSION_LIMIT = 100  # 3 attempts x (12 tool calls + answer) plus context / review / approve steps
 
-Status = Literal["awaiting_approval", "saved", "rejected", "failed", "stale", "needs_profile"]
+Status = Literal["awaiting_approval", "saved", "rejected", "failed", "stale", "needs_profile", "declined"]
+
+
+def _template_method():
+    """Keep the caller's search mode and k, but read the chunk IDs the templates cite."""
+    return retrieval_settings({**retrieval_config(), "method": TEMPLATE_METHOD})
 
 
 @dataclass
@@ -86,13 +93,15 @@ def start(action: Literal["new", "roll_forward"], request: str | None = None, ll
           verify: Verify | None = DEFAULT, thread_id: str | None = None, today: date | None = None) -> RunResult:
     thread_id = thread_id or uuid.uuid4().hex[:12]
     graph, config, tracer = _graph(thread_id, llm, _verifier(verify))
-    state = graph.invoke({"messages": [], "action": action, "request": request,
-                          "today": (today or date.today()).isoformat()}, config)
+    with _template_method():
+        state = graph.invoke({"messages": [], "action": action, "request": request,
+                              "today": (today or date.today()).isoformat()}, config)
     return _result(thread_id, state, tracer)
 
 
 def resume(thread_id: str, decision: Literal["approve", "reject", "revise"], comment: str | None = None,
            llm: BaseChatModel | None = None, verify: Verify | None = DEFAULT) -> RunResult:
     graph, config, tracer = _graph(thread_id, llm, _verifier(verify))
-    state = graph.invoke(Command(resume={"decision": decision, "comment": comment}), config)
+    with _template_method():
+        state = graph.invoke(Command(resume={"decision": decision, "comment": comment}), config)
     return _result(thread_id, state, tracer)

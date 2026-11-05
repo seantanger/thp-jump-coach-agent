@@ -110,6 +110,8 @@ def render_proposal(result, full: bool = False) -> str:
         return "Discarded; nothing saved."
     if status == "stale":
         return "The plan changed while this proposal was waiting; run it again."
+    if status == "declined":
+        return f"Nothing changed: {(result.proposal or {}).get('summary', '')}"
     if status == "failed":
         if not full:
             return (f"Couldn't build a plan that passes the checks ({len(result.failures)} problem(s)). "

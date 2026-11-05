@@ -21,7 +21,7 @@ from src.llm import get_llm
 from src.planner import store
 from src.planner.checks import run_checks
 from src.planner.merge import Change, diff_programs, merge_proposal
-from src.planner.schema import Program, Proposal, parse_proposal
+from src.planner.schema import Profile, Program, Proposal, parse_proposal
 from src.planner.templates import list_templates, load_template
 from src.planner.tools import MAX_RETRIES, PLAN_CAPS, PLAN_TOOLS, PLAN_TOTAL_CAP
 from src.prompts import load_prompt
@@ -35,7 +35,6 @@ class PlanState(MessagesState):
     request: str | None
     today: str                 # ISO date; strings keep checkpoints simple
     used: dict
-    attempt_start: int         # index of the first message of the current attempt
     attempts: int              # failed reviews so far
     proposal: dict | None
     candidate: str | None      # candidate Program as JSON
@@ -92,8 +91,7 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
             return {"status": "needs_profile"}
         message = _context_message(state, profile, store.load_program())
         tracer.log("context", action=state["action"], request=state.get("request"))
-        return {"messages": [message], "attempt_start": len(state["messages"]), "used": {}, "attempts": 0,
-                "status": "planning"}
+        return {"messages": [message], "used": {}, "attempts": 0, "status": "planning"}
 
     def planner(state: PlanState) -> dict:
         t0 = time.perf_counter()
@@ -115,19 +113,25 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
         text = "\n".join(f"- [{f['check']}] {f['path']}: {f['reason']}" for f in failures)
         message = HumanMessage(f"Your proposal failed these checks:\n{text}\n"
                                "Fix them and return the complete proposal JSON again.")
-        return {"messages": [message], "attempts": attempts, "failures": failures, "used": {},
-                "attempt_start": len(state["messages"]) + 1, "status": "planning"}
+        return {"messages": [message], "attempts": attempts, "failures": failures, "used": {}, "status": "planning"}
 
     def review(state: PlanState) -> dict:
         raw = state["messages"][-1].text
         current, profile = store.load_program(), store.load_profile()
+        templates = {tid: load_template(tid) for tid in list_templates()}
         try:
             proposal = parse_proposal(raw)
+            if proposal.decision == "decline":  # e.g. a missing fact: show the athlete why, save nothing
+                tracer.log("review", declined=True, summary=proposal.summary)
+                return {"proposal": proposal.model_dump(mode="json"), "status": "declined"}
             candidate = merge_proposal(current, proposal, profile, _now())
+            if candidate.macrocycle.template_id not in templates:
+                raise ValueError(f"template_id {candidate.macrocycle.template_id!r} is not a reviewed template; "
+                                 f"use one of {sorted(templates)}")
         except (ValidationError, ValueError) as exc:
             return retry(state, [{"check": "schema", "path": "proposal", "reason": str(exc)[:600]}])
-        templates = {tid: load_template(tid) for tid in list_templates()}
-        retrieved = _retrieved_ids(state["messages"][state.get("attempt_start", 0):])
+        # Anything read earlier in this run (before a retry or a revise) still counts as retrieved.
+        retrieved = _retrieved_ids(state["messages"])
         failures = [f.model_dump() for f in run_checks(
             candidate, previous=current, profile=candidate.profile_snapshot, templates=templates,
             retrieved_ids=retrieved, gates=[], today=date.fromisoformat(state["today"]))]
@@ -157,7 +161,7 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
         if choice == "revise":
             comment = decision.get("comment") or "Please revise the proposal."
             return {"messages": [HumanMessage(f"The athlete asked for changes: {comment}")], "attempts": 0,
-                    "used": {}, "attempt_start": len(state["messages"]), "status": "planning"}
+                    "used": {}, "status": "planning"}
         return {"status": "rejected"}
 
     def save(state: PlanState) -> dict:
@@ -167,7 +171,10 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
         except store.StaleProgramError as exc:
             tracer.log("save", status="stale", reason=str(exc))
             return {"status": "stale"}
-        tracer.log("save", status="saved", version=candidate.version)
+        if changes := state["proposal"].get("profile_changes"):
+            # Applied to the profile as it is now, so an edit made while the proposal waited is kept.
+            store.save_profile(Profile.model_validate({**store.load_profile().model_dump(), **changes}, strict=False))
+        tracer.log("save", status="saved", version=candidate.version, profile_changes=changes)
         return {"status": "saved", "saved_version": candidate.version}
 
     def after_planner(state: PlanState) -> str:

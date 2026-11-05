@@ -12,6 +12,7 @@ import argparse
 import re
 
 from src.kb.paths import load_chunks
+from src.planner.templates import TEMPLATE_METHOD
 
 
 def main() -> None:
@@ -19,7 +20,7 @@ def main() -> None:
     parser.add_argument("video_id", nargs="?")
     parser.add_argument("--grep", help="only chunks whose text matches this regex (case-insensitive)")
     parser.add_argument("--find", help="list videos whose title matches this regex")
-    parser.add_argument("--method", default="charsplit_matched")
+    parser.add_argument("--method", default=TEMPLATE_METHOD)
     args = parser.parse_args()
 
     chunks = load_chunks(args.method)

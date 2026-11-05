@@ -20,6 +20,7 @@ from src.planner import run
 from src.planner.render import render_outline, render_proposal, render_week
 from src.planner.schema import Profile
 from src.planner.store import load_profile, load_program, save_profile
+from src.planner.templates import TEMPLATE_METHOD
 
 WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
@@ -93,7 +94,7 @@ def show_command(args) -> None:
     sources = None
     if args.full:
         cites = {c for w in program.weeks for d in w.days for s in d.sessions for c in s.cites}
-        sources = chunk_meta(cites)
+        sources = chunk_meta(cites, method=TEMPLATE_METHOD)
     print(render_outline(program, full=args.full) + "\n")
     print(render_week(program, date.today(), full=args.full, sources=sources))
 
