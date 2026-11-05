@@ -157,6 +157,21 @@ def test_gates_limit_jumping_to_the_stage():
     assert "gates" in kinds(check(program))
 
 
+def test_gates_use_the_template_list_not_the_planners():
+    program = candidate(weeks=[week(days=[day(MON, "elastic", [session("box jump", None, 10, None)])])])
+    program.tendon_track = TendonTrack(template_id="synth_tendon", stage_id="stage1", entered_on=MON,
+                                       gate_to_next="x", allowed_jumping=["depth drop", "box jump"], cites=[C])
+    assert "gates" in kinds(check(program))   # stage1 in the template allows only depth drop
+
+
+@pytest.mark.parametrize("template_id, stage_id", [("typo_tendon", "stage1"), ("synth_tendon", "stage9")])
+def test_gates_fail_on_unknown_tendon_template_or_stage(template_id, stage_id):
+    program = candidate()
+    program.tendon_track = TendonTrack(template_id=template_id, stage_id=stage_id, entered_on=MON,
+                                       gate_to_next="x", allowed_jumping=[], cites=[C])
+    assert "gates" in kinds(check(program))
+
+
 def test_equipment_missing_fails():
     failures = check(candidate(), who=profile(equipment=["box"]))
     assert set(kinds(failures)) == {"equipment"} and "barbell" in failures[0].reason

@@ -19,3 +19,12 @@ def test_route_program_examples(message):
 ])
 def test_route_coach_examples(message):
     assert route(message) == "coach"
+
+
+@pytest.mark.parametrize("message", [
+    "I felt a pop in my knee this week, should I keep training?",
+    "Sharp pain in my knee, should I change my program?",
+    "Back pain and bladder changes since my game is on Mar 3",
+])
+def test_red_flags_reach_the_referral_even_with_plan_words(message):
+    assert route(message) == "coach"

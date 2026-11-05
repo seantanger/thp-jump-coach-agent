@@ -211,8 +211,13 @@ def _week_kinds(ctx: _Context, weeks) -> list[CheckFailure]:
 
 def _gates(ctx: _Context, candidate, weeks, gates: list[GateResult]) -> list[CheckFailure]:
     failures = []
-    if ctx.tendon is None or candidate.tendon_track is None:
+    track = candidate.tendon_track
+    if track is None:
         return failures
+    if ctx.tendon is None:
+        return [_fail("gates", "tendon_track.template_id", f"{track.template_id} is not a reviewed template")]
+    if ctx.stage is None:
+        return [_fail("gates", "tendon_track.stage_id", f"{track.stage_id} is not a stage of {track.template_id}")]
     order = [c.id for c in ctx.tendon.cycles]
     stage = candidate.tendon_track.stage_id
     for g in gates:
@@ -225,8 +230,11 @@ def _gates(ctx: _Context, candidate, weeks, gates: list[GateResult]) -> list[Che
         if stage not in allowed:
             failures.append(_fail("gates", "tendon_track.stage_id", f"gate {g.rule_id} said {g.decision} from "
                                   f"{current}; the plan moves to {stage}"))
+    if ctx.stage.allowed_jumping is None:  # the template sets no limit for this stage
+        return failures
+    # The reviewed template's list, never the Planner's own tendon_track.allowed_jumping.
     elastic = {e.lower() for e in ctx.tendon.elastic_exercises}
-    allowed_jumps = {e.lower() for e in candidate.tendon_track.allowed_jumping}
+    allowed_jumps = {e.lower() for e in ctx.stage.allowed_jumping}
     for _, _, s, path in _session_paths(weeks):
         name = " ".join(s.exercise.lower().split())
         if name in elastic and name not in allowed_jumps:
