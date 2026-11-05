@@ -14,11 +14,10 @@ from src.coach import qa
 from src.llm import model_spec_for, get_llm
 from src.planner import run, store
 from src.planner.render import render_outline, render_proposal, render_week
-from src.planner.schema import Profile
+from src.planner.schema import WEEKDAYS, Profile
 from src.router import route
 from src.tools import retrieval_config, retrieval_settings
 
-WEEKDAYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']
 PLAN_HINT = 'This looks like a plan request — use the Plan tab to make or change your plan.'
 
 

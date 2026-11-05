@@ -112,3 +112,15 @@ def test_answer_question_retries_then_warns(fake_search, tmp_path, monkeypatch):
     assert calls[0] == {"vidAAAAAAAA@95#0": " ".join(f"w{i}" for i in range(20))}
     assert not out["check"]["passed"] and out["check"]["verifier"]["verdict"] == "fail"
     assert out["compact"].startswith("> ⚠")
+
+
+def test_unreadable_verifier_reply_keeps_the_answer(fake_search, tmp_path, monkeypatch):
+    from src.coach.qa import answer_question
+    from src.verifier import _parse
+    answer = json.dumps(dict(summary="Hold isometrics.", points=[dict(text="Hold 45 s.", cites=["vidAAAAAAAA@95#0"])],
+                             takeaway=None, safety_note=None, not_covered=False))
+    monkeypatch.setattr("src.coach.qa.answer_verifier", lambda: lambda *a: _parse("Looks fine to me."))
+    model = ScriptedChatModel(responses=[AIMessage("", tool_calls=[search_call("isometrics", 1)]), AIMessage(answer)])
+    out = answer_question("Do isometrics help?", llm=model, trace_dir=tmp_path)
+    assert out["check"]["passed"] and out["answer"]["points"]
+    assert "not verified" in out["check"]["verifier_warnings"][0]

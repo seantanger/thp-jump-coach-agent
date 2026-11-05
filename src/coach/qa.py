@@ -77,7 +77,13 @@ def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path |
         answer, check, queries, retrieved = _read_answer(question, state["messages"], tracer)
         if verifier is None or not check["passed"] or not answer["points"]:
             break
-        verdict = verifier(question, answer, {c: retrieved[c]["text"] for c in check["cited"] if c in retrieved})
+        try:
+            verdict = verifier(question, answer, {c: retrieved[c]["text"] for c in check["cited"] if c in retrieved})
+        except (ValueError, TypeError) as exc:
+            tracer.log("verifier", attempt=attempt + 1, error=type(exc).__name__)
+            verdict = None  # an earlier verdict was about an earlier answer
+            check = {**check, "verifier_warnings": [f"Verifier output could not be read ({type(exc).__name__}); not verified"]}
+            break
         failures = verifier_failures(verdict)
         tracer.log("verifier", attempt=attempt + 1, verdict=verdict.verdict, failures=failures)
         if not failures:

@@ -5,8 +5,9 @@ from __future__ import annotations
 import json
 import math
 import re
-from datetime import date
+from datetime import date, timedelta
 
+from src.coach.citations import link
 from src.planner.merge import Change
 from src.planner.schema import Program, Week
 from src.units import Quantity, display
@@ -27,14 +28,9 @@ def session_text(s: dict) -> str:
     return " ".join(x for x in (s["exercise"], dose, load) if x)
 
 
-def _link(meta: dict) -> str:
-    title = meta["title"].replace("[", "(").replace("]", ")")
-    return f"[{meta['channel']} – {title} @ {meta['timestamp']}]({meta['url_t']})"
-
-
 def _current_week(program: Program, today: date) -> Week | None:
     weeks = program.weeks
-    current = [w for w in weeks if w.start <= today < w.start.fromordinal(w.start.toordinal() + 7)]
+    current = [w for w in weeks if w.start <= today < w.start + timedelta(days=7)]
     upcoming = [w for w in weeks if w.start > today]
     return (current or upcoming or weeks[-1:] or [None])[0]
 
@@ -55,7 +51,7 @@ def render_week(program: Program, today: date, full: bool = False, sources: dict
         lines.append(f"{d.date:%a}  " + " · ".join(texts))
         if full:
             for s in d.sessions:
-                links = " ".join(_link(sources[c]) if sources and c in sources else c for c in s.cites)
+                links = " ".join(link(sources[c]) if sources and c in sources else c for c in s.cites)
                 lines.append(f"      {s.exercise}: {links}")
                 if s.deviation:
                     lines.append(f"      deviation: {s.deviation.reason}")

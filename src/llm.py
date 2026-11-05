@@ -24,7 +24,7 @@ from langchain_core.language_models import BaseChatModel
 
 load_dotenv()
 
-ROLES = ("coach", "planner", "verifier", "safety", "router")
+ROLES = ("coach", "planner", "verifier")
 
 DEFAULT_TIMEOUT_S = 60.0
 # Ollama runs CPU-only on the dev machine; a single turn can take minutes.

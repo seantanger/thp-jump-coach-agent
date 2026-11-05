@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import re
 from datetime import date, datetime
-from typing import Any, Literal
+from typing import Any, Literal, get_args
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
 from src.units import Quantity
 
 Weekday = Literal["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+WEEKDAYS: tuple[str, ...] = get_args(Weekday)
 
 
 class _Strict(BaseModel):

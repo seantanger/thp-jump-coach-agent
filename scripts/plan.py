@@ -22,9 +22,6 @@ from src.planner.schema import Profile
 from src.planner.store import load_profile, load_program, save_profile
 from src.planner.templates import TEMPLATE_METHOD
 
-WEEKDAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
-
-
 def _ask(prompt: str, default=None, cast=str):
     raw = input(f"{prompt}{f' [{default}]' if default not in (None, '') else ''}: ").strip()
     if not raw:

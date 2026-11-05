@@ -13,12 +13,11 @@ from typing import Literal
 from pydantic import BaseModel
 
 from src.planner.merge import diff_programs
-from src.planner.schema import Day, GateResult, Profile, Program, Week, cites_in
+from src.planner.schema import WEEKDAYS, Day, GateResult, Profile, Program, Week, cites_in
 from src.planner.templates import Cycle, Range, Scheduling, Template, find_prescription
 from src.units import ATHLETE_UNIT, Quantity, convert
 
 FIDELITY_TOLERANCE = {"in": 0.5, "lb": 5.0, "%": 1.0}
-WEEKDAYS = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
 
 
 class CheckFailure(BaseModel):

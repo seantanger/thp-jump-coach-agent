@@ -1,7 +1,7 @@
 # Shared rules for every agent
 
 These rules are prepended to every agent's system prompt (coach, planner,
-verifier, safety, router) by `src/prompts.py`. An agent prompt may add rules
+verifier) by `src/prompts.py`. An agent prompt may add rules
 but must never contradict these.
 
 ## 1. Cite every claim

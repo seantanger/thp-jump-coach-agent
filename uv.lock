@@ -1202,11 +1202,6 @@ dependencies = [
     { name = "rank-bm25" },
 ]
 
-[package.optional-dependencies]
-ui = [
-    { name = "streamlit" },
-]
-
 [package.dev-dependencies]
 dev = [
     { name = "pytest" },
@@ -1227,9 +1222,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.2.4" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "rank-bm25", specifier = ">=0.2.2" },
-    { name = "streamlit", marker = "extra == 'ui'", specifier = ">=1.40" },
 ]
-provides-extras = ["ui"]
 
 [package.metadata.requires-dev]
 dev = [{ name = "pytest", specifier = ">=9.1.1" }]

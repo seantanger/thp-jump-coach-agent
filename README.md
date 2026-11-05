@@ -38,7 +38,7 @@ src/kb/search.py        search(query, k, method, mode="dense"|"bm25"|"hybrid", e
 src/kb/evaluate.py time-range hit test, recall@k / MRR, gold review page
 src/kb/paths.py         $THP_DATA_DIR locations
 config/promo_patterns.yamlregexes for the promo_candidate flag
-prompts/                one versioned prompt per agent: coach, planner, verifier, safety, router
+prompts/                one versioned prompt per agent: coach, planner, verifier
 AGENTS.md               shared rules prepended to every agent's system prompt
 scripts/ask.py          ask one question: rendered answer, citation check, search queries
 scripts/compare_models.pysame 5 prompts on each model: tool use, correctness, speed
@@ -77,8 +77,7 @@ COACH_MODEL=anthropic:claude-sonnet-5-5   # Claude (default, main model)
 COACH_MODEL=ollama:qwen3:4b               # local Ollama
 ```
 
-Roles: `COACH_MODEL`, `PLANNER_MODEL`, `VERIFIER_MODEL`, `SAFETY_MODEL`,
-`ROUTER_MODEL`. Any unset role falls back to `DEFAULT_MODEL`. Nothing outside
+Roles: `COACH_MODEL`, `PLANNER_MODEL`, `VERIFIER_MODEL`. Any unset role falls back to `DEFAULT_MODEL`. Nothing outside
 `src/llm.py` mentions a provider, so switching is a config change only.
 
 Related settings:

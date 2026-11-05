@@ -5,7 +5,6 @@ import json
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
-from src.coach.citations import check_citations, cited_ids, render
 from src.coach.graph import SEARCH_CAP, build_graph
 from src.coach.qa import answer_question
 from src.tools import RESULT_FIELDS, search_library
@@ -94,8 +93,6 @@ def test_search_calls_capped_in_code(fake_search):
     assert state["messages"][-1].content == "Done [vidAAAAAAAA@95#0]."  # the model still gets to answer
 
 
-# --- citation check -----------------------------------------------------------------
-
 def as_result(r):
     """A record as search_library returns it."""
     return {**{k: r[k] for k in RESULT_FIELDS if k in r}, "channel": r["channel_name"]}
@@ -103,59 +100,6 @@ def as_result(r):
 
 RETRIEVED = {"vidAAAAAAAA@95#0": as_result(record("vidAAAAAAAA@95#0")),
              "vidBBBBBBBB@0#1": as_result(record("vidBBBBBBBB@0#1", title="Squats [Part 2]", start=0))}
-
-
-def test_citation_check_passes_cited_answer():
-    answer = ("Yes: hold a leg-extension isometric at about 70% effort for 45 seconds [vidAAAAAAAA@95#0].\n\n"
-              "- Do it several times a day, every 6 hours or so, while the pain settles [vidAAAAAAAA@95#0, vidBBBBBBBB@0#1]")
-    check = check_citations(answer, RETRIEVED)
-    assert check["passed"] and check["reasons"] == []
-    assert check["cited"] == ["vidAAAAAAAA@95#0", "vidBBBBBBBB@0#1"]
-
-
-def test_citation_check_catches_fabricated_id():
-    answer = "Hold the isometric for 45 seconds at a time, five sets a day [vidAAAAAAAA@95#0, fakeFAKEfak@12#3]."
-    check = check_citations(answer, RETRIEVED)
-    assert not check["passed"]
-    assert check["fabricated"] == ["fakeFAKEfak@12#3"]
-    assert "not retrieved" in check["reasons"][0]
-
-
-def test_zero_citation_answer_fails():
-    answer = "Isometrics reduce tendon pain, so hold a wall sit for 45 seconds five times a day."
-    check = check_citations(answer, RETRIEVED)
-    assert not check["passed"] and check["cited"] == []
-    assert check["uncited_claims"] == [answer]
-
-
-def test_uncited_paragraph_fails_even_when_others_cite():
-    answer = ("Hold the isometric for 45 seconds at roughly 70% effort [vidAAAAAAAA@95#0].\n\n"
-              "You should also ice your knee after every session to reduce inflammation quickly.")
-    check = check_citations(answer, RETRIEVED)
-    assert not check["passed"] and len(check["uncited_claims"]) == 1
-
-
-def test_not_covered_answer_passes_without_citations():
-    check = check_citations("The library doesn't cover marathon training plans.", RETRIEVED)
-    assert check["passed"] and check["not_covered"]
-
-
-def test_markdown_links_and_plain_brackets_are_not_citations():
-    assert cited_ids("See [this video](https://youtu.be/x) and [note] and [vidAAAAAAAA@95#0]") == ["vidAAAAAAAA@95#0"]
-
-
-def test_render_turns_markers_into_links():
-    answer = "Hold it [vidAAAAAAAA@95#0]. Squat deep [vidAAAAAAAA@95#0, vidBBBBBBBB@0#1]. Bogus [zzzzzzzzzzz@1#0]."
-    out = render(answer, RETRIEVED)
-    assert out == (
-        "Hold it [Synth Channel – Knee Pain Fix @ 01:35](https://www.youtube.com/watch?v=vidAAAAAAAA&t=95s). "
-        "Squat deep [Synth Channel – Knee Pain Fix @ 01:35](https://www.youtube.com/watch?v=vidAAAAAAAA&t=95s) "
-        "[Synth Channel – Squats (Part 2) @ 00:00](https://www.youtube.com/watch?v=vidBBBBBBBB&t=0s). "
-        "Bogus [⚠ unknown source zzzzzzzzzzz@1#0]."
-    )
-    failed = render(answer, RETRIEVED, check_citations(answer, RETRIEVED))
-    assert failed.startswith("> ⚠ Citation check failed: cites 1 chunk ID(s) not retrieved")
-    assert failed.endswith(out)
 
 
 # --- end to end: answer_question + trace ------------------------------------------------

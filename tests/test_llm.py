@@ -52,9 +52,9 @@ def test_ollama_timeout_configurable(monkeypatch, fake_init):
 
 def test_roles_switch_independently(monkeypatch, fake_init):
     monkeypatch.setenv("COACH_MODEL", "anthropic:claude-sonnet-5-5")
-    monkeypatch.setenv("ROUTER_MODEL", "ollama:qwen3:4b")
+    monkeypatch.setenv("VERIFIER_MODEL", "ollama:qwen3:4b")
     get_llm("coach")
-    get_llm("router")
+    get_llm("verifier")
     assert [c.args[0] for c in fake_init.call_args_list] == [
         "anthropic:claude-sonnet-5-5",
         "ollama:qwen3:4b",
@@ -92,10 +92,10 @@ def test_real_classes_built_without_network(monkeypatch):
     """Construct the real provider classes (no request is made on construction)."""
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test-not-real")
     monkeypatch.setenv("COACH_MODEL", "anthropic:claude-sonnet-5-5")
-    monkeypatch.setenv("ROUTER_MODEL", "ollama:qwen3:4b")
+    monkeypatch.setenv("VERIFIER_MODEL", "ollama:qwen3:4b")
 
     claude = get_llm("coach")
-    local = get_llm("router")
+    local = get_llm("verifier")
 
     assert isinstance(claude, ChatAnthropic)
     assert claude.model == "claude-sonnet-5-5"

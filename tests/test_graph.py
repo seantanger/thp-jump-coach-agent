@@ -6,6 +6,7 @@ from langchain_core.outputs import ChatGeneration, ChatResult
 from pydantic import Field
 
 from src.coach.graph import build_graph
+from src.llm import ROLES
 from src.prompts import available_versions, load_prompt
 
 
@@ -63,7 +64,7 @@ def test_tool_error_is_returned_to_model_not_raised():
 
 
 def test_every_agent_has_a_versioned_prompt():
-    for agent in ("coach", "planner", "verifier", "safety", "router"):
+    for agent in ROLES:
         assert available_versions(agent), agent
         prompt = load_prompt(agent)
         assert "physio" in prompt.lower()  # shared rules are included

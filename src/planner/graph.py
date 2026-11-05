@@ -45,7 +45,7 @@ class PlanState(MessagesState):
     saved_version: int | None
 
 
-def _now() -> datetime:
+def now() -> datetime:
     return datetime.now().replace(microsecond=0)
 
 
@@ -124,7 +124,7 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
             if proposal.decision == "decline":  # e.g. a missing fact: show the athlete why, save nothing
                 tracer.log("review", declined=True, summary=proposal.summary)
                 return {"proposal": proposal.model_dump(mode="json"), "status": "declined"}
-            candidate = merge_proposal(current, proposal, profile, _now())
+            candidate = merge_proposal(current, proposal, profile, now())
             if candidate.macrocycle.template_id not in templates:
                 raise ValueError(f"template_id {candidate.macrocycle.template_id!r} is not a reviewed template; "
                                  f"use one of {sorted(templates)}")

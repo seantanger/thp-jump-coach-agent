@@ -5,7 +5,7 @@ from __future__ import annotations
 import sqlite3
 import uuid
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
 from typing import Literal
 
@@ -13,7 +13,7 @@ from langchain_core.language_models import BaseChatModel
 from langgraph.types import Command
 
 from src.kb.paths import athlete_dir, traces_dir
-from src.planner.graph import Verify, build_plan_graph
+from src.planner.graph import Verify, build_plan_graph, now  # noqa: F401 - now is used by callers
 from src.planner.merge import Change
 from src.planner.templates import TEMPLATE_METHOD
 from src.tools import retrieval_config, retrieval_settings
@@ -51,10 +51,6 @@ def default_verifier():
 
 def _verifier(verify):
     return default_verifier() if verify is DEFAULT else verify
-
-
-def now() -> datetime:
-    return datetime.now().replace(microsecond=0)
 
 
 _SAVER = None
