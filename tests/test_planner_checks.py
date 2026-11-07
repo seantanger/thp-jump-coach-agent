@@ -22,7 +22,8 @@ def tendon_template() -> Template:
     data["cycles"] = [
         {"id": f"stage{i}", "name": f"Stage {i}", "emphasis": "tendon", "goal": "g", "weeks": None,
          "entry_criteria": "e", "exit_criteria": "x", "primes_next": None, "allowed_jumping": allowed, "cites": [C],
-         "day_types": [{"id": "elastic", "label": "Elastic", "cites": [C]}, {"id": "hsr", "label": "HSR", "cites": [C]}],
+         "day_types": [{"id": "elastic", "label": "Elastic", "cites": [C]}, {"id": "hsr", "label": "HSR", "cites": [C]},
+                       {"id": "iso_only", "label": "Isometrics only", "cites": [C]}],
          "prescriptions": [{"day_type": "elastic", "exercise": ex, "equipment": ["box"], "sets": None,
                             "reps": {"min": 10, "max": 20}, "intensity": None, "rest": None, "notes": None,
                             "cites": [C]} for ex in ("depth drop", "box jump")]}
@@ -121,6 +122,19 @@ def test_calendar_allows_template_back_to_back_pair():
     program.tendon_track = TendonTrack(template_id="synth_tendon", stage_id="stage1", entered_on=MON,
                                        gate_to_next="x", allowed_jumping=["depth drop"], cites=[C])
     assert check(program) == []
+
+
+def test_calendar_does_not_count_isometrics_only_tendon_days():
+    # Daily isometrics on top of one elastic + heavy-slow pair: 7 days for a 3-day athlete, Thu-Sun not available.
+    iso = [day(MON + timedelta(days=i), "iso_only", []) for i in range(2, 7)]
+    program = candidate(weeks=[week(days=[day(MON, "elastic", [session("depth drop", None, 10, None)]),
+                                          day(MON + timedelta(days=1), "hsr", []), *iso])])
+    program.tendon_track = TendonTrack(template_id="synth_tendon", stage_id="stage1", entered_on=MON,
+                                       gate_to_next="x", allowed_jumping=["depth drop"], cites=[C])
+    assert check(program, who=profile(days_per_week=3)) == []
+    program.weeks[0].days[3].day_type = "elastic"   # Thu: spacing is fine, but a hard tendon day still counts
+    failures = check(program, who=profile(days_per_week=2))
+    assert {f.reason for f in failures} == {"3 training days > 2 per week", "thu is not an available day"}
 
 
 def test_calendar_event_needs_taper_and_min_loading():

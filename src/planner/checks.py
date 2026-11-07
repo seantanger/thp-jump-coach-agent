@@ -140,8 +140,12 @@ def _calendar(ctx: _Context, candidate, weeks, profile: Profile, today: date) ->
     for w in candidate.weeks:
         path = f"weeks[{w.start}]"
         meso = mesos[w.mesocycle_index] if w.mesocycle_index < len(mesos) else None
-        if w.start in changed and len(w.days) > profile.days_per_week:
-            failures.append(_fail("calendar", path, f"{len(w.days)} training days > {profile.days_per_week} per week"))
+        # Tendon days with no hard work (isometrics, rest) run daily by design; they aren't training days.
+        light = {d.date for d in w.days if ctx.for_day(w, d)[0] is ctx.tendon
+                 and d.day_type not in ctx.tendon.scheduling.hard_day_types}
+        training = len(w.days) - len(light)
+        if w.start in changed and training > profile.days_per_week:
+            failures.append(_fail("calendar", path, f"{training} training days > {profile.days_per_week} per week"))
         for d in w.days:
             dpath = f"{path}.days[{d.date}]"
             if not w.start <= d.date <= w.start + timedelta(days=6):
@@ -150,7 +154,7 @@ def _calendar(ctx: _Context, candidate, weeks, profile: Profile, today: date) ->
                 failures.append(_fail("calendar", dpath, "day outside its mesocycle"))
             if w.start in changed and d.date < today:
                 failures.append(_fail("calendar", dpath, f"scheduled in the past (today is {today})"))
-            if w.start in changed and WEEKDAYS[d.date.weekday()] not in profile.available_days:
+            if w.start in changed and d.date not in light and WEEKDAYS[d.date.weekday()] not in profile.available_days:
                 failures.append(_fail("calendar", dpath, f"{WEEKDAYS[d.date.weekday()]} is not an available day"))
     failures += _spacing(ctx, candidate, changed)
     failures += _event(ctx, candidate)
