@@ -124,7 +124,7 @@ report. Output, all in `$THP_DATA_DIR/chunks/`:
 |---|---|
 | `timewindow.jsonl` | **Main.** Windows of whole caption segments: ~60 s target, 30 s min, 90 s max (a longer chunk is always a single segment). Within the 30-90 s range it cuts at the largest pause; pauses within 0.25 s of the largest count as ties, and the one closest to 60 s wins. The segments that start in the last ~10 s (at least the last segment) are repeated at the start of the next chunk. Empty segments are dropped. Settings: `TIMEWINDOW_CONFIG` in `src/kb/chunk.py`. |
 | `charsplit_350.jsonl` | Course baseline (mod-5-seed): segments joined with spaces, `RecursiveCharacterTextSplitter(chunk_size=350, chunk_overlap=50)`. |
-| `charsplit_matched.jsonl` | Same splitter, `chunk_size` searched so its median chunk length matches timewindow's (overlap kept at the course's 50/350 ratio). |
+| `charsplit_matched.jsonl` | Same splitter, `chunk_size=937, chunk_overlap=134`: sized so its median chunk length matched timewindow's on the 2026-10 corpus (course's 50/350 overlap ratio). Fixed so new videos don't change existing chunk IDs, which templates cite. |
 | `report.md` | Per-method counts and distributions, mid-segment cuts, promo flags, skipped videos, 15 seeded sample chunks with links, embedding timing. |
 
 Pauses are *estimated*: almost all the captions are YouTube auto-captions in

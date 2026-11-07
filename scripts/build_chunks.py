@@ -21,6 +21,7 @@ from pathlib import Path
 
 from src.kb.chunk import (
     CHARSPLIT_CONFIG,
+    MATCHED_CONFIG,
     TIMEWINDOW_CONFIG,
     charsplit_chunks,
     join_segments,
@@ -35,7 +36,6 @@ from src.kb.paths import chunks_dir, data_dir
 METHODS = ("timewindow", "charsplit_350", "charsplit_matched")
 SAMPLE_SEED = 42
 SAMPLE_SIZE = 15
-MATCH_TOLERANCE = 0.02  # stop the size search within 2% of timewindow's median length
 TIMING_MARKER = "<!-- embedding timing: written by scripts/time_embeddings.py -->"
 
 
@@ -68,26 +68,6 @@ def percentiles(values: list[float]) -> dict[str, float]:
         return xs[lo] + (xs[hi] - xs[lo]) * (pos - lo)
 
     return {"min": xs[0], "p10": q(0.1), "median": q(0.5), "p90": q(0.9), "max": xs[-1]}
-
-
-def matched_charsplit_config(videos: list[dict], target_chars: float, patterns) -> dict:
-    """chunk_size whose median chunk length is within MATCH_TOLERANCE of
-    target_chars, keeping the course's overlap ratio (50/350)."""
-    ratio = CHARSPLIT_CONFIG["chunk_overlap"] / CHARSPLIT_CONFIG["chunk_size"]
-    size = round(target_chars)
-    for _ in range(8):
-        cfg = {"chunk_size": size, "chunk_overlap": round(size * ratio)}
-        lengths = [
-            len(c["text"])
-            for v in videos
-            for c in charsplit_chunks(v, cfg, "charsplit_matched", patterns)
-        ]
-        median = statistics.median(lengths)
-        print(f"  chunk_size={size}: median {median:.0f} chars (target {target_chars:.0f})")
-        if abs(median - target_chars) / target_chars <= MATCH_TOLERANCE:
-            break
-        size = round(size * target_chars / median)
-    return cfg
 
 
 def _fmt(stats: dict[str, float], digits: int = 0) -> str:
@@ -195,11 +175,8 @@ def main() -> None:
     outputs = {"timewindow": [c for v in included for c in timewindow_chunks(v, patterns=patterns)]}
     target = statistics.median(len(c["text"]) for c in outputs["timewindow"])
     print(f"timewindow: {len(outputs['timewindow'])} chunks, median {target:.0f} chars")
-
-    print("Searching charsplit_matched settings:")
-    matched = matched_charsplit_config(included, target, patterns)
     configs = {"timewindow": TIMEWINDOW_CONFIG, "charsplit_350": CHARSPLIT_CONFIG,
-               "charsplit_matched": matched}
+               "charsplit_matched": MATCHED_CONFIG}
     for method in ("charsplit_350", "charsplit_matched"):
         outputs[method] = [
             c for v in included for c in charsplit_chunks(v, configs[method], method, patterns)

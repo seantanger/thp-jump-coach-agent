@@ -7,6 +7,7 @@ import pytest
 
 from src.kb.chunk import (
     CHARSPLIT_CONFIG,
+    MATCHED_CONFIG,
     TIMEWINDOW_CONFIG,
     charsplit_chunks,
     format_timestamp,
@@ -241,3 +242,8 @@ def test_skip_reasons(overrides, reason):
 
 def test_long_coaching_video_included():
     assert skip_reasons(video(synthetic_segments(n=5))) == []
+
+
+def test_matched_config_is_pinned():
+    # Templates cite charsplit_matched IDs; changing the size re-splits every video and breaks them.
+    assert MATCHED_CONFIG == {"chunk_size": 937, "chunk_overlap": 134}

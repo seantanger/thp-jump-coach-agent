@@ -35,9 +35,11 @@ TIMEWINDOW_CONFIG = {
     "pause_tie_s": 0.25,  # pauses this close to the largest count as ties -> nearest target wins
 }
 
-# Course settings (mod-5-seed). The size-matched variant is computed by
-# scripts/build_chunks.py and keeps the same overlap ratio.
+# Course settings (mod-5-seed).
 CHARSPLIT_CONFIG = {"chunk_size": 350, "chunk_overlap": 50}
+# Same splitter sized to timewindow's median chunk (~940 chars) on the 2026-10 corpus, same overlap ratio.
+# Fixed, not re-searched: template citations are charsplit_matched IDs, and a new size re-splits every video.
+MATCHED_CONFIG = {"chunk_size": 937, "chunk_overlap": 134}
 
 
 # --- eligibility / segments -------------------------------------------------
