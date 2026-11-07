@@ -5,14 +5,14 @@ Where things stand, and everything still to do on the Planner (M4) and around it
 ## Where things stand
 
 - **Branch `m4-planner`**: plan 1 (stages 1–4) Tasks 1–9 done and committed, plus the audit fixes
-  below; **203 tests pass**. The last 13 commits are not pushed yet (`origin/m4-planner` is behind).
+  below; **204 tests pass**. The last 16 commits are not pushed yet (`origin/m4-planner` is behind).
 - **Nothing is merged.** `main` is still at Phase 3 (`7c56592`); `m2-retrieval`, `m3-qa` and
   `m4-planner` are stacked on top of each other.
 - **Built:** templates schema + loader, profile / program / proposal formats, versioned program store
   (never overwrites), 8 code checks, Planner graph (caps, ≤ 2 retries, approve / reject / revise
   pause), `plan` CLI, UI Plan tab, Verifier for plans and Coach answers, shorter Coach answers (v4 +
   compact view), physio line only for pain questions, Coach moved to `src/coach/`.
-- **Drafted, waiting for your review:** the two templates in `~/git/thp-ai/data/templates/`.
+- **Reviewed 2026-11-06:** the two templates in `~/git/thp-ai/data/templates/`.
 
 Key files: spec `docs/superpowers/specs/2026-10-30-planner-design.md`, plan
 `docs/superpowers/plans/2026-10-30-planner-stages-1-4.md`, progress ledger with every decision I made
@@ -52,22 +52,28 @@ Left over from the fixes:
 
 ---
 
-## 1. Review the templates (only you can do this)
+## 1. Review the templates — done 2026-11-06
 
-Read `~/git/thp-ai/data/templates/REVIEW.md` (≈ 20–30 min). Check a value against its source with
-`uv run python -m scripts.template_sources <video_id> --grep "<words>"`.
+Both templates are marked `reviewed_by_user: true`; decisions and sources are in
+`~/git/thp-ai/data/templates/REVIEW.md` §5.
 
-Decisions waiting on you:
-
-- [ ] **Training days:** month 1 says "train about 3 days a week" but also lift Mon/Wed/Fri + general
-      Tue/Thu. Read as 3 lift days plus general days on top — right?
-- [ ] **Months 4–6 length:** the video says "month four/five/six" without weeks. Set 4 weeks each?
-- [ ] **Unload weeks:** volume × 0.4 (≈ 60% drop, *28 Rules*), not the proposal's × 0.7. OK?
-- [ ] **Event < 6 months away:** transcripts don't say which months to drop, so the Planner shortens
-      only down to 12 loading weeks + taper and says so. OK?
-- [ ] **Reactive flare-up stage** added before the knee video's four phases. Keep?
-- [ ] Anything else in REVIEW.md that looks wrong.
-- [ ] When happy: set `review.reviewed_by_user: true` in both YAML files (or tell Claude to).
+- [x] **Training days:** "about" 3 — 2–4 hard days by how you handle them (3 lifts + jump when feeling
+      good, 2 lifts + jump when beat up, busy or in season; ~4 is THP's ceiling); general days optional.
+- [x] **Months 4–6:** 4 weeks each.
+- [x] **Unload weeks:** THP default (every 3–4 weeks, volume −60%, intensity high), moved by how you feel
+      (beat up → now; fresh → week 4, half unload OK; still thrashed → another). Never skipped.
+- [x] **Event < 6 months:** shorten down to 12 loading weeks + taper.
+- [x] **Reactive flare-up stage:** kept.
+- [x] **Exact exercises or slots:** exact lists are the default for now; slots later (§6 "Planner variety").
+- [x] Review fixes: weekly jump session after the last lift day (it had no legal slot), month-4 note moved,
+      month-6 warm-up jumps, feel-based gates (applied by code in plan 2).
+- [ ] **Later: collect the ~100 videos posted since 2026-10-17** (2 long John Evans, ~102 THP Strength
+      clips incl. a beginner 30-day program, week-by-week progression, annual planning, tendon rehab;
+      Shorts stay uncollected). You run, since Claude can't write `data/raw` / `data/clean`:
+      `cd ~/git/thp-ai && uv run scripts/list_videos.py && uv run scripts/collect.py --tab videos &&
+      uv run scripts/clean.py`, then `uv run python -m scripts.build_chunks` here; rebuild the dense
+      index when the Mac is free (BM25 works without it). Old chunk IDs don't change. Do it before
+      drafting slots so their options can use the new videos.
 
 ## 2. Try things out (Task 10, first real runs)
 
@@ -169,6 +175,20 @@ other; they share only the tool loop, the rules and the Verifier.
 - [ ] **Direct-edit test cases** (you review them), e.g. upper body on general days, core at the end,
       bodybuilding, jumping every day, pickup basketball, 4×3 instead of 5×4, trap-bar swap, skipping
       the deload, jumping through knee pain in a tendon stage, running on general days.
+- [ ] **Planner variety (within THP principles).** Today exercise choice and sets / reps / intensity
+      must match the template unless a session has a `deviation` (reason + retrieved cite, or asked
+      for by the athlete), and the prompt says to deviate only "if you must", so plans copy the
+      template. Calendar, spacing, week volume, tendon jump lists, red flags and real cites stay
+      strict throughout. Loosen one step at a time, measured with the eval:
+  - [ ] *First, fix two gaps:* a deviated exercise skips the equipment check (it only looks at the
+        template's prescription); the Verifier prompt never mentions deviations, so a weak reason
+        passes.
+  - [ ] *Step 1, prompt:* allow purposeful swaps (same job on that day type, found with
+        `search_library`, marked as a deviation), with a code cap of 1–2 swapped sessions per week.
+  - [ ] *Step 2, templates:* day types as slots (e.g. "heavy lower compound, 3–5 × 3–5", "elastic
+        jumps") listing the transcripts' exercise options; any option passes fidelity without a
+        deviation. Needs your review (see §1 "Exact exercises or slots?").
+  - [ ] *Step 3, Verifier:* add "does each deviation fit this cycle's emphasis and THP principles?"
 - [ ] **Evaluation:** ~10 planning questions with gold clips; 3–5 simulated athletes (standard,
       event in 10 weeks, knee pain, 3 days/week, no gym); edit cases; tokens and cost.
 
