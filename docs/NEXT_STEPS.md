@@ -5,7 +5,7 @@ Where things stand, and everything still to do on the Planner (M4) and around it
 ## Where things stand
 
 - **Branch `m4-planner`**: plan 1 (stages 1–4) Tasks 1–9 done and committed, plus the audit fixes
-  below; **203 tests pass**. The last 12 commits are not pushed yet (`origin/m4-planner` is behind).
+  below; **203 tests pass**. The last 13 commits are not pushed yet (`origin/m4-planner` is behind).
 - **Nothing is merged.** `main` is still at Phase 3 (`7c56592`); `m2-retrieval`, `m3-qa` and
   `m4-planner` are stacked on top of each other.
 - **Built:** templates schema + loader, profile / program / proposal formats, versioned program store
@@ -129,15 +129,36 @@ About 1,500 lines for the Planner. Reading `graph.py` next to your first plan's 
 
 ## 6. Plan 2 (stages 5–8) — to be written after the template review
 
-Coordination first, then the remaining input types:
+Coordination first, then the remaining input types. Today the Coach and Planner never talk to each
+other; they share only the tool loop, the rules and the Verifier.
 
-- [ ] **Parent graph:** one graph with safety → router → Coach / Planner subgraphs → Verifier, one
-      trace per run (the standard LangGraph multi-agent shape; your "Multi-agent coordination" row).
+- [ ] **Chat plan requests go to the Planner.** When `route()` says "program", call
+      `run.start(..., request=message)` and show the proposal for approval instead of the "use the Plan
+      tab" hint (`start()` already takes `request`; nothing passes it yet). Red-flag check stays first.
+      Pairs with "Life changes" below. Update the §4 manual check when this lands.
 - [ ] **Safety on the Planner route** (red-flag check on any free-text plan request, including the
-      Revise comment, which still skips it).
-- [ ] **Coach reads your plan** (`get_program`) so answers fit your current month and week.
-- [ ] *Optional:* one model-driven **handoff** Coach → Planner ("add that to my plan"), capped at one
-      per message, approval still required.
+      Revise comment, which still skips it). Needed as soon as chat requests reach the Planner.
+- [ ] **Coach reads your plan and profile** (read-only `get_program`, `get_profile`) so answers fit
+      your current month and week. Small.
+- [ ] **Thin parent graph:** safety → router → Coach / Planner subgraphs, one trace per message (the
+      standard LangGraph multi-agent shape; your "Multi-agent coordination" row). Keep it thin: it
+      mostly does what `route()` does now.
+- [ ] *Optional, decide after the eval:* one model-driven **handoff** Coach → Planner for mixed messages
+      ("add that to my plan"), capped at one per message, approval still required. Only if mixed
+      messages come up often enough to matter.
+- [ ] *Optional experiment, after the eval set exists:* **single-agent baseline** — one agent with both
+      tool sets and one merged prompt, still wrapped in the same code checks, approval and Verifier.
+      Compare with the two-agent setup on the same QA + planning questions: citation pass rate,
+      Verifier failures, safety cases, plan check failures, tokens and cost. Answers "is the Coach
+      redundant?" with numbers (fits next to the no-retrieval baseline in M5).
+- [ ] **Small LangChain / LangGraph swaps** (cleanup, ≈ −20 lines, no new deps):
+      Planner `after_planner` → `tools_condition` with `{END: "review"}`; Verifier → 
+      `with_structured_output(VerifierResult)` (check Ollama too); `parse_answer` / `parse_proposal`
+      fences → `langchain_core.utils.json.parse_json_markdown`; `qa.py` token sum →
+      `get_usage_metadata_callback()` (also counts Verifier tokens); `require_search` → force the first
+      turn with `tool_choice="search_library"` instead of discarding an answer. Not worth it:
+      `ToolNode` (parallel calls break the search-cap order and the retrieval `ContextVar`), or
+      `create_agent` + `ToolCallLimitMiddleware` (only if the parent graph rewrite happens anyway).
 - [ ] **Life changes:** `plan change "only 3 days a week now"`, event dates, equipment, "this week only
       Tue/Thu/Sat".
 - [ ] **Training log + gates:** `log_session` (done / modified / missed), morning pain, next-day pain,
