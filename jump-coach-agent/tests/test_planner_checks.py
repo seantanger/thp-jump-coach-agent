@@ -189,3 +189,49 @@ def test_gates_fail_on_unknown_tendon_template_or_stage(template_id, stage_id):
 def test_equipment_missing_fails():
     failures = check(candidate(), who=profile(equipment=["box"]))
     assert set(kinds(failures)) == {"equipment"} and "barbell" in failures[0].reason
+
+
+def swapped(name, equipment=()):
+    return session(name, deviation=Deviation(reason="same job, found by search", cites=[C], equipment=list(equipment)))
+
+
+def test_equipment_is_checked_for_a_deviated_exercise():
+    w = week(days=[day(MON, "lift", [swapped("trap bar deadlift", ["trap bar"])])])
+    failures = check(candidate(weeks=[w]))
+    assert kinds(failures) == ["equipment"] and "trap bar" in failures[0].reason
+    w.days[0].sessions[0] = swapped("trap bar deadlift", ["barbell"])
+    assert check(candidate(weeks=[w])) == []
+
+
+def test_at_most_two_swapped_exercises_per_week():
+    names = ["trap bar deadlift", "split squat", "calf raise"]
+    w = week(days=[day(MON + timedelta(days=2 * i), "lift", [swapped(n)]) for i, n in enumerate(names)])
+    failures = check(candidate(weeks=[w]))
+    assert kinds(failures) == ["fidelity"] and "swapped" in failures[0].reason
+    w = week(days=[day(MON + timedelta(days=2 * i), "lift", [swapped(n)]) for i, n in enumerate(names[:2] * 2)][:3])
+    assert check(candidate(weeks=[w])) == []   # the same two exercises on three days still count as two
+
+
+def slot_templates():
+    data = template_dict()
+    slot = {"day_type": "lift", "exercise": "lower-body accessory", "equipment": [], "sets": {"min": 2, "max": 5},
+            "reps": {"min": 8, "max": 12}, "intensity": None, "rest": None, "notes": None, "cites": [C],
+            "options": [{"exercise": "RDL", "equipment": ["barbell"], "cites": [C]},
+                        {"exercise": "leg curl", "equipment": ["curl machine"], "cites": [C]}]}
+    data["cycles"][0]["prescriptions"].append(slot)
+    return {"synth_macro": Template.model_validate(data), "synth_tendon": TEMPLATES["synth_tendon"]}
+
+
+def check_slots(program, who=None):
+    return run_checks(program, previous=None, profile=who or profile(), templates=slot_templates(),
+                      retrieved_ids=RETRIEVED, gates=[], today=TODAY)
+
+
+def test_slot_option_needs_no_deviation_and_uses_its_own_equipment():
+    w = week(days=[day(MON, "lift", [session("RDL", 3, 10, None)])])
+    assert check_slots(candidate(weeks=[w])) == []
+    w.days[0].sessions[0] = session("leg curl", 3, 10, None)
+    failures = check_slots(candidate(weeks=[w]))
+    assert kinds(failures) == ["equipment"] and "curl machine" in failures[0].reason
+    w.days[0].sessions[0] = session("RDL", 9, 10, None)           # the slot's sets range still applies
+    assert kinds(check_slots(candidate(weeks=[w]))) == ["fidelity"]

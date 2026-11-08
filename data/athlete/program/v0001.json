@@ -1,8 +1,8 @@
 {
   "version": 1,
   "based_on": null,
-  "created_at": "2026-11-08T14:23:16",
-  "change_summary": "A new 6-month long-conjugate plan from 2026-11-09 to 2027-04-25, in six 4-week mesocycles, from month 1 volume building to month 6 specificity. Detailed days are written for weeks 1 and 2 of month 1 (Nov 9–21). Each week has three lift days on Mon/Wed/Fri, general days on Tue/Thu, and a Saturday jump session, with Sunday off.",
+  "created_at": "2026-11-08T15:21:19",
+  "change_summary": "Proposes a 24-week long-conjugate macrocycle from Mon 2026-11-09 to 2027-04-25 with six monthly mesocycles. Month 1 week 4 is the unload. Day-by-day sessions are written for the first two weeks (Nov 9–22): lifts Mon/Wed/Fri, general days Tue/Thu, and a jump session Saturday.",
   "profile_snapshot": {
     "training_age_years": 4.0,
     "lifts": {
@@ -32,7 +32,9 @@
       "box",
       "med ball",
       "safety bar",
-      "belt squat"
+      "belt squat",
+      "bench",
+      "hamstring curl machine"
     ],
     "event": null,
     "goal": "Dunk off two feet. Approach vertical about 31-33 in, standing reach about 7 ft 2-3 in (needs roughly 10 ft 6 in touch). Back squat is a deep squat; half squat estimated.",
@@ -51,7 +53,7 @@
     "cites": [
       "Icml891MLHA@35#0",
       "Icml891MLHA@105#0",
-      "bFezqBUmWO4@242#0"
+      "1sQ-FOxDP5M@0#0"
     ]
   },
   "mesocycles": [
@@ -62,9 +64,9 @@
       "emphasis": "volume",
       "start": "2026-11-09",
       "end": "2026-12-06",
-      "goal": "Build work capacity with general work that looks little like jumping; deload in week 4.",
+      "goal": "Build work capacity with general work that looks little like jumping; week 4 (Nov 30–Dec 6) is the unload.",
       "entry_criteria": "Start of the macrocycle.",
-      "exit_criteria": "Four weeks done, including the week-4 deload.",
+      "exit_criteria": "Four weeks done, including the week-4 unload.",
       "primes_next": "Volume built here is intensified in month 2.",
       "cites": [
         "Icml891MLHA@141#0",
@@ -79,10 +81,10 @@
       "emphasis": "intensification (power and 6–8 rep strength)",
       "start": "2026-12-07",
       "end": "2027-01-03",
-      "goal": "Intensify the month-1 volume; Olympic pulls and power cleans for two-foot jumpers; accessories prime month 3.",
+      "goal": "Intensify the month-1 volume with clean pulls and power cleans; accessories prime month 3.",
       "entry_criteria": "Month 1 done.",
       "exit_criteria": "Month done.",
-      "primes_next": "Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.",
+      "primes_next": "Heavier RDL and calf raises at 4–6 reps lead into the absolute-strength month.",
       "cites": [
         "Icml891MLHA@244#0",
         "Icml891MLHA@282#0",
@@ -98,23 +100,22 @@
       "end": "2027-01-31",
       "goal": "Heavy squats and heavy clean pulls; eccentric accessories prime month 4.",
       "entry_criteria": "Month 2 done.",
-      "exit_criteria": "About 3 weeks done (4 weeks scheduled including the unload).",
-      "primes_next": "Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.",
+      "exit_criteria": "About 3–4 weeks done.",
+      "primes_next": "Nordics and 2-up-1-down calf raises lead into the eccentric lifts of month 4.",
       "cites": [
         "Icml891MLHA@320#0",
         "Icml891MLHA@354#0",
-        "Icml891MLHA@390#0",
-        "Icml891MLHA@427#0"
+        "Icml891MLHA@390#0"
       ]
     },
     {
       "index": 3,
       "cycle_id": "m4_strength_speed",
-      "name": "Month 4 – strength-speed (fast bars, eccentric overload)",
-      "emphasis": "strength-speed",
+      "name": "Month 4 – strength-speed",
+      "emphasis": "strength-speed (fast bars, eccentric overload)",
       "start": "2027-02-01",
       "end": "2027-02-28",
-      "goal": "Power clean to maxes; accentuated eccentric squats and eccentric split squats; general days get more general.",
+      "goal": "Power clean to maxes; accentuated eccentric squats and split squats; general days get more general.",
       "entry_criteria": "Month 3 done.",
       "exit_criteria": "Month done.",
       "primes_next": "Elastic accessories (high-velocity calf raises, drop RDLs) lead into month 5's speed work.",
@@ -128,14 +129,14 @@
     {
       "index": 4,
       "cycle_id": "m5_speed_strength",
-      "name": "Month 5 – speed-strength (bar speed)",
-      "emphasis": "speed-strength",
+      "name": "Month 5 – speed-strength",
+      "emphasis": "speed-strength (bar speed)",
       "start": "2027-03-01",
       "end": "2027-03-28",
-      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); blend a heavy primer with high-velocity squats; start shock loading at low plyo volume.",
+      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); a heavy squat primer plus high-velocity squats; start low-volume shock loading.",
       "entry_criteria": "Month 4 done.",
       "exit_criteria": "Month done.",
-      "primes_next": "Shock-loading accessories (med ball throws, low plyo volume) lead into month 6.",
+      "primes_next": "Med ball throws and low plyo volume lead into month 6.",
       "cites": [
         "Icml891MLHA@572#0",
         "Icml891MLHA@609#0",
@@ -150,9 +151,9 @@
       "emphasis": "specificity",
       "start": "2027-03-29",
       "end": "2027-04-25",
-      "goal": "Specificity at its highest; the most plyo intensity and variety of the year; accessories become general and slow.",
+      "goal": "Highest specificity, the most plyo intensity and variety of the year; accessories become general and slow.",
       "entry_criteria": "Month 5 done.",
-      "exit_criteria": "Month done; taper follows.",
+      "exit_criteria": "Month done; taper would follow if an event is set.",
       "primes_next": "Taper.",
       "cites": [
         "Icml891MLHA@681#0",
@@ -179,7 +180,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first; crisp bar speed, moderate load.",
+              "notes": "Power exercise first; crisp, fast reps at a load that moves well.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -195,7 +196,7 @@
                 "unit": "%"
               },
               "rest": null,
-              "notes": "Higher-rep end, so the lower intensity.",
+              "notes": "About 145 lb (65% of 225 lb); deep squat, controlled.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -203,15 +204,15 @@
               "deviation": null
             },
             {
-              "exercise": "general lower-body accessory",
+              "exercise": "RDL",
               "sets": 3,
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "e.g. sumo deadlift.",
+              "notes": "Hip hinge; general hamstring work that does not mimic jumping.",
               "cites": [
-                "Icml891MLHA@141#0",
-                "Icml891MLHA@174#0"
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
               ],
               "deviation": null
             }
@@ -227,7 +228,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Easy bodyweight or bodybuilding circuit with plenty of variety; keep it general.",
+              "notes": "Bodyweight or bodybuilding circuit with many different movements; easy and optional.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -255,13 +256,13 @@
             {
               "exercise": "back squat",
               "sets": 4,
-              "reps": 10,
+              "reps": 8,
               "intensity": {
-                "value": 65.0,
+                "value": 68.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": null,
+              "notes": "About 153 lb (68% of 225 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -269,15 +270,15 @@
               "deviation": null
             },
             {
-              "exercise": "general lower-body accessory",
+              "exercise": "hip thrust",
               "sets": 3,
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "e.g. unilateral work.",
+              "notes": "Heavy loading with little risk; hips rather than knees.",
               "cites": [
-                "Icml891MLHA@141#0",
-                "Icml891MLHA@174#0"
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0"
               ],
               "deviation": null
             }
@@ -293,7 +294,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Easy circuit; optional and the first thing to drop if tired.",
+              "notes": "Different movements from Tuesday; keep it easy.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -321,13 +322,13 @@
             {
               "exercise": "back squat",
               "sets": 4,
-              "reps": 10,
+              "reps": 6,
               "intensity": {
-                "value": 65.0,
+                "value": 70.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": null,
+              "notes": "About 158 lb (70% of 225 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -335,15 +336,15 @@
               "deviation": null
             },
             {
-              "exercise": "general lower-body accessory",
+              "exercise": "lying hamstring curl",
               "sets": 3,
-              "reps": 10,
+              "reps": 12,
               "intensity": null,
               "rest": null,
-              "notes": "e.g. sumo deadlift.",
+              "notes": "Barely taxing; finish the session with it.",
               "cites": [
-                "Icml891MLHA@141#0",
-                "Icml891MLHA@174#0"
+                "I1baSIlV_pQ@408#0",
+                "3vmd30VvzRA@855#0"
               ],
               "deviation": null
             }
@@ -377,10 +378,9 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Max-effort jumping; stop if knee pain rises above about 2–3/10.",
+              "notes": "Max-effort jumping at the end.",
               "cites": [
-                "Icml891MLHA@792#0",
-                "72YX7nkYmYE@142#0"
+                "Icml891MLHA@792#0"
               ],
               "deviation": null
             }
@@ -404,7 +404,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first.",
+              "notes": "Power exercise first; add load only if the bar stays fast.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -414,13 +414,13 @@
             {
               "exercise": "back squat",
               "sets": 5,
-              "reps": 8,
+              "reps": 10,
               "intensity": {
-                "value": 68.0,
+                "value": 65.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "Fewer reps, so slightly higher intensity.",
+              "notes": "About 145 lb; one more set than last week.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -428,15 +428,15 @@
               "deviation": null
             },
             {
-              "exercise": "general lower-body accessory",
+              "exercise": "lying hamstring curl",
               "sets": 3,
               "reps": 12,
               "intensity": null,
               "rest": null,
-              "notes": "e.g. sumo deadlift.",
+              "notes": "Easy accessory at the end of the session.",
               "cites": [
-                "Icml891MLHA@141#0",
-                "Icml891MLHA@174#0"
+                "I1baSIlV_pQ@408#0",
+                "3vmd30VvzRA@855#0"
               ],
               "deviation": null
             }
@@ -452,7 +452,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Easy circuit with variety.",
+              "notes": "Many different movements; easy and optional.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -486,7 +486,7 @@
                 "unit": "%"
               },
               "rest": null,
-              "notes": null,
+              "notes": "About 153 lb.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -494,15 +494,15 @@
               "deviation": null
             },
             {
-              "exercise": "general lower-body accessory",
+              "exercise": "Nordic hamstring curl",
               "sets": 3,
-              "reps": 12,
+              "reps": 8,
               "intensity": null,
               "rest": null,
-              "notes": "e.g. unilateral work.",
+              "notes": "Eccentric emphasis; stop short of failure.",
               "cites": [
-                "Icml891MLHA@141#0",
-                "Icml891MLHA@174#0"
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
               ],
               "deviation": null
             }
@@ -518,7 +518,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Easy circuit; optional.",
+              "notes": "Different movements again; keep it easy.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -545,14 +545,14 @@
             },
             {
               "exercise": "back squat",
-              "sets": 5,
-              "reps": 8,
+              "sets": 4,
+              "reps": 6,
               "intensity": {
-                "value": 68.0,
+                "value": 70.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": null,
+              "notes": "About 158 lb.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -560,15 +560,15 @@
               "deviation": null
             },
             {
-              "exercise": "general lower-body accessory",
+              "exercise": "hip thrust",
               "sets": 3,
-              "reps": 12,
+              "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "e.g. sumo deadlift.",
+              "notes": "Hips rather than knees.",
               "cites": [
-                "Icml891MLHA@141#0",
-                "Icml891MLHA@174#0"
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0"
               ],
               "deviation": null
             }
@@ -587,7 +587,7 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Low-effort jumping.",
+              "notes": "Low-effort jumping inside the 40-minute window.",
               "cites": [
                 "Icml891MLHA@792#0"
               ],
@@ -602,10 +602,9 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Max-effort jumping; stop if knee pain rises above about 2–3/10.",
+              "notes": "Max-effort jumping at the end.",
               "cites": [
-                "Icml891MLHA@792#0",
-                "72YX7nkYmYE@142#0"
+                "Icml891MLHA@792#0"
               ],
               "deviation": null
             }

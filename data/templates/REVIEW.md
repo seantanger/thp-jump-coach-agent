@@ -82,3 +82,7 @@ the tendon numbers read against the transcript.
 | Small fixes | Month-4 partial-range note moved from belt squat to clean pull (it is about pulling from blocks); month-6 jump day gets its warm-up jumps; phase 3–4 isometrics cite the 70% MVC source. | 40" 8:21; Knee 2:45 |
 
 Marked `reviewed_by_user: true` in both templates on 2026-11-06 (you approved).
+
+## 6. Slot options for Month 1 (2026-11-08)
+
+Month 1's `general lower-body accessory` now lists `options` (RDL, hip thrust, Nordic hamstring curl, lying hamstring curl, high box step-up, barbell lunge). Any option passes the fidelity check without a deviation; sets, reps and intensity stay the slot's. Each option cites the new-video chunks that name it (`SXjO279Oslw@137`, `I1baSIlV_pQ@408`, `OAsUemGRrpw@891`, `3vmd30VvzRA@855`). **Sumo deadlift dropped** (your call): THP does name it as general-phase work for two-foot jumpers (`Icml891MLHA@174`, `vdFI6b4M0P0@142`) but also says they rarely program it. Equipment names must match the profile's: `bench` and `hamstring curl machine` are not in the current profile, so those two options are filtered out for it. Months 2-6 are unchanged.

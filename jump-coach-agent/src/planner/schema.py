@@ -64,6 +64,7 @@ class Deviation(_Strict):
     reason: str
     cites: list[str]
     requested_by_user: bool = False
+    equipment: list[str] = []  # what a swapped-in exercise needs; the template has no entry to check
 
 
 class Session(_Strict):

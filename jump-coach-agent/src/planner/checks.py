@@ -14,10 +14,11 @@ from pydantic import BaseModel
 
 from src.planner.merge import diff_programs
 from src.planner.schema import WEEKDAYS, Day, GateResult, Profile, Program, Week, cites_in
-from src.planner.templates import Cycle, Range, Scheduling, Template, find_prescription
+from src.planner.templates import Cycle, Range, Scheduling, Template, find_option, find_prescription
 from src.units import ATHLETE_UNIT, Quantity, convert
 
 FIDELITY_TOLERANCE = {"in": 0.5, "lb": 5.0, "%": 1.0}
+MAX_SWAPS_PER_WEEK = 2  # distinct exercises per week that are not in the template (the variety knob)
 
 
 class CheckFailure(BaseModel):
@@ -103,11 +104,14 @@ def _outside(value: float, low: float, high: float, tolerance: float) -> bool:
 
 
 def _fidelity(ctx: _Context, weeks) -> list[CheckFailure]:
-    failures = []
+    failures, swaps = [], {}
     for w, d, s, path in _session_paths(weeks):
-        if s.deviation:
-            continue
         template, cycle = ctx.for_day(w, d)
+        if s.deviation:
+            if not s.deviation.requested_by_user and (find_prescription(
+                    template, cycle.id, d.day_type, s.exercise) if cycle else None) is None:
+                swaps.setdefault(w.start, set()).add(" ".join(s.exercise.lower().split()))
+            continue
         p = find_prescription(template, cycle.id, d.day_type, s.exercise) if cycle else None
         if p is None:
             failures.append(_fail("fidelity", path, f"{s.exercise} is not in {template.id} "
@@ -126,6 +130,9 @@ def _fidelity(ctx: _Context, weeks) -> list[CheckFailure]:
                 problems.append(f"intensity {mine.value:g} {mine.unit} outside {low:.1f}-{high:.1f}")
         if problems:
             failures.append(_fail("fidelity", path, f"{s.exercise}: {'; '.join(problems)}; add a deviation"))
+    failures += [_fail("fidelity", f"weeks[{start}]", f"{len(names)} swapped exercises ({', '.join(sorted(names))}); "
+                       f"at most {MAX_SWAPS_PER_WEEK} per week") for start, names in swaps.items()
+                 if len(names) > MAX_SWAPS_PER_WEEK]
     return failures
 
 
@@ -250,7 +257,9 @@ def _equipment(ctx: _Context, weeks, profile: Profile) -> list[CheckFailure]:
     for w, d, s, path in _session_paths(weeks):
         template, cycle = ctx.for_day(w, d)
         p = find_prescription(template, cycle.id, d.day_type, s.exercise) if cycle else None
-        missing = sorted(e for e in (p.equipment if p else []) if e.lower() not in have)
+        option = find_option(p, s.exercise) if p else None
+        needed = option.equipment if option else p.equipment if p else (s.deviation.equipment if s.deviation else [])
+        missing = sorted(e for e in needed if e.lower() not in have)
         if missing:
             failures.append(_fail("equipment", path, f"{s.exercise} needs {', '.join(missing)}"))
     return failures

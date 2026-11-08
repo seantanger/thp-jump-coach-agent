@@ -49,6 +49,14 @@ class DayType(_Strict):
     cites: list[str]
 
 
+class Option(_Strict):
+    """One exercise that may fill a prescription slot; it uses the slot's sets, reps and intensity."""
+    exercise: str
+    equipment: list[str]
+    notes: str | None = None
+    cites: list[str]
+
+
 class Prescription(_Strict):
     day_type: str
     exercise: str
@@ -59,6 +67,7 @@ class Prescription(_Strict):
     rest: str | None
     notes: str | None
     cites: list[str]
+    options: list[Option] = []  # a slot: any option passes fidelity without a deviation
 
 
 class Cycle(_Strict):
@@ -151,6 +160,8 @@ def _cited_parts(t: Template):
             yield f"cycles[{i}].day_types[{j}]", d
         for j, p in enumerate(c.prescriptions):
             yield f"cycles[{i}].prescriptions[{j}]", p
+            for k, o in enumerate(p.options):
+                yield f"cycles[{i}].prescriptions[{j}].options[{k}]", o
     for name, k in t.week_kinds.items():
         yield f"week_kinds.{name}", k
     if t.end:
@@ -187,7 +198,8 @@ def template_cites(t: Template) -> set[str]:
 
 
 def _cycle_cites(c: Cycle) -> set[str]:
-    return {*c.cites, *(x for d in c.day_types for x in d.cites), *(x for p in c.prescriptions for x in p.cites)}
+    return {*c.cites, *(x for d in c.day_types for x in d.cites), *(x for p in c.prescriptions for x in p.cites),
+            *(x for p in c.prescriptions for o in p.options for x in o.cites)}
 
 
 def _norm(name: str) -> str:
@@ -199,7 +211,12 @@ def find_prescription(t: Template, cycle_id: str, day_type: str, exercise: str) 
     if cycle is None:
         return None
     return next((p for p in cycle.prescriptions
-                 if p.day_type == day_type and _norm(p.exercise) == _norm(exercise)), None)
+                 if p.day_type == day_type and _norm(exercise) in {_norm(p.exercise), *(_norm(o.exercise) for o in p.options)}),
+                None)
+
+
+def find_option(p: Prescription, exercise: str) -> Option | None:
+    return next((o for o in p.options if _norm(o.exercise) == _norm(exercise)), None)
 
 
 @tool(response_format="content_and_artifact")

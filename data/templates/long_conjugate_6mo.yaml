@@ -85,8 +85,15 @@ cycles:
         reps: {min: 8, max: 12}
         intensity: null
         rest: null
-        notes: Up to 14 reps for fitter athletes. Two-foot jumpers - e.g. sumo deadlift, unilateral work; one-foot jumpers - deep squats, full ranges.
+        notes: "Up to 14 reps for fitter athletes. General work that does not mimic jumping: two-foot jumpers - unilateral work or hip and hamstring lifts; one-foot jumpers - deep squats, full ranges. Pick one option per session."
         cites: [Icml891MLHA@141#0, Icml891MLHA@174#0, Icml891MLHA@209#0]
+        options:
+          - {exercise: RDL, equipment: [barbell], notes: "Hip hinge; the THP hamstring day alternates RDL with a knee-flexion day.", cites: ["SXjO279Oslw@137#0", "I1baSIlV_pQ@408#0"]}
+          - {exercise: hip thrust, equipment: [barbell, bench], notes: "Very high loading with little risk, strongly neural; can replace RDLs; banded version used too.", cites: ["OAsUemGRrpw@891#0", "3vmd30VvzRA@855#0"]}
+          - {exercise: Nordic hamstring curl, equipment: [], notes: "Knee-flexion option; eccentric emphasis.", cites: ["SXjO279Oslw@137#0", "I1baSIlV_pQ@408#0"]}
+          - {exercise: lying hamstring curl, equipment: [hamstring curl machine], notes: "Easy to add as accessory work at the end of a workout; barely taxing.", cites: ["I1baSIlV_pQ@408#0", "3vmd30VvzRA@855#0"]}
+          - {exercise: high box step-up, equipment: [box], notes: "Single-leg lift.", cites: ["SXjO279Oslw@137#0"]}
+          - {exercise: barbell lunge, equipment: [barbell], notes: "Single-leg lift.", cites: ["SXjO279Oslw@137#0"]}
       - day_type: general
         exercise: general circuit (varied movements)
         equipment: []
