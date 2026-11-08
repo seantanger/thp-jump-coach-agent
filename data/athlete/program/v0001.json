@@ -1,8 +1,8 @@
 {
   "version": 1,
   "based_on": null,
-  "created_at": "2026-11-07T20:31:26",
-  "change_summary": "A new six-month long-conjugate macrocycle starts Mon 2026-11-09, with six 4-week mesocycles and no event date. Detailed sessions cover only weeks 1–2 of month 1 (volume building): 3 lift days (Mon/Wed/Fri), general days (Tue/Thu) and a Saturday jump session. The tendon track is not started because your knee ache is manageable. Treat pain 24–48 h after jumping, or 6/10 or worse the next day, as the cue to switch to the tendon track.",
+  "created_at": "2026-11-08T14:23:16",
+  "change_summary": "A new 6-month long-conjugate plan from 2026-11-09 to 2027-04-25, in six 4-week mesocycles, from month 1 volume building to month 6 specificity. Detailed days are written for weeks 1 and 2 of month 1 (Nov 9–21). Each week has three lift days on Mon/Wed/Fri, general days on Tue/Thu, and a Saturday jump session, with Sunday off.",
   "profile_snapshot": {
     "training_age_years": 4.0,
     "lifts": {
@@ -49,9 +49,9 @@
     "event_date": null,
     "end": "taper",
     "cites": [
-      "1sQ-FOxDP5M@0#0",
-      "Icml891MLHA@209#0",
-      "Icml891MLHA@792#0"
+      "Icml891MLHA@35#0",
+      "Icml891MLHA@105#0",
+      "bFezqBUmWO4@242#0"
     ]
   },
   "mesocycles": [
@@ -62,7 +62,7 @@
       "emphasis": "volume",
       "start": "2026-11-09",
       "end": "2026-12-06",
-      "goal": "Build work capacity with general work that looks little like jumping; deload in week 4 (week of 2026-11-30, timing by feel).",
+      "goal": "Build work capacity with general work that looks little like jumping; deload in week 4.",
       "entry_criteria": "Start of the macrocycle.",
       "exit_criteria": "Four weeks done, including the week-4 deload.",
       "primes_next": "Volume built here is intensified in month 2.",
@@ -79,7 +79,7 @@
       "emphasis": "intensification (power and 6–8 rep strength)",
       "start": "2026-12-07",
       "end": "2027-01-03",
-      "goal": "Intensify the month-1 volume; clean pulls and power cleans for a two-foot jumper; accessories prime month 3.",
+      "goal": "Intensify the month-1 volume; Olympic pulls and power cleans for two-foot jumpers; accessories prime month 3.",
       "entry_criteria": "Month 1 done.",
       "exit_criteria": "Month done.",
       "primes_next": "Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.",
@@ -98,7 +98,7 @@
       "end": "2027-01-31",
       "goal": "Heavy squats and heavy clean pulls; eccentric accessories prime month 4.",
       "entry_criteria": "Month 2 done.",
-      "exit_criteria": "About 3 weeks done (4 weeks scheduled, with feel-based adjustment).",
+      "exit_criteria": "About 3 weeks done (4 weeks scheduled including the unload).",
       "primes_next": "Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.",
       "cites": [
         "Icml891MLHA@320#0",
@@ -179,7 +179,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first. Fast, crisp reps at a load that keeps bar speed high (your max is about 175 lb); volume builds toward intensification in month 2.",
+              "notes": "Power exercise first; crisp bar speed, moderate load.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -195,7 +195,7 @@
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 145 lb off a 225 lb deep squat. Controlled reps. 65% suits the higher rep range.",
+              "notes": "Higher-rep end, so the lower intensity.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -208,7 +208,7 @@
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Sumo deadlift. Hip-dominant accessory for a two-foot jumper. Moderate load, no grinding.",
+              "notes": "e.g. sumo deadlift.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@174#0"
@@ -227,7 +227,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Optional easy bodyweight/bodybuilding circuit with plenty of variety, plus upper body and core. Nothing that looks like jumping. First thing to drop if tired.",
+              "notes": "Easy bodyweight or bodybuilding circuit with plenty of variety; keep it general.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -245,7 +245,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first. Same crisp bar speed.",
+              "notes": "Power exercise first.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -261,7 +261,7 @@
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 145 lb.",
+              "notes": null,
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -274,7 +274,7 @@
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Single-leg RDL, per leg. Unilateral, hip-dominant work.",
+              "notes": "e.g. unilateral work.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@174#0"
@@ -293,7 +293,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Optional easy general circuit. Keep it general and low-impact.",
+              "notes": "Easy circuit; optional and the first thing to drop if tired.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -311,7 +311,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first. Keep reps fast. Leave energy for Saturday's jump session.",
+              "notes": "Power exercise first.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -327,7 +327,7 @@
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 145 lb.",
+              "notes": null,
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -340,7 +340,7 @@
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Sumo deadlift. Hip-dominant accessory. Moderate load.",
+              "notes": "e.g. sumo deadlift.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@174#0"
@@ -362,10 +362,9 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Low-effort jumping inside the 40-minute window. Stop if the knee goes above 2–3/10 pain.",
+              "notes": "Low-effort jumping inside the 40-minute window.",
               "cites": [
-                "Icml891MLHA@792#0",
-                "72YX7nkYmYE@142#0"
+                "Icml891MLHA@792#0"
               ],
               "deviation": null
             },
@@ -378,9 +377,10 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Max-effort jumping for 5 min at the end of the window.",
+              "notes": "Max-effort jumping; stop if knee pain rises above about 2–3/10.",
               "cites": [
-                "Icml891MLHA@792#0"
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
               ],
               "deviation": null
             }
@@ -404,7 +404,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first. Fast reps. Add a little load only if bar speed stays high.",
+              "notes": "Power exercise first.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -416,11 +416,11 @@
               "sets": 5,
               "reps": 8,
               "intensity": {
-                "value": 70.0,
+                "value": 68.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 155 lb. 70% suits the lower rep range.",
+              "notes": "Fewer reps, so slightly higher intensity.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -430,10 +430,10 @@
             {
               "exercise": "general lower-body accessory",
               "sets": 3,
-              "reps": 10,
+              "reps": 12,
               "intensity": null,
               "rest": null,
-              "notes": "Sumo deadlift. Hip-dominant accessory. Moderate load.",
+              "notes": "e.g. sumo deadlift.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@174#0"
@@ -452,7 +452,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Optional easy general circuit with different movements from last week.",
+              "notes": "Easy circuit with variety.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -482,11 +482,11 @@
               "sets": 5,
               "reps": 8,
               "intensity": {
-                "value": 70.0,
+                "value": 68.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 155 lb.",
+              "notes": null,
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -496,10 +496,10 @@
             {
               "exercise": "general lower-body accessory",
               "sets": 3,
-              "reps": 10,
+              "reps": 12,
               "intensity": null,
               "rest": null,
-              "notes": "Single-leg RDL, per leg.",
+              "notes": "e.g. unilateral work.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@174#0"
@@ -518,7 +518,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Optional easy general circuit.",
+              "notes": "Easy circuit; optional.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -536,7 +536,7 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first. Keep reps fast and leave energy for Saturday.",
+              "notes": "Power exercise first.",
               "cites": [
                 "Icml891MLHA@174#0",
                 "Icml891MLHA@209#0"
@@ -548,11 +548,11 @@
               "sets": 5,
               "reps": 8,
               "intensity": {
-                "value": 70.0,
+                "value": 68.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 155 lb.",
+              "notes": null,
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -562,10 +562,10 @@
             {
               "exercise": "general lower-body accessory",
               "sets": 3,
-              "reps": 10,
+              "reps": 12,
               "intensity": null,
               "rest": null,
-              "notes": "Sumo deadlift. Hip-dominant accessory. Moderate load.",
+              "notes": "e.g. sumo deadlift.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@174#0"
@@ -587,10 +587,9 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Low-effort jumping inside the 40-minute window. Stop if the knee goes above 2–3/10 pain.",
+              "notes": "Low-effort jumping.",
               "cites": [
-                "Icml891MLHA@792#0",
-                "72YX7nkYmYE@142#0"
+                "Icml891MLHA@792#0"
               ],
               "deviation": null
             },
@@ -603,9 +602,10 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Max-effort jumping for 5 min at the end of the window.",
+              "notes": "Max-effort jumping; stop if knee pain rises above about 2–3/10.",
               "cites": [
-                "Icml891MLHA@792#0"
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
               ],
               "deviation": null
             }

@@ -35,6 +35,7 @@ class VerifierResult(_Strict):
     items: list[VerifierItem]
     phase_rule_ok: bool
     summary_matches_diff: bool
+    summary_issue: str | None = None
     addresses_request: bool | None
 
 
@@ -72,7 +73,7 @@ def verifier_failures(r: VerifierResult) -> list[str]:
     if not r.phase_rule_ok:
         failures.append("phase rule: rehab and healthy-cycle advice are mixed")
     if not r.summary_matches_diff:
-        failures.append("summary: does not describe the actual changes")
+        failures.append("summary: does not describe the actual changes" + (f" — {r.summary_issue}" if r.summary_issue else ""))
     if r.addresses_request is False:
         failures.append("request: the direct answer to the athlete's request is missing")
     return failures
