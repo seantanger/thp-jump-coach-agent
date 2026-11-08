@@ -11,3 +11,4 @@ data/chunks/
 data/index/
 data/traces/
 data/athlete/checkpoints.sqlite*
+.ipynb_checkpoints/

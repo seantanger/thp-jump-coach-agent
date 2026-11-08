@@ -12,11 +12,13 @@ and a 2-node LangGraph coach (coach <-> tools) that answers from the library
 via `search_library`, with a code-only citation check and local traces. The
 safety check, router and Verifier come next.
 
-> This project is a subfolder of the `thp-ai` repo (`~/git/thp-ai`), which also holds the
-> transcript collection scripts and the data in `~/git/thp-ai/data` (`THP_DATA_DIR`).
+> This repo (`~/git/thp-ai`) holds the transcript collection scripts (`scripts/`), the data in
+> `data/` (`THP_DATA_DIR`), the progress report notebooks (`notebooks/`) and the agent code in
+> `jump-coach-agent/`. Paths in Layout and the commands below are relative to `jump-coach-agent/`
+> unless they start with `~/git/thp-ai`.
 > Transcripts (`raw/`, `clean/`), chunks, the Chroma index, traces and LangGraph checkpoints
-> are gitignored there; templates, eval questions, cleaning rules, listings, the profile and
-> plans are committed. Read data in place via `THP_DATA_DIR`; never copy it into this folder.
+> are gitignored; templates, eval questions, cleaning rules, listings, the profile and
+> plans are committed. Read data in place via `THP_DATA_DIR`; never copy it into the project folder.
 
 ## Layout
 
