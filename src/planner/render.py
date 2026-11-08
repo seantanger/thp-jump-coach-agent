@@ -49,6 +49,8 @@ def render_week(program: Program, today: date, full: bool = False, sources: dict
     for d in week.days:
         texts = [session_text(s.model_dump(mode="json")) for s in d.sessions] or [d.day_type]
         lines.append(f"{d.date:%a}  " + " · ".join(texts))
+        # Notes carry what the dose line can't: the named accessory, loads in lb, how to pick a weight.
+        lines += [f"      {s.exercise}: {s.notes}" for s in d.sessions if s.notes]
         if full:
             for s in d.sessions:
                 links = " ".join(link(sources[c]) if sources and c in sources else c for c in s.cites)

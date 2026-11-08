@@ -189,6 +189,18 @@ other; they share only the tool loop, the rules and the Verifier.
         jumps") listing the transcripts' exercise options; any option passes fidelity without a
         deviation. Needs your review (see §1 "Exact exercises or slots?").
   - [ ] *Step 3, Verifier:* add "does each deviation fit this cycle's emphasis and THP principles?"
+- [ ] **Plan quality** (found reading plan v1, 2026-11-07). Session notes now show in `render_week`, which
+      answers most of these for now; the real fixes:
+  - [ ] *Named accessories:* "general lower-body accessory 3×10" hides the exercise (sumo deadlift is only in
+        the notes, because the fidelity check rejected it as an exercise name). Fixed by slots (Step 2 above).
+  - [ ] *Loads for every lift:* month-1 power clean has no % because the transcript gives none
+        (`intensity: null`). Options: the Planner searches other videos for a cited %, or the plan shows a
+        weight from the athlete's max labelled "not from the transcripts" (loosens citation strictness:
+        your call, one knob at a time).
+  - [ ] *Per-set loading:* a session has one load, so 4×10 @ 65% reads as every set at 65%, with no warm-up
+        or ramp sets. Needs a schema field (e.g. working sets vs warm-up) and cited guidance in the templates.
+  - [ ] *Jump session wording:* "warm-up jumps @ 35 min · max-effort jumps @ 5 min" reads like a load;
+        render time doses as durations.
 - [ ] **Evaluation:** ~10 planning questions with gold clips; 3–5 simulated athletes (standard,
       event in 10 weeks, knee pain, 3 days/week, no gym); edit cases; tokens and cost.
 

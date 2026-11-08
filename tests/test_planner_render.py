@@ -33,6 +33,13 @@ def test_render_week_uses_lb_and_in():
     assert "220.5 lb" in text and "15.7 in" in text and "kg" not in text and "cm" not in text
 
 
+def test_render_week_shows_session_notes():
+    s = session("general lower-body accessory", 3, 10, None).model_copy(update={"notes": "Sumo deadlift, moderate load."})
+    text = render_week(program([week(days=[day(MON, "lift", [s, session()])])]), MON)
+    assert "      general lower-body accessory: Sumo deadlift, moderate load." in text
+    assert "back squat: " not in text  # sessions without notes add no line
+
+
 def test_render_week_full_has_links():
     text = render_week(program(), MON, full=True, sources=SOURCES)
     assert "[Synth Channel – Squat Basics @ 01:35](https://www.youtube.com/watch?v=vidAAAAAAAA&t=95s)" in text
