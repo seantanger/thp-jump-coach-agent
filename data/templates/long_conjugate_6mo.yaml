@@ -1,0 +1,661 @@
+# Drafted 2026-10-30 by Claude from the transcripts only (not the Google Drive sheets).
+# Main source: John Evans – How to Get a 40" Vertical (Full Blueprint), Icml891MLHA (2026-03-22).
+# Numbers keep the transcript's unit. Notes paraphrase; no quotes.
+id: long_conjugate_6mo
+name: Six-month long conjugate macrocycle (40" Blueprint)
+kind: macrocycle
+model: long_conjugate
+sources: [Icml891MLHA, bFezqBUmWO4, ZxzFvqBlzYw, HWx9Q6gLxg8, Hhl7vONBAEs, JoXfKavjn8g]
+
+defaults:
+  values:
+    macrocycle_months: 6
+    mesocycles: 6
+    example_lift_days: [mon, wed, fri]
+    example_general_days: [tue, thu]
+    training_days_note: "About 3 days a week in month 1, with general days (Tue/Thu) between Mon/Wed/Fri lifts. Not strict: 'about'."
+    hard_days_per_week: "Hard days are lift and jump days; recovery takes 48-72 h. 2-4 per week: 3 lift days + 1 jump session when the athlete feels good, recovers well and has no heavy sport load (4 hard days is about the most THP uses - more and athletes go flat); 2 lift days + 1 jump session when beat up, short on time, in season or playing a lot (e.g. Mon/Thu/Sat). One hard day a week is only maintenance. Capacity to handle more grows with training, so move up when the athlete handles the current load well."
+    general_days: "Easy movement on top of the hard days (bodyweight or bodybuilding circuits, tempo, upper body, core); optional, and the first thing dropped when days are short."
+    jump_session_frequency: "About once a week; THP plans often put it on Saturday after Mon/Wed/Fri lifting (Friday in an unload week)."
+    jump_session_window_min: 40
+    jump_session_progression: "Start ~35 min low-effort + 5 min max-effort; each mesocycle move 5 min from warm-up jumps to max-effort jumps; cap at 20/20."
+    session_order: "Power exercise first, then squats, then accessories."
+    principle_general_vs_specific: "As the specific days get more specific, the general days get more general; everything intense and specific at once gets you hurt."
+    principle_accessories_prime_next: "Accessory work in each month primes the main lifts of the next month."
+    unload_timing: "Unload about one week every 3-4 weeks of hard training: volume down about 60%, intensity kept high (bars fast, sprints and some plyos stay). Not the same as a taper or doing nothing."
+    unload_week_example: "John Evans special: Monday 5x2 power cleans to a heavy double, heavy slow squats (not too hard), 2x10 calves and hamstrings; Wednesday 4x6 slow quarter squats (one-foot) or half squats (two-foot), 2x10 band walks, slow calf raises; Friday a high-quality jump session as a barometer. Keep it general: no heavy eccentrics, nothing very fast except the cleans. No long extra dunk sessions during the unload."
+    unload_by_feel: "Ask how the athlete feels before a planned unload. Beat up or very sore, or jumps trending down for weeks -> unload now (week 3). Feeling fresh, lifts still progressing, no joint pain -> unload at week 4 and may use a half unload (volume x0.5). Still thrashed after the unload week -> another unload week, or go back to volume. Never skip the unload altogether; feel moves it within 3-4 weeks."
+  cites: [Icml891MLHA@35#0, Icml891MLHA@105#0, Icml891MLHA@174#0, Icml891MLHA@209#0, Icml891MLHA@282#0,
+          Icml891MLHA@354#0, Icml891MLHA@647#0, Icml891MLHA@792#0, Icml891MLHA@830#0, E-KBmRDuh8o@780#0,
+          eEHIGq-Bt7c@340#0, ZxzFvqBlzYw@38#0, 6P6ONA5ELyA@177#0, 6P6ONA5ELyA@215#0, 6P6ONA5ELyA@250#0,
+          6P6ONA5ELyA@288#0, 6P6ONA5ELyA@323#0, 6P6ONA5ELyA@571#0, 6P6ONA5ELyA@604#0, UM-FzQ4qm5Q@158#0,
+          Idz2nL2DARw@189#0, Idz2nL2DARw@240#0, rmQ1cQFaBlM@556#0, rmQ1cQFaBlM@594#0, rmQ1cQFaBlM@932#0,
+          rmQ1cQFaBlM@1016#0, rmQ1cQFaBlM@1232#0, _C8nl0YN5M4@184#0, _C8nl0YN5M4@481#0, 1sQ-FOxDP5M@0#0]
+
+elastic_exercises: [jump session max-effort jumps, jump session warm-up jumps, jump circuit, depth jump, step-off box, step-up jump,
+                    plyometrics, sprints, med ball throw]
+
+scheduling:
+  pattern: [lift, general, lift, general, lift, jump]
+  hard_day_types: [lift, jump]
+  min_days_between_hard: 2
+  allowed_back_to_back: [[lift, jump]]
+  missed_sessions: skip
+  cites: [Icml891MLHA@209#0, Hhl7vONBAEs@536#0, Hhl7vONBAEs@570#0, JoXfKavjn8g@543#0, E-KBmRDuh8o@780#0,
+          eEHIGq-Bt7c@340#0]
+
+cycles:
+  - id: m1_volume
+    name: Month 1 – volume building
+    emphasis: volume
+    goal: Build work capacity with general work that looks little like jumping; deload in week 4.
+    weeks: {min: 4, max: 4}
+    entry_criteria: Start of the macrocycle.
+    exit_criteria: Four weeks done, including the week-4 deload.
+    primes_next: Volume built here is intensified in month 2.
+    allowed_jumping: null
+    cites: [Icml891MLHA@141#0, Icml891MLHA@174#0, Icml891MLHA@209#0]
+    day_types:
+      - {id: lift, label: "Lift (e.g. Mon/Wed/Fri)", cites: [Icml891MLHA@209#0]}
+      - {id: general, label: "General day (e.g. Tue/Thu)", cites: [Icml891MLHA@209#0]}
+      - {id: jump, label: Jump session, cites: [Icml891MLHA@792#0]}
+    prescriptions:
+      - day_type: lift
+        exercise: power clean
+        equipment: [barbell, platform]
+        sets: {min: 5, max: 5}
+        reps: {min: 4, max: 4}
+        intensity: null
+        rest: null
+        notes: Power exercise first in the session; builds volume to intensify next cycle.
+        cites: [Icml891MLHA@174#0, Icml891MLHA@209#0]
+      - day_type: lift
+        exercise: back squat
+        equipment: [barbell, rack]
+        sets: {min: 4, max: 5}
+        reps: {min: 6, max: 12}
+        intensity: {min: 65, max: 70, unit: "%"}
+        rest: null
+        notes: Intensity depends on the rep range.
+        cites: [Icml891MLHA@141#0, Icml891MLHA@209#0]
+      - day_type: lift
+        exercise: general lower-body accessory
+        equipment: []
+        sets: {min: 2, max: 5}
+        reps: {min: 8, max: 12}
+        intensity: null
+        rest: null
+        notes: Up to 14 reps for fitter athletes. Two-foot jumpers - e.g. sumo deadlift, unilateral work; one-foot jumpers - deep squats, full ranges.
+        cites: [Icml891MLHA@141#0, Icml891MLHA@174#0, Icml891MLHA@209#0]
+      - day_type: general
+        exercise: general circuit (varied movements)
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Many different movements for variety; no numbers given.
+        cites: [Icml891MLHA@209#0]
+      - day_type: jump
+        exercise: jump session warm-up jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 35, max: 35, unit: min}
+        rest: null
+        notes: Low-effort jumping inside the 40-minute window.
+        cites: [Icml891MLHA@792#0]
+      - day_type: jump
+        exercise: jump session max-effort jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 5, max: 5, unit: min}
+        rest: null
+        notes: Max-effort jumping inside the 40-minute window.
+        cites: [Icml891MLHA@792#0]
+
+  - id: m2_intensify
+    name: Month 2 – intensify, more specific
+    emphasis: intensification (power and 6–8 rep strength)
+    goal: Intensify the month-1 volume; Olympic pulls and power cleans for two-foot jumpers; accessories prime month 3.
+    weeks: {min: 4, max: 4}
+    entry_criteria: Month 1 done.
+    exit_criteria: Month done.
+    primes_next: Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.
+    allowed_jumping: null
+    cites: [Icml891MLHA@244#0, Icml891MLHA@282#0, Icml891MLHA@320#0]
+    day_types:
+      - {id: lift, label: "Lift (e.g. Mon/Wed/Fri)", cites: [Icml891MLHA@282#0]}
+      - {id: general, label: "General day (e.g. Tue/Thu)", cites: [Icml891MLHA@320#0]}
+      - {id: jump, label: Jump session, cites: [Icml891MLHA@792#0]}
+    prescriptions:
+      - day_type: lift
+        exercise: clean pull
+        equipment: [barbell, platform]
+        sets: {min: 6, max: 6}
+        reps: {min: 3, max: 5}
+        intensity: {min: 90, max: 90, unit: "%"}
+        rest: null
+        notes: Snatch pull sometimes added.
+        cites: [Icml891MLHA@244#0]
+      - day_type: lift
+        exercise: power clean
+        equipment: [barbell, platform]
+        sets: {min: 5, max: 7}
+        reps: {min: 3, max: 3}
+        intensity: {min: 75, max: 85, unit: "%"}
+        rest: null
+        notes: Start at the low end of the set range and add sets each week.
+        cites: [Icml891MLHA@244#0]
+      - day_type: lift
+        exercise: back squat
+        equipment: [barbell, rack]
+        sets: null
+        reps: {min: 6, max: 8}
+        intensity: null
+        rest: null
+        notes: Max-strength work after the power work; a fluid progression rather than a named phase.
+        cites: [Icml891MLHA@244#0, Icml891MLHA@282#0]
+      - day_type: lift
+        exercise: RDL
+        equipment: [barbell]
+        sets: null
+        reps: {min: 4, max: 6}
+        intensity: {min: 85, max: 85, unit: "%"}
+        rest: null
+        notes: Accessory moved toward specificity; up to about 85% on working sets.
+        cites: [Icml891MLHA@282#0]
+      - day_type: lift
+        exercise: calf raise
+        equipment: []
+        sets: null
+        reps: {min: 4, max: 6}
+        intensity: {min: 85, max: 85, unit: "%"}
+        rest: null
+        notes: Same as RDL.
+        cites: [Icml891MLHA@282#0]
+      - day_type: general
+        exercise: bodybuilding circuit (lower and upper body)
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: General days kept a little more specific this month; includes upper body.
+        cites: [Icml891MLHA@282#0, Icml891MLHA@320#0]
+      - day_type: general
+        exercise: tempo running
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: For body composition and aerobic fitness.
+        cites: [Icml891MLHA@320#0]
+      - day_type: jump
+        exercise: jump session warm-up jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 30, max: 30, unit: min}
+        rest: null
+        notes: null
+        cites: [Icml891MLHA@792#0]
+      - day_type: jump
+        exercise: jump session max-effort jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 10, max: 10, unit: min}
+        rest: null
+        notes: null
+        cites: [Icml891MLHA@792#0]
+
+  - id: m3_absolute_strength
+    name: Month 3 – absolute strength
+    emphasis: absolute strength
+    goal: Heavy squats and heavy clean pulls; eccentric accessories prime month 4.
+    weeks: {min: 3, max: 4}
+    entry_criteria: Month 2 done.
+    exit_criteria: About 3 weeks done.
+    primes_next: Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.
+    allowed_jumping: null
+    cites: [Icml891MLHA@320#0, Icml891MLHA@354#0, Icml891MLHA@390#0, Icml891MLHA@427#0]
+    day_types:
+      - {id: lift, label: "Lift (e.g. Mon/Wed/Fri)", cites: [Icml891MLHA@320#0]}
+      - {id: general, label: "General day (e.g. Tue/Thu)", cites: [Icml891MLHA@390#0]}
+      - {id: jump, label: Jump session, cites: [Icml891MLHA@792#0]}
+    prescriptions:
+      - day_type: lift
+        exercise: back squat
+        equipment: [barbell, rack]
+        sets: {min: 10, max: 10}
+        reps: {min: 2, max: 3}
+        intensity: null
+        rest: null
+        notes: 10x3 or 10x2.
+        cites: [Icml891MLHA@320#0]
+      - day_type: lift
+        exercise: power clean
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Push the percentages up a lot; no numbers given.
+        cites: [Icml891MLHA@320#0]
+      - day_type: lift
+        exercise: clean pull
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: {min: 105, max: 110, unit: "%"}
+        rest: null
+        notes: Percent of the athlete's power clean; used heavily this month.
+        cites: [Icml891MLHA@320#0, Icml891MLHA@354#0]
+      - day_type: lift
+        exercise: Nordic hamstring curl
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Eccentric accessory priming month 4.
+        cites: [Icml891MLHA@354#0]
+      - day_type: lift
+        exercise: calf raise (2 up, 1 down)
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Eccentric accessory priming month 4.
+        cites: [Icml891MLHA@354#0, Icml891MLHA@390#0]
+      - day_type: general
+        exercise: jump circuit
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 30, unit: s}
+        rest: null
+        notes: In sand; variety (toe-touch jumps, tuck jumps, single-leg spinning hops).
+        cites: [Icml891MLHA@390#0]
+      - day_type: general
+        exercise: tempo running
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 30, max: 45, unit: s}
+        rest: about 3 min
+        notes: Harder than month 2 (more reps and sets); legs should not feel lactic or painful.
+        cites: [Icml891MLHA@390#0]
+      - day_type: jump
+        exercise: jump session warm-up jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 25, max: 25, unit: min}
+        rest: null
+        notes: null
+        cites: [Icml891MLHA@792#0]
+      - day_type: jump
+        exercise: jump session max-effort jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 15, max: 15, unit: min}
+        rest: null
+        notes: null
+        cites: [Icml891MLHA@792#0]
+
+  - id: m4_strength_speed
+    name: Month 4 – strength-speed (fast bars, eccentric overload)
+    emphasis: strength-speed
+    goal: Power clean to maxes; accentuated eccentric squats and eccentric split squats; general days get more general.
+    weeks: {min: 4, max: 4}
+    entry_criteria: Month 3 done.
+    exit_criteria: Month done.
+    primes_next: Elastic accessories (high-velocity calf raises, drop RDLs) lead into month 5's speed work.
+    allowed_jumping: null
+    cites: [Icml891MLHA@427#0, Icml891MLHA@463#0, Icml891MLHA@501#0, Icml891MLHA@535#0]
+    day_types:
+      - {id: lift, label: "Lift (e.g. Mon/Wed/Fri)", cites: [Icml891MLHA@427#0]}
+      - {id: general, label: "General day (e.g. Tue/Thu)", cites: [Icml891MLHA@501#0]}
+      - {id: jump, label: Jump session, cites: [Icml891MLHA@792#0]}
+    prescriptions:
+      - day_type: lift
+        exercise: power clean
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: {min: 100, max: 100, unit: "%"}
+        rest: null
+        notes: Work up to absolute maxes; power clean twice a week, clean pull on the third day.
+        cites: [Icml891MLHA@427#0]
+      - day_type: lift
+        exercise: clean pull
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Third lift day. One-foot jumpers may pull from blocks (partial range); two-foot jumpers pull from the floor (full range).
+        cites: [Icml891MLHA@427#0, Icml891MLHA@501#0]
+      - day_type: lift
+        exercise: eccentric split squat
+        equipment: [safety bar, rack]
+        sets: {min: 3, max: 3}
+        reps: {min: 2, max: 3}
+        intensity: null
+        rest: null
+        notes: After three build-up sets of normal split squats; supramaximal lowering, hands assist the way up.
+        cites: [Icml891MLHA@427#0, Icml891MLHA@463#0]
+      - day_type: lift
+        exercise: accentuated eccentric belt squat
+        equipment: [belt squat]
+        sets: null
+        reps: null
+        intensity: {min: 110, max: 115, unit: "%"}
+        rest: null
+        notes: Percent of max back squat on the lowering; partners assist the way up.
+        cites: [Icml891MLHA@463#0, Icml891MLHA@501#0]
+      - day_type: lift
+        exercise: high-velocity calf raise
+        equipment: []
+        sets: {min: 2, max: 2}
+        reps: {min: 5, max: 6}
+        intensity: null
+        rest: null
+        notes: Elastic accessory; more volume builds neural fatigue.
+        cites: [Icml891MLHA@535#0]
+      - day_type: lift
+        exercise: drop RDL
+        equipment: [barbell]
+        sets: {min: 2, max: 2}
+        reps: {min: 5, max: 6}
+        intensity: null
+        rest: null
+        notes: Drop fast, stand up explosively.
+        cites: [Icml891MLHA@535#0]
+      - day_type: general
+        exercise: bodyweight / bodybuilding circuit
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: More general this month; tempo work and jump circuits removed to rest tendons and joints.
+        cites: [Icml891MLHA@501#0]
+      - day_type: jump
+        exercise: jump session warm-up jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 20, unit: min}
+        rest: null
+        notes: 20/20 is the cap.
+        cites: [Icml891MLHA@792#0, Icml891MLHA@830#0]
+      - day_type: jump
+        exercise: jump session max-effort jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 20, unit: min}
+        rest: null
+        notes: 20/20 is the cap; more max-effort time leaves athletes flat.
+        cites: [Icml891MLHA@792#0, Icml891MLHA@830#0]
+
+  - id: m5_speed_strength
+    name: Month 5 – speed-strength (bar speed)
+    emphasis: speed-strength
+    goal: Move bars fast (lighter cleans, power snatch, hang cleans); blend a heavy primer with high-velocity squats; start shock loading at low plyo volume.
+    weeks: {min: 4, max: 4}
+    entry_criteria: Month 4 done.
+    exit_criteria: Month done.
+    primes_next: Shock-loading accessories (med ball throws, low plyo volume) lead into month 6.
+    allowed_jumping: null
+    cites: [Icml891MLHA@572#0, Icml891MLHA@609#0, Icml891MLHA@647#0, Icml891MLHA@681#0]
+    day_types:
+      - {id: lift, label: "Lift (e.g. Mon/Wed/Fri)", cites: [Icml891MLHA@647#0]}
+      - {id: general, label: "General day (e.g. Tue/Thu) – rest and regeneration", cites: [Icml891MLHA@681#0]}
+      - {id: jump, label: Jump session, cites: [Icml891MLHA@792#0]}
+    prescriptions:
+      - day_type: lift
+        exercise: power clean
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: {min: 60, max: 60, unit: "%"}
+        rest: null
+        notes: Bars moving very fast.
+        cites: [Icml891MLHA@572#0]
+      - day_type: lift
+        exercise: power snatch
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: {min: 50, max: 50, unit: "%"}
+        rest: null
+        notes: Percent of the athlete's power clean.
+        cites: [Icml891MLHA@572#0, Icml891MLHA@609#0]
+      - day_type: lift
+        exercise: hang power clean
+        equipment: [barbell, platform]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Builds the stretch-shortening cycle into the Olympic lifts.
+        cites: [Icml891MLHA@572#0]
+      - day_type: lift
+        exercise: back squat primer (5-4-3)
+        equipment: [barbell, rack]
+        sets: {min: 3, max: 3}
+        reps: {min: 3, max: 5}
+        intensity: {min: 85, max: 85, unit: "%"}
+        rest: null
+        notes: Intensity rising across the sets, up to about 85%; then high-velocity squats.
+        cites: [Icml891MLHA@609#0]
+      - day_type: lift
+        exercise: high-velocity squat
+        equipment: [barbell, rack]
+        sets: null
+        reps: {min: 5, max: 5}
+        intensity: {min: 65, max: 70, unit: "%"}
+        rest: null
+        notes: Down fast, up fast; can be timed with a stopwatch.
+        cites: [Icml891MLHA@609#0]
+      - day_type: lift
+        exercise: med ball throw
+        equipment: [med ball]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Shock-loading primer (also overhead back and between-the-legs forward throws).
+        cites: [Icml891MLHA@609#0, Icml891MLHA@647#0]
+      - day_type: lift
+        exercise: low-volume plyometrics (step-offs, step-up jumps)
+        equipment: [box]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Low plyo volume, high variety.
+        cites: [Icml891MLHA@647#0]
+      - day_type: general
+        exercise: rest and regeneration (static flexibility, bodyweight circuit, core work)
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Does not load the legs; no jumping at all on general days this month.
+        cites: [Icml891MLHA@647#0, Icml891MLHA@681#0]
+      - day_type: general
+        exercise: barefoot 100 m run
+        equipment: []
+        sets: {min: 10, max: 10}
+        reps: {min: 1, max: 1}
+        intensity: null
+        rest: walk back
+        notes: Optional easy day work.
+        cites: [Icml891MLHA@681#0]
+      - day_type: jump
+        exercise: jump session warm-up jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 20, unit: min}
+        rest: null
+        notes: Capped at 20/20.
+        cites: [Icml891MLHA@792#0, Icml891MLHA@830#0]
+      - day_type: jump
+        exercise: jump session max-effort jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 20, unit: min}
+        rest: null
+        notes: Capped at 20/20.
+        cites: [Icml891MLHA@792#0, Icml891MLHA@830#0]
+
+  - id: m6_specificity
+    name: Month 6 – specificity
+    emphasis: specificity
+    goal: Specificity at its highest; the most plyo intensity and variety of the year; accessories become general and slow.
+    weeks: {min: 4, max: 4}
+    entry_criteria: Month 5 done.
+    exit_criteria: Month done; taper follows.
+    primes_next: Taper.
+    allowed_jumping: null
+    cites: [Icml891MLHA@681#0, Icml891MLHA@718#0, Icml891MLHA@754#0]
+    day_types:
+      - {id: jump, label: "Jump day (load-management option: Mon/Thu)", cites: [Icml891MLHA@681#0]}
+      - {id: feel_good_lift, label: "Feel-good lift (load-management option: Tue/Fri)", cites: [Icml891MLHA@681#0, Icml891MLHA@718#0]}
+      - {id: lift, label: "Lift with shock loading (alternative: Mon/Wed/Fri)", cites: [Icml891MLHA@718#0]}
+    prescriptions:
+      - day_type: feel_good_lift
+        exercise: slow squat
+        equipment: [barbell, rack]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Very easy on purpose.
+        cites: [Icml891MLHA@681#0, Icml891MLHA@718#0]
+      - day_type: feel_good_lift
+        exercise: slow calf raise
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Very easy on purpose.
+        cites: [Icml891MLHA@718#0, Icml891MLHA@754#0]
+      - day_type: feel_good_lift
+        exercise: RDL
+        equipment: [barbell]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Regular, slow, concentric emphasis.
+        cites: [Icml891MLHA@718#0, Icml891MLHA@754#0]
+      - day_type: lift
+        exercise: sprints
+        equipment: []
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: Used heavily this month (shock-loading option).
+        cites: [Icml891MLHA@718#0]
+      - day_type: lift
+        exercise: plyometrics
+        equipment: [box]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: High intensity and variety; plyo volume is otherwise low all year.
+        cites: [Icml891MLHA@718#0]
+      - day_type: jump
+        exercise: jump session warm-up jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 20, unit: min}
+        rest: null
+        notes: Cap from the jump-session progression.
+        cites: [Icml891MLHA@792#0, Icml891MLHA@830#0]
+      - day_type: jump
+        exercise: jump session max-effort jumps
+        equipment: []
+        sets: null
+        reps: null
+        intensity: {min: 20, max: 20, unit: min}
+        rest: null
+        notes: Cap from the jump-session progression.
+        cites: [Icml891MLHA@792#0, Icml891MLHA@830#0]
+
+week_kinds:
+  normal:
+    volume: {min: 1, max: 1}
+    cites: [Icml891MLHA@141#0]
+  unload:
+    volume: {min: 0.4, max: 0.5}
+    cites: [ZxzFvqBlzYw@38#0, Idz2nL2DARw@189#0]
+  taper:
+    volume: {min: 0.3, max: 0.5}
+    cites: [Icml891MLHA@754#0, bFezqBUmWO4@242#0]
+
+end:
+  kind: taper
+  days: {min: 10, max: 14}
+  min_loading_weeks: 12
+  cites: [Icml891MLHA@754#0, bFezqBUmWO4@68#0, bFezqBUmWO4@242#0, HWx9Q6gLxg8@43#0]
+
+gates:
+  - id: beat_up_before_unload
+    track: macro
+    signal: readiness
+    condition: Athlete feels beat up or very sore, or jumps have trended down for weeks, after hard loading.
+    decision: unload
+    cites: [6P6ONA5ELyA@571#0, 6P6ONA5ELyA@604#0, _C8nl0YN5M4@280#0]
+  - id: struggling_with_hard_days
+    track: macro
+    signal: readiness
+    condition: Mid-cycle the athlete feels run down, recovers poorly between lifts, or has a heavy sport week - drop to 2 lift days + 1 jump session, about 72 h apart.
+    decision: step_back
+    cites: [rmQ1cQFaBlM@556#0, rmQ1cQFaBlM@932#0, rmQ1cQFaBlM@972#0, _C8nl0YN5M4@184#0]
+  - id: handling_hard_days_well
+    track: macro
+    signal: readiness
+    condition: The athlete feels good, recovers well and lifts keep progressing on 2 lift days - move up to 3 lift days + 1 jump session (about 4 hard days at most).
+    decision: progress
+    cites: [rmQ1cQFaBlM@594#0, rmQ1cQFaBlM@1232#0, _C8nl0YN5M4@481#0]
+  - id: fresh_at_planned_unload
+    track: macro
+    signal: readiness
+    condition: Feels fresh, lifts still progressing and no joint pain at week 3 - keep loading one more week, then unload (a half unload at x0.5 is fine).
+    decision: progress
+    cites: [ZxzFvqBlzYw@38#0, Idz2nL2DARw@189#0, Idz2nL2DARw@240#0]
+  - id: still_thrashed_after_unload
+    track: macro
+    signal: readiness
+    condition: Still thrashed after the unload week.
+    decision: unload
+    cites: [UM-FzQ4qm5Q@158#0]
+  - id: unload_jump_session_low
+    track: macro
+    signal: jump_session
+    condition: The unload week's jump session is very low - still fatigued (often an extra long dunk session or a too-heavy Monday); keep the volume down.
+    decision: hold
+    cites: [6P6ONA5ELyA@323#0, 6P6ONA5ELyA@467#0]
+
+review:
+  drafted: 2026-10-30
+  reviewed_by_user: true
+  notes: "Taper content: cut volume ~50% (50-70% in the taper video), raise intensity, more frequent max-effort jumping, 5-4-3-2-1 squats, daily max for velocity on the power clean. 2026-11-06 review: months 4-6 set to 4 weeks (user); jump session weekly after the last lift day; unload timing and depth follow how the athlete feels within THP's 3-4 weeks (user); feel-based gates added, applied by code in plan 2. Training days: 2-4 hard days by how the athlete handles them, general days optional (user + THP 3-vs-6-days and frequency podcasts). Half unload (x0.5) comes from John's own training vlog, weaker than the other sources."

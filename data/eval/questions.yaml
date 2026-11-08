@@ -1,0 +1,352 @@
+# Retrieval test questions (PRIVATE: gold quotes are transcript text).
+# gold = time ranges (seconds) in a video that answer the question; a retrieved
+# chunk is a hit if it is from a gold video and overlaps a gold range.
+# Questions are written in my own words (not transcript phrasing). Gold was found
+# by keyword search over data/clean and reading around the hits; it lists the
+# strong sources found, not necessarily every one in the corpus.
+# status: unverified -> verified / fixed after review on YouTube.
+questions:
+  - id: q01
+    topic: knee_tendon
+    difficulty: easy
+    status: verified
+    note: "gold extended 2026-10-27 after miss review"
+    question: "The tendon under my kneecap aches after jumping. Do isometric holds actually help, and how should I do them?"
+    gold:
+      - {video_id: TMznIxcRJGg, start: 30, end: 166, quote: "For best results, you want to be at a 70% contraction level"}
+      - {video_id: GQldgxIfJlk, start: 42, end: 160, quote: "What isometrics do is they will desensitize those nerves."}
+      - {video_id: 9X_j-oF2ZDg, start: 201, end: 330, quote: "you want to do it at least twice a day. Typically, I'll tell guys every 6 hours."}
+      - {video_id: VMSF8C25mxY, start: 0, end: 240, quote: "You're going to do three to five sets, three times per day, every 6 hours", extended: 2026-10-27 miss review (start was 152)}
+      - {video_id: PojhVTPakfE, start: 0, end: 74, quote: "Research has shown isometrics to decrease your pain for up to 90 minutes."}
+      - {video_id: EuGRrf_RjUE, start: 41, end: 110, quote: "The reason isometrics are good is because they're like ibuprofen for your knees."}
+      - {video_id: J4uDvYzlh_4, start: 72, end: 269, quote: 'This is the first iso I recommend to anybody because you''re able to control how much load is at the knee.', added: 2026-10-27 miss review}
+      - {video_id: VT5UozBOK2I, start: 0, end: 50, quote: 'for the isometrics, you''re going to want to do it three times a day, three to five sets of 45 seconds', added: 2026-11-08 new-video review (Claude, unverified)}
+  - id: q02
+    topic: knee_tendon
+    difficulty: medium
+    status: unverified
+    question: "How much knee pain is acceptable during a jump session before I should stop, and how do I know if I overdid it?"
+    gold:
+      - {video_id: 72YX7nkYmYE, start: 131, end: 190, quote: "if you're jumping and you are having more than a two to three out of 10 pain, you're doing too much."}
+      - {video_id: ZShxHyeTsVk, start: 85, end: 115, quote: "cut the session short if you ever feel a two to three out of 10 pain in your jump session."}
+      - {video_id: P48edlAxFJo, start: 61, end: 168, quote: "Do the test at the exact same time every single day. The best time is morning"}
+      - {video_id: VMSF8C25mxY, start: 406, end: 475, quote: "I have to pay attention to my pain 24 hours later."}
+      - {video_id: CuANQSa5Mj0, start: 1550, end: 1590, quote: "If your pain is less than a three out of 10, it'll probably warm up and it doesn't matter."}
+  - id: q03
+    topic: knee_tendon
+    difficulty: medium
+    status: unverified
+    question: "My Achilles has been sore for months. What exercises should I start with to rehab it?"
+    gold:
+      - {video_id: DXCZXnaF3PM, start: 414, end: 634, quote: "a single leg calf raise hold on one leg"}
+      - {video_id: wgKybvDwYZo, start: 386, end: 414, quote: "if you had Achilles tendinopathy, the first thing you need to do is isometrics for that."}
+      - {video_id: CuANQSa5Mj0, start: 1006, end: 1070, quote: "if you have Achilles pain and you have and you're and you have calf raises, >> usually the bottom position is going to be the most aggravating."}
+  - id: q04
+    topic: knee_tendon
+    difficulty: hard
+    status: unverified
+    question: "Should I just ice my sore knee, take anti-inflammatories and rest it for a couple of weeks?"
+    gold:
+      - {video_id: DXCZXnaF3PM, start: 56, end: 90, quote: "the research is very clear that these modalities do not work"}
+      - {video_id: DXCZXnaF3PM, start: 414, end: 480, quote: "if you just remove all of the training that you're doing, you'll end up becoming even more dysfunctional"}
+      - {video_id: DXCZXnaF3PM, start: 885, end: 910, quote: "isn't ibuprofen. It is going to be a very dialed-in load management program"}
+      - {video_id: f29c2ZMGd_g, start: 151, end: 185, quote: "They'll just jump, ice, take injections, use cross massage, and pray"}
+      - {video_id: Q_-PievxHZs, start: 301, end: 330, quote: "Rest it and take ibuprofen for 2 weeks, you'll probably feel a little bit better and then you're going to return to jumping and it's going to be terrible."}
+      - {video_id: PojhVTPakfE, start: 100, end: 118, quote: "they told me to take ibuprofen and ice it. It's horrible."}
+      - {video_id: 9HvNji26l7o, start: 0, end: 30, quote: 'Rest is the worst thing that you can do for tendons.', added: 2026-10-27 review}
+      - {video_id: WSexyy0b2xE, start: 1184, end: 1250, quote: 'Like ibuprofen rest for two weeks. And that is just, oh my gosh, that will just murder your', added: 2026-10-27 review}
+      - {video_id: Ix92ivfHgmY, start: 573, end: 610, quote: 'I would limit that as much as possible.', added: 2026-10-27 review}
+  - id: q05
+    topic: programming
+    difficulty: easy
+    status: unverified
+    question: "How often should I take an easy week, and should I just do nothing during it?"
+    gold:
+      - {video_id: 6P6ONA5ELyA, start: 180, end: 240, quote: "Often times, when guys deload, they will do absolutely nothing."}
+      - {video_id: ZxzFvqBlzYw, start: 36, end: 80, quote: "usually means a drop in volume of about 60% while we keep intensities very high."}
+      - {video_id: VHxhwrbpgoI, start: 585, end: 615, quote: "By about 30 to 40 percent and we do the same thing on the jumping."}
+      - {video_id: JEt6lYqcnjE, start: 355, end: 395, quote: "you need to deload every 3 to 4 weeks"}
+      - {video_id: NeXMYJ-j-jw, start: 185, end: 205, quote: "repeat that for 3 weeks, deload on the fourth week"}
+      - {video_id: 72YX7nkYmYE, start: 1022, end: 1113, quote: 'the goal is not to remove all the athletes fatigue', added: 2026-10-27 review}
+      - {video_id: 72YX7nkYmYE, start: 1165, end: 1253, quote: 'it''s better to rest and test in that in that fourth week', added: 2026-10-27 review}
+      - {video_id: c2clbCUBBeQ, start: 1675, end: 1744, quote: 'there''s one week of one cycle where i say to take the week off', added: 2026-10-27 review}
+  - id: q06
+    topic: programming
+    difficulty: medium
+    status: verified
+    note: "real miss: vocabulary gap"
+    question: "Is it better to spend a few months only on strength, then switch to power, then plyos, or train everything at the same time?"
+    gold:
+      - {video_id: dUFz438g4Kc, start: 0, end: 170, quote: "sequential periodization, it just means we focus on one quality at a time"}
+      - {video_id: UB2qCPnHCwU, start: 320, end: 560, quote: "What conjugate periodization is, or complex periodization, is doing mu"}
+      - {video_id: Xs2GWzukxQ8, start: 166, end: 212, quote: "At THP, we do sequential conjugate periodization"}
+      - {video_id: UQV9sdFyULU, start: 625, end: 682, quote: 'we want to train all the qualities within a macro cycle.', added: 2026-10-27 review}
+      - {video_id: SXjO279Oslw, start: 0, end: 56, quote: 'Conjugate meaning I focus on a bunch of different qualities at the same time', added: 2026-10-27 review}
+      - {video_id: vNHU1UnoGmw, start: 316, end: 365, quote: 'he really started to experiment with block training and sequentially building it out', added: 2026-10-27 review}
+  - id: q07
+    topic: programming
+    difficulty: medium
+    status: unverified
+    question: "How many high-intensity training days per week can I handle if I want to jump higher?"
+    gold:
+      - {video_id: _C8nl0YN5M4, start: 194, end: 300, quote: "You probably should be training between two and three days a week."}
+      - {video_id: ZShxHyeTsVk, start: 46, end: 70, quote: "two to three sessions per week. You're in the second group, one to two sessions."}
+  - id: q08
+    topic: programming
+    difficulty: easy
+    status: unverified
+    question: "How long should a single jump session last, and when should I end it early?"
+    gold:
+      - {video_id: ZShxHyeTsVk, start: 0, end: 115, quote: "Try not to increase jump session length by more than like 10% each week."}
+      - {video_id: NeXMYJ-j-jw, start: 185, end: 200, quote: "cut the session as soon as you see a big drop in performance."}
+      - {video_id: 1-xlrZFtgps, start: 831, end: 850, quote: "if you find that your jumps are dropping off, you need to cut the session."}
+  - id: q09
+    topic: plyometrics
+    difficulty: medium
+    status: unverified
+    question: "What box height should I use for depth jumps? Is a higher box better?"
+    gold:
+      - {video_id: 1-xlrZFtgps, start: 560, end: 620, quote: "falling off a 100 cm box into a depth jump versus a 60 cm box versus a 30 cm box does not necessarily make it better."}
+      - {video_id: 1-xlrZFtgps, start: 840, end: 880, quote: "you need to fall off a lower box and be more reactive."}
+      - {video_id: lTy_1iimZEE, start: 371, end: 400, quote: "fallen off a really, really high box and seen your ground contact times go up"}
+      - {video_id: AhUUnGmWpSw, start: 249, end: 301, quote: 'most athletes are going to respond to lower box heights', added: 2026-11-08 new-video review (Claude, unverified)}
+  - id: q10
+    topic: plyometrics
+    difficulty: hard
+    status: unverified
+    question: "I'm a two-foot jumper. Will depth jumps carry over to my vertical?"
+    gold:
+      - {video_id: vqqjLNobS9Y, start: 11, end: 110, quote: "what is actually happening in a depth jump and why it is non-specific for two-foot jumpers."}
+      - {video_id: AA786g4Nq0A, start: 261, end: 330, quote: "why is it that by using this strategy for two-foot jumpers, they don't jump higher?"}
+      - {video_id: 16HDelMkwlE, start: 151, end: 226, quote: "you tend to feel a lot more of a training transfer with those longer ground contact time plios."}
+  - id: q11
+    topic: plyometrics
+    difficulty: hard
+    status: verified
+    note: "real miss: vocabulary gap"
+    question: "My reactive strength score keeps going up but my vertical doesn't. Is that number a good way to track progress?"
+    gold:
+      - {video_id: OjOw3T_sCn0, start: 36, end: 130, quote: "If RSI is your base metric for adaptation, you will spend months chasing a number"}
+      - {video_id: pGW46ON4Wgc, start: 220, end: 280, quote: "my favorite place to measure it is on a approach jump."}
+      - {video_id: pGW46ON4Wgc, start: 591, end: 640, quote: "as you get more elite, I found that that correlation drops off really, really fast."}
+      - {video_id: OjOw3T_sCn0, start: 300, end: 376, quote: 'there are two ways that you can raise your RSI. You can either jump higher or you can decrease your ground contact time.', added: 2026-10-27 review}
+  - id: q12
+    topic: plyometrics
+    difficulty: medium
+    status: unverified
+    question: "How many plyometric reps per session, and for how many weeks, before I should expect results?"
+    gold:
+      - {video_id: 1-xlrZFtgps, start: 361, end: 425, quote: "each session also has to have at least 50 jumps."}
+  - id: q13
+    topic: strength
+    difficulty: easy
+    status: unverified
+    question: "How much do I need to squat relative to my bodyweight to jump high? Is twice bodyweight the goal?"
+    gold:
+      - {video_id: LPz1LvtCklY, start: 42, end: 110, quote: "a common one is to squat two times body weight."}
+      - {video_id: FAuYDDn4qjw, start: 10, end: 60, quote: "increase your squat to at least two times your body weight."}
+      - {video_id: j1hT9IJfkMA, start: 62, end: 110, quote: "I do think there is some credence behind getting to at least a two times body weight deep squat."}
+      - {video_id: j1hT9IJfkMA, start: 1137, end: 1170, quote: "to just arbitrarily say, you know, this is a blanket statement, 2x body weightight squat, you're good."}
+  - id: q14
+    topic: strength
+    difficulty: hard
+    status: unverified
+    question: "Do I need Olympic lifts like power cleans, or is lifting heavy plus jumping enough?"
+    gold:
+      - {video_id: ATlEVTICPNc, start: 0, end: 130, quote: "what's really interesting about power cleans is they mimic not just the jump itself"}
+      - {video_id: 5UFdkQEuROk, start: 1590, end: 1650, quote: "You don't need Olympic lifts. They don't impr"}
+  - id: q15
+    topic: strength
+    difficulty: medium
+    status: verified
+    note: "gold extended 2026-10-27 after miss review"
+    question: "Should I do deep squats or partial squats if my goal is a higher vertical?"
+    gold:
+      - {video_id: v3ZjCR6knHU, start: 0, end: 64, quote: "if you look at a two-foot jump, that you are in a very high partial range of motion squat."}
+      - {video_id: y4b8OL00LEQ, start: 530, end: 580, quote: "we increase our potential to half squat and quarter squat by full squatting"}
+      - {video_id: U4lG5CzHuBw, start: 410, end: 470, quote: "if I'm a 1 foot jumper I need to get good at quarter squats"}
+      - {video_id: DNEcdZKZ8eQ, start: 1370, end: 1420, quote: "why he didn't like quarter squats or half-range motion squats"}
+      - {video_id: 1qDymLUveIg, start: 342, end: 370, quote: "If you're a two-foot jumper, I typically like guys to do half squats or deep squats slow."}
+      - {video_id: uT-YbKPFF0M, start: 1066, end: 1170, quote: 'if the athlete has the mobility to do so he should squat as deep as possible at certain times of the year', added: 2026-10-27 miss review}
+      - {video_id: zUdcwqtKF-k, start: 571, end: 651, quote: 'you start at those deeper ranges, you get really specific', added: 2026-10-27 miss review}
+      - {video_id: gv3GjajsiiA, start: 209, end: 290, quote: 'if I want to be really, really specific, then I''m going to do rhythm, you know, half squats for two-foot jumper', added: 2026-11-08 new-video review (Claude, unverified)}
+      - {video_id: gv3GjajsiiA, start: 126, end: 179, quote: 'if you don''t have requisite mobility, specifically hip internal rotation, external rotation, and then dorsiflexion, then not everyone should deep squat', added: 2026-11-08 new-video review (Claude, unverified)}
+      - {video_id: Rn5GGPXaICM, start: 39, end: 90, quote: 'that''s the range of motion that you want to squat at when you want to get really specific, and that''s where there''s the highest transfer to training', added: 2026-11-08 new-video review (Claude, unverified)}
+  - id: q16
+    topic: strength
+    difficulty: hard
+    status: verified
+    note: "real miss: vocabulary gap"
+    question: "Why would getting stronger in the lowering phase of a lift make me jump higher?"
+    gold:
+      - {video_id: KpOzaFK3SA0, start: 462, end: 570, quote: "you have to stop yourself from going down before you go up"}
+      - {video_id: WpaDkeDB-Jc, start: 677, end: 735, quote: 'jumping is more about how much weight can you lower than how much weight can you lift up', added: 2026-10-27 review}
+      - {video_id: HPHG7qfvTps, start: 418, end: 464, quote: 'Their muscle is so strong that it can actually sustain its same length', added: 2026-10-27 review}
+  - id: q17
+    topic: technique
+    difficulty: medium
+    status: unverified
+    question: "On my run-up I stay too upright going into the second-to-last step. What should that step look like?"
+    gold:
+      - {video_id: QJTjp7hvGgc, start: 41, end: 130, quote: "Being too tall in the approach forces guys to jump into the penultimate step vertically"}
+      - {video_id: jZL8fm8n5kg, start: 75, end: 107, quote: "So the point of the penultimate is to lower you w"}
+      - {video_id: uxQ7f0n_8hQ, start: 80, end: 140, quote: "what are some cues that we can use to get a longer penultimate step"}
+      - {video_id: B8kUsYNZJj0, start: 1005, end: 1045, quote: "as he plants that penultimate step his Center of mass is not is not very low"}
+      - {video_id: WisW6aSe8_U, start: 2237, end: 2321, quote: 'you should be low going into the penultimate step', added: 2026-10-27 review}
+      - {video_id: WisW6aSe8_U, start: 2688, end: 2708, quote: 'It should feel like the first step of an acceleration.', added: 2026-10-27 review}
+      - {video_id: o-sacaoT1To, start: 113, end: 184, quote: 'it is important that you stay low through the support leg of the penultimate.', added: 2026-10-27 review}
+      - {video_id: qPvipeWYWlE, start: 396, end: 439, quote: 'you should make sure that the penultimate step knee is behind the hips.', added: 2026-10-27 review}
+      - {video_id: ASwTXWlUW_8, start: 418, end: 496, quote: 'That is literally what we mean when we say get low on the penultimate', added: 2026-10-27 review}
+      - {video_id: aL53OShb-iM, start: 110, end: 151, quote: 'I like to be upright before I come to the penultimate step', added: 2026-10-27 review}
+  - id: q18
+    topic: technique
+    difficulty: medium
+    status: unverified
+    question: "Should I sprint into my approach as fast as I can, and how many steps should I take?"
+    gold:
+      - {video_id: QJv8hoDmJi8, start: 0, end: 265, quote: "Five steps is usually the ideal number of steps for an approach for a dunk."}
+      - {video_id: QJTjp7hvGgc, start: 134, end: 170, quote: "are running too fast too early. This makes it impossible to accelerate through the jump."}
+      - {video_id: X5MorwYqWKA, start: 225, end: 260, quote: "a lot of athletes decelerate going into the penultimate step"}
+      - {video_id: 54tVuGHD5Pk, start: 370, end: 410, quote: "his approach is way faster and he's lowering"}
+  - id: q19
+    topic: technique
+    difficulty: easy
+    status: unverified
+    question: "What should my arms be doing during a running two-foot jump?"
+    gold:
+      - {video_id: QJTjp7hvGgc, start: 245, end: 300, quote: "As the penultimate step comes behind the body, the arms should also come behind the body."}
+      - {video_id: 9821SL9rjO4, start: 835, end: 880, quote: "jumps ever like for vertical touch have been with a tighter arm swing"}
+      - {video_id: B8kUsYNZJj0, start: 670, end: 700, quote: "generally you want to use as much of your arm swing as possible"}
+      - {video_id: FqQl_bul3Ss, start: 0, end: 72, quote: 'In two-foot jumping, the arm swing is connected to the block foot and penultimate step.', added: 2026-11-08 new-video review (Claude, unverified)}
+  - id: q20
+    topic: technique
+    difficulty: hard
+    status: unverified
+    question: "How do I decide whether to focus on jumping off one leg or two?"
+    gold:
+      - {video_id: UA6r9OgJVSY, start: 1935, end: 1980, quote: "it's just way more trainable it's less sensitive to fatigue you need less momentum to jump high"}
+      - {video_id: eE72N5LoRH8, start: 100, end: 140, quote: "it's better to master a two-foot plant, and then you can do more one-foot jumping"}
+      - {video_id: V2qg9T0TM6k, start: 1096, end: 1142, quote: 'How can I determine whether I should be focusing on one or two leg jumping? You got to ask yourself what your goal is.', added: 2026-10-27 review}
+      - {video_id: eE72N5LoRH8, start: 443, end: 509, quote: 'you should be prioritizing more two-foot', added: 2026-10-27 review}
+      - {video_id: eE72N5LoRH8, start: 827, end: 988, quote: '80% of your session should be your main plant.', added: 2026-10-27 review}
+  - id: q21
+    topic: sprinting
+    difficulty: medium
+    status: unverified
+    question: "Will doing sprint workouts help my vertical? Is the point to get a faster run-up?"
+    gold:
+      - {video_id: BkdHRdYCohk, start: 125, end: 200, quote: "so we do not do sprints for the approach speed."}
+      - {video_id: jEafj8KIlws, start: 0, end: 45, quote: "I sprinted three times a week and was doing intensive extensive tempo two times a week."}
+      - {video_id: ZxzFvqBlzYw, start: 495, end: 530, quote: "you need to have maximal velocity sprinting in relatively high volumes."}
+      - {video_id: yk1A9eYD8dg, start: 1230, end: 1290, quote: 'Sprinting is a quality that will help, don''t get me wrong, but it''s not the thing', added: 2026-10-27 review}
+      - {video_id: FAuYDDn4qjw, start: 107, end: 161, quote: 'Remember, sprinting is just vertical jump turn sideways.', added: 2026-10-27 review}
+      - {video_id: nbNWj6wKibQ, start: 1023, end: 1079, quote: 'builds work capacity good hormone response improves body composition great elastic contacts', added: 2026-10-27 review}
+      - {video_id: 6NSxlOySmlo, start: 207, end: 227, quote: 'just sprinting three times a week, and I was able to maintain my vertical super, super well', added: 2026-10-27 review}
+      - {video_id: 8bqPZTZsMsg, start: 0, end: 61, quote: 'It is one of the single best exercises for improving vertical leap.', added: 2026-10-27 review}
+      - {video_id: y-18wMgzBfA, start: 0, end: 61, quote: 'It is one of the single best exercises for improving vertical leap.', added: 2026-10-27 review}
+      - {video_id: 9Hw8QxvoCtc, start: 89, end: 137, quote: 'acceleration is one of the best ways to train rate of force development', added: 2026-10-27 review}
+      - {video_id: K_A9TajBT7A, start: 33, end: 75, quote: 'another reason I don''t do sprints is because it messes with my intent during my lifts', added: 2026-10-27 review}
+  - id: q22
+    topic: sprinting
+    difficulty: hard
+    status: unverified
+    question: "How close to a big dunk session or test day should I still be doing all-out top-speed sprints?"
+    gold:
+      - {video_id: -6LRuccad7M, start: 505, end: 560, quote: "For Isaiah to be seeing max velocity sprinting 2 weeks out, well first off, he's not a sprinter."}
+      - {video_id: wp6Dc5VlbHs, start: 0, end: 30, quote: 'we''re going to unload the back end of the week right before the dunk session', added: 2026-10-27 review}
+      - {video_id: DBiff8Q8sKs, start: 911, end: 935, quote: 'He doesn''t like to sprint before he dunks because he feels like it takes out of the session', added: 2026-10-27 review}
+      - {video_id: bhPSCWUJ1Gg, start: 720, end: 760, quote: 'Sprinting is great, don''t get me wrong, but closer to competition,', added: 2026-10-27 review}
+  - id: q23
+    topic: sprinting
+    difficulty: medium
+    status: unverified
+    question: "Mechanically, how is sprinting different from jumping?"
+    gold:
+      - {video_id: yk1A9eYD8dg, start: 181, end: 240, quote: "So, sprinting, you also have multiple phases. Jumping, you really just have one"}
+      - {video_id: AA786g4Nq0A, start: 255, end: 280, quote: "when you're upright sprinting, very, very short ground contact times around 80 milliseconds"}
+  - id: q24
+    topic: recovery_nutrition
+    difficulty: easy
+    status: unverified
+    question: "How much protein should I eat per day while training to jump higher?"
+    gold:
+      - {video_id: SNbyLvf28Rk, start: 1300, end: 1345, quote: "my general rule of thumb and goal is a gram of protein per pound of body"}
+      - {video_id: 8S5l87AVYsQ, start: 835, end: 870, quote: "it's 1.5 to 2.2 grams per kilogram"}
+      - {video_id: Buw-dhRaasI, start: 205, end: 235, quote: "the second thing you need to do is increase protein intake."}
+  - id: q25
+    topic: recovery_nutrition
+    difficulty: easy
+    status: verified
+    note: "gold extended 2026-10-27 after miss review"
+    question: "Do I really need to get lean to jump high? What body fat should I aim for?"
+    gold:
+      - {video_id: ZxzFvqBlzYw, start: 216, end: 250, quote: "I've said this many times, but fat does not fly."}
+      - {video_id: nxx1827geGM, start: 595, end: 630, quote: "World-class sprinters fall around 7% body fat"}
+      - {video_id: -PAFma61D5k, start: 680, end: 720, quote: "I do think genetics play a huge role and what body fat percentage you can maintain"}
+      - {video_id: uRZV6i7gs44, start: 0, end: 78, quote: 'Usain Bolt is probably 5 to 6% body fat.', added: 2026-10-27 miss review}
+      - {video_id: hET8eYea6J0, start: 506, end: 540, quote: 'Yes, if you want to jump high, you got to be lean.', added: 2026-10-27 miss review}
+  - id: q26
+    topic: recovery_nutrition
+    difficulty: medium
+    status: unverified
+    question: "How can I tell if I'm still too fatigued from my last workout to train hard today?"
+    gold:
+      - {video_id: cqA-5pFLiGw, start: 60, end: 520, quote: "here are four ways that I go about measuring fatigue to ensure that my athletes are perfor"}
+  - id: q27
+    topic: mobility
+    difficulty: medium
+    status: verified
+    note: "real miss: vocabulary gap"
+    question: "Is it bad to hold long stretches right before I jump?"
+    gold:
+      - {video_id: ifrQ8lcxoNs, start: 175, end: 210, quote: "you static stretch too much before a workout or before a training session playing basketball it can definitely decrease performance"}
+      - {video_id: -ADWQl-eRW0, start: 892, end: 925, quote: "the only static stretching that i would ever do before a dunk session if any would be would be couch"}
+      - {video_id: 8l0Omkm28hE, start: 445, end: 480, quote: "sometimes I'll have guys just hold static stretches."}
+      - {video_id: 0J1NHTqLaR0, start: 222, end: 266, quote: 'Dynamic flexibility is good because it improves your mobility without the downsides that happen when you do static flexibility or where you hold stretches.', added: 2026-11-08 new-video review (Claude, unverified)}
+  - id: q28
+    topic: mobility
+    difficulty: hard
+    status: unverified
+    question: "My ankles are stiff and my heels come up when I squat deep. Does that matter for jumping and training?"
+    gold:
+      - {video_id: aBL2FHI3dnY, start: 61, end: 110, quote: "I like to see a lot of ankle range of motion on it because it tends to balance load between the hip and the knee."}
+      - {video_id: -ADWQl-eRW0, start: 630, end: 670, quote: "athletes that didn't have the requisite mobility would they would get hurt more frequently"}
+      - {video_id: RhZdPjF2ppk, start: 1000, end: 1030, quote: "This is really good if you have a really pinchy ankle on the front."}
+      - {video_id: S28HK_6f0RQ, start: 655, end: 690, quote: "we got to get that ankle Mobility better"}
+      - {video_id: gv3GjajsiiA, start: 126, end: 179, quote: 'if you elevate your heels, then that''s going to give you more range of motion. It''s going to allow you to go into dorsiflexion more and balance better.', added: 2026-11-08 new-video review (Claude, unverified)}
+  - id: q29
+    topic: mindset
+    difficulty: medium
+    status: verified
+    note: "gold extended 2026-10-27 after miss review"
+    question: "I lose motivation after a few weeks of training. How do the best jumpers stay consistent for years?"
+    gold:
+      - {video_id: L5dyiDdiOd4, start: 0, end: 110, quote: "I have almost completely stopped setting goals and I make the work the goal."}
+      - {video_id: wu9OrMqwSVs, start: 800, end: 840, quote: "the number one thing is consistency for a lot of years"}
+      - {video_id: gs-4wKBHS9E, start: 965, end: 1000, quote: "But demotivated is different from disciplined."}
+      - {video_id: 9pOEsgalzV4, start: 505, end: 540, quote: "because I had a long-term mindset"}
+      - {video_id: jtlbfgtYgJk, start: 0, end: 34, quote: 'No matter what life throws at you, you have to find a way to stay consistent.', added: 2026-10-27 miss review}
+      - {video_id: jtlbfgtYgJk, start: 593, end: 720, quote: 'it''s about sticking with it and en enjoying the actual process.', added: 2026-10-27 miss review}
+      - {video_id: jtlbfgtYgJk, start: 720, end: 798, quote: 'if you stay the course, you''re going to improve.', added: 2026-10-27 miss review}
+  - id: q30
+    topic: mindset
+    difficulty: hard
+    status: unverified
+    question: "I gained a lot in my first year but now I barely improve. Is that normal or am I doing something wrong?"
+    gold:
+      - {video_id: nGcVgBy2wRg, start: 15, end: 130, quote: "as you get closer to your genetic potential, you will start to have a harder time getting better."}
+      - {video_id: gs-4wKBHS9E, start: 965, end: 1000, quote: "every inch of vertical is harder than the"}
+      - {video_id: xv961PvLRDo, start: 516, end: 578, quote: 'I don''t think people understand like just diminishing returns and how plateaus work', added: 2026-10-27 review}
+      - {video_id: _ZGwm50uAHU, start: 189, end: 282, quote: 'I want to quickly talk about diminishing returns', added: 2026-10-27 review}
+      - {video_id: qkjAT0fKh1Y, start: 89, end: 151, quote: 'you can expect roughly about an inch a month improvement in your vertical', added: 2026-10-27 review}
+      - {video_id: 3vmd30VvzRA, start: 1047, end: 1108, quote: 'It''s like it''s not going to be linear. It''s going to be it''s going to undulate.', added: 2026-10-27 review}
+      - {video_id: yO3n7qHivWc, start: 1287, end: 1308, quote: 'Like really talented guys will make a lot of progress really quickly and then they''ll stall off.', added: 2026-10-27 review}
+      - {video_id: Dks2JdRoKrI, start: 12, end: 30, quote: 'You''re not going to get better by just doing the things that you''re good at.', added: 2026-10-27 review}
+      - {video_id: ZqlIGWtEelA, start: 808, end: 857, quote: 'If you want to get better, you''ve got to train harder than you''ve ever trained.', added: 2026-10-27 review}
+      - {video_id: 2HUuWNDBQAQ, start: 681, end: 731, quote: 'You have a great year one and then there''s nothing there to actually keep the organism adapting and improving', added: 2026-11-08 new-video review (Claude, unverified)}
+# Out of scope: no answer in the corpus. Excluded from recall; for later refusal tests.
+  - {id: oos01, topic: out_of_scope, difficulty: oos, status: unverified, question: "What's a good 16-week plan to run a sub-3-hour marathon?", gold: []}
+  - {id: oos02, topic: out_of_scope, difficulty: oos, status: unverified, question: "How do I fix a slice in my golf swing?", gold: []}
+  - {id: oos03, topic: out_of_scope, difficulty: oos, status: unverified, question: "Which index funds should I put my savings into?", gold: []}
+  - {id: oos04, topic: out_of_scope, difficulty: oos, status: unverified, question: "How do I improve my breathing rhythm when swimming freestyle?", gold: []}
+  - {id: oos05, topic: out_of_scope, difficulty: oos, status: unverified, question: "What's the best way to learn chess openings as a beginner?", gold: []}

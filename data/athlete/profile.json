@@ -1,0 +1,39 @@
+{
+  "training_age_years": 4.0,
+  "lifts": {
+    "back_squat_lb": 225.0,
+    "half_squat_lb": 245.0,
+    "power_clean_lb": 175.0
+  },
+  "standing_vertical_in": null,
+  "approach_vertical_in": 32.0,
+  "standing_reach_in": 86.5,
+  "height_in": 67.0,
+  "days_per_week": 7,
+  "available_days": [
+    "mon",
+    "tue",
+    "wed",
+    "thu",
+    "fri",
+    "sat",
+    "sun"
+  ],
+  "session_minutes": 90,
+  "equipment": [
+    "barbell",
+    "rack",
+    "platform",
+    "box",
+    "med ball",
+    "safety bar",
+    "belt squat"
+  ],
+  "event": null,
+  "goal": "Dunk off two feet. Approach vertical about 31-33 in, standing reach about 7 ft 2-3 in (needs roughly 10 ft 6 in touch). Back squat is a deep squat; half squat estimated.",
+  "knee_pain": {
+    "status": "ache",
+    "notes": "Knee pain in the past, now manageable."
+  },
+  "injury_notes": "Two-foot jumper. No sport or other jump load during the week."
+}

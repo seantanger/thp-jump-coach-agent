@@ -361,7 +361,7 @@ chunk IDs.
   with chunk text are approved; Ollama, embedding and index rebuilds only
   when the machine is free.
 - Approved writes in `~/git/thp-ai/data`: `templates/`, `athlete/` (plus the
-  earlier chunks, index, eval, traces). No git in thp-ai; never delete there.
+  earlier chunks, index, eval, traces). Never delete there. (Since 2026-11-08 thp-ai is a git repo with this project as a subfolder.)
 - `langgraph-checkpoint-sqlite` approved for this repo's `.venv`.
 - AGENTS.md rules apply to the Planner and Verifier (prepended by `src/prompts.py`).
 

@@ -1,0 +1,7 @@
+# segment index -> fixes applied after global rules. uncertain: true appends [?]
+- {seg: 152, from: 'indiscreetly', to: 'indiscreetly', uncertain: true, note: 'possibly "indiscriminately" or "in discrete steps"'}
+- {seg: 170, from: 'muscular tennis unit', to: 'musculotendinous unit'}
+- {seg: 187, from: "you're intending disrepair", to: "you're in tendon disrepair"}
+- {seg: 305, from: 'reactive on degenerative', to: 'reactive or degenerative', uncertain: true}
+- {seg: 380, from: 'tennises ability', to: "tendon's ability"}
+- {seg: 612, from: "don't drain", to: "don't detrain", uncertain: true}

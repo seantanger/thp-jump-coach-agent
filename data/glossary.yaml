@@ -1,0 +1,77 @@
+# Canonical spellings used when cleaning transcripts.
+# shared: terms used across channels. channels.<handle>: names specific to one channel.
+# "added_in" marks terms discovered during cleaning (not in the starting list).
+shared:
+  - John Evans
+  - THP
+  - depth jump
+  - drop jump
+  - reactive strength index (RSI)
+  - approach jump
+  - standing vertical
+  - one-foot jump
+  - two-foot jump
+  - penultimate step
+  - block
+  - plant
+  - arm swing
+  - triple extension
+  - amortization
+  - plyometrics
+  - isometrics
+  - Spanish squat
+  - patellar tendinopathy / jumper's knee
+  - Nordic curl
+  - trap bar deadlift
+  - power clean
+  - force plate
+channels:
+  JohnEvans:
+    - Isaiah Rivera
+  thpstrength1: []
+added:
+  # discovered in pilot (2026-10-17). Canonical spelling <- misheard forms seen in auto-captions
+  - {term: tendinopathy, channel: shared, heard_as: [tenonopathy, tenopathy, teninopathy]}
+  - {term: tendonitis, channel: shared, heard_as: [tenonitis]}
+  - {term: tendon, channel: shared, heard_as: [tenon, tenant]}
+  - {term: tenocytes, channel: shared, heard_as: [tennocytes]}
+  - {term: nociceptive, channel: shared, heard_as: [noceptive]}
+  - {term: musculotendinous unit, channel: shared, heard_as: [muscular tennis unit]}
+  - {term: tendon disrepair, channel: shared, heard_as: [intending disrepair]}
+  - {term: reactive tendinopathy, channel: shared}
+  - {term: degenerative tendinopathy, channel: shared}
+  - {term: heavy slow resistance (HSR) training, channel: shared}
+  - {term: depth drop, channel: shared, heard_as: [dep drop]}
+  - {term: kettlebell, channel: shared, heard_as: [kettle bell]}
+  - {term: long conjugate sequence system, channel: shared}
+  - {term: stretch-shortening cycle, channel: shared}
+  - {term: shock loading / shock training, channel: shared}
+  - {term: rate of force development (RFD), channel: shared}
+  - {term: maximum voluntary contraction (MVC), channel: shared}
+  - {term: triceps surae, channel: shared}
+  - {term: PFP (patellofemoral pain), channel: shared}
+  - {term: reverse Nordic, channel: shared}
+  - {term: clean pull, channel: shared}
+  - {term: Prilepin's chart, channel: shared}
+  - {term: Verkhoshansky, channel: shared, note: shock method / Supertraining}
+  - {term: Ebonie Rio, channel: shared, heard_as: [Ebony Rio], note: tendon researcher}
+  - {term: Jill Cook, channel: shared, note: tendon researcher}
+  - {term: Boo Schexnayder, channel: shared}
+  - {term: Mike Young, channel: shared}
+  - {term: thpstrength.com, channel: shared, heard_as: [tsbstrength.com]}
+  - {term: Tony Crosby, channel: JohnEvans}
+  - {term: Donovan Hawkins, channel: JohnEvans}
+  - {term: Dylan McCarthy, channel: JohnEvans}
+  - {term: Dominic (Dom) Gonzalez, channel: JohnEvans}
+  - {term: Nate / Nathan George, channel: JohnEvans}
+  - {term: Satyarth, channel: JohnEvans}
+  - {term: Fabian Delryd, channel: JohnEvans, note: Swedish high jumper}
+  - {term: Stefan Holm, channel: JohnEvans}
+  - {term: Tobin Knudson, channel: JohnEvans, note: "spelling unverified [?]"}
+  - {term: Devonte Scott, channel: thpstrength1}
+  # discovered in the full regular-video run (2026-10-25)
+  - {term: eccentric, channel: shared, heard_as: [Ecentric]}
+  - {term: plyo / plyos, channel: shared, heard_as: [pio, pios]}
+  - {term: Eastbay (dunk), channel: shared, heard_as: [east bay], note: "left as captioned; both spellings appear"}
+  - {term: PFP (patellofemoral pain), channel: shared, note: "~280 mentions"}
+  - {term: isos (isometrics), channel: shared}

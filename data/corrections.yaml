@@ -1,0 +1,48 @@
+# Phase 2 cleaning rules, applied by scripts/clean.py.
+# global: regex (case-insensitive, matched within one segment) -> replacement. Applied to every video.
+#   Only add a rule here when the fix is right in essentially every context in this corpus.
+# Per-video, context-dependent fixes live in data/clean_overrides/<video_id>.yaml.
+global:
+  - {pattern: '\bten(?:on|in|o|n)*n?opathy\b', to: 'tendinopathy', note: 'tenonopathy/tenopathy/teninopathy'}
+  - {pattern: '\btenonitis\b', to: 'tendonitis'}
+  - {pattern: '\btenon\b', to: 'tendon'}
+  - {pattern: '\btenant\b', to: 'tendon', note: 'auto-captions hear "tendon" as "tenant"; no real uses of tenant seen'}
+  - {pattern: '\btennocytes?\b', to: 'tenocytes'}
+  - {pattern: '\bnoceptive\b', to: 'nociceptive'}
+  - {pattern: '\bweightlifterss\b', to: 'weightlifters'}
+  - {pattern: '\bkettle bells?\b', to: 'kettlebell', keep_plural: true}
+  - {pattern: '\bdep drops?\b', to: 'depth drop', keep_plural: true}
+  - {pattern: '\breinss\b', to: 'reins'}
+  - {pattern: '\bbottle neck\b', to: 'bottleneck'}
+  - {pattern: '\bEbony Rio\b', to: 'Ebonie Rio'}
+  - {pattern: '\btsbstrength\.com\b', to: 'thpstrength.com'}
+  - {pattern: '\bintervertical\b', to: 'inch of vertical'}
+  - {pattern: '\bqued\b', to: 'cued'}
+  - {pattern: '\b(\d+)ount\b', to: '\1-count'}
+  - {pattern: '\b(\d+)second\b', to: '\1-second'}
+  # added 2026-10-25 after the full regular-video run (corpus-wide scan)
+  - {pattern: '\btendon opathy\b', to: 'tendinopathy', note: 'tenant opathy -> tendon opathy after the tenant rule'}
+  - {pattern: '\becentrics?\b', to: 'eccentric', keep_plural: true, note: '~300 hits'}
+  - {pattern: '\bpios\b', to: 'plyos', note: 'auto-captions hear plyo as pio; ~60 hits'}
+  - {pattern: '\bpio\b', to: 'plyo', note: '~280 hits'}
+  - {pattern: '\bverk[ao]?shansky\b', to: 'Verkhoshansky'}
+  # added 2026-10-26 (jump-coach-agent chunk review). thpstrength.com is the only "...strength.com"
+  # site in the corpus; every variant below was checked in context (sign up / apply / coaching).
+  # Cross-segment splits ("go to THP" | "Strength.com", ~100) are left alone: rules match within one segment.
+  - {pattern: '(?<![\w''-])(?:teach|t|ts|tach)\s(?:b|p|me|free|street|be)[\s-](?:strength|strike)\s?(?:\.|\s?dot\s?)com\b', to: 'thpstrength.com', note: 'two-token site variants: teach B / teach me / TS P / T Street strength.com'}
+  - {pattern: '(?<![\w''-])(?:thp|thb|thbr|thv|tb|tbst|tbsp|tbr|tp|tpst|tpr|tsp|tspsb|tsb|tzb|teb|tjp|tm|tv|tcp|tachp|tach|teach|teachme|teach\sme|teachpe|beast|team|hb|th|t)[\s-](?:strength|strike)\s?(?:\.|\s?dot\s?)com\b', to: 'thpstrength.com', note: 'spaced site variants: thp / tb / tpst / teach me strength.com, strength dot com'}
+  - {pattern: '(?<![\w''-])(?!thpstrength\.com\b)(?:(?:teach|t|ts|tach)\s)?[a-z][a-z-]*?(?:strength|strike)\s?(?:\.|\s?dot\s?)com\b', to: 'thpstrength.com', note: 'joined site variants: teachbstrength / thbstrength / tjspstrength / thpstrike.com ... (2026-10-26 fix: skips already-correct spellings, so THPstrength.com keeps its case)'}
+  - {pattern: '\b(to|is)\sstrength\s?(?:\.|\s?dot\s?)com\b', to: '\1 thpstrength.com', note: '"go to strength.com" with THP dropped; keeps the real word'}
+  - {pattern: '(?<![\w''-])(?:teachmestretch|teesbeestrangth|thbstrank|tsplength|tchpstring|teasebysrength|tbshank|tsprren|tbspren|tspring)\.com\b', to: 'thpstrength.com', note: 'site variants without "strength"; short ones (tp.com, tm.com, teach.com, tank.com) left alone'}
+  # "centric" alone is ambiguous (eccentric OR concentric; "athlete-centric" is a real word). Only
+  # patterns that are clearly one word are fixed; the rest (~40, e.g. "why centric", "heavy Centrics") are left.
+  - {pattern: '(?<![\w''-])(?:e|east)[\s-]centric(s|ally)?\b', to: 'eccentric\1', note: 'e centric / e-centric / East Centrics / e centrically'}
+  - {pattern: '\btrue tree centric\b', to: 'true eccentric', note: 'true eccentric overload'}
+  # added 2026-10-26 (second pass). All 7 "decentric" and 5 "isocentric(s)" were checked in context.
+  - {pattern: '\bdecentric(s|ally)?\b', to: 'eccentric\1', note: '"fast decentric loading", "failed decentric", "concentric and decentric RFDs": the d is the previous word'}
+  - {pattern: '\bisocentric(s|ally)?\b', to: 'eccentric\1', note: '"overcoming isometrics and supramaximal isocentrics", "overloaded isocentrics through weight releasers": isos + eccentrics blended'}
+# Filler removed only where it hurts readability. Emphatic repeats ("really, really") are kept.
+filler_words: [um, uh, uhm]
+repeat_keep: [you, really, very, super, way, so, pretty, no, that, had, ha, bye, go]
+# Non-speech caption tags removed from clean_text (kept in text).
+nonspeech_tags: ['\[music\]', '\[applause\]', '\[laughter\]', '\[bell and music\]', '\[\s*__\s*\]']

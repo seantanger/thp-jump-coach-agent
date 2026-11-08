@@ -1,0 +1,2 @@
+- {seg: 14, from: 'jump? know', to: 'jump? Knowing', uncertain: true, note: 'first word of sentence cut off'}
+- {seg: 60, from: 'I might to tell', to: 'I might tell'}

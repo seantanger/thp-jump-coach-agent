@@ -1,0 +1,8 @@
+# One entry per YouTube channel. Add a channel here and rerun scripts/collect.py.
+channels:
+  - handle: JohnEvans
+    name: John Evans
+    url: https://www.youtube.com/@JohnEvans
+  - handle: thpstrength1
+    name: THP Strength
+    url: https://www.youtube.com/@thpstrength1

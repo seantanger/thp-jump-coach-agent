@@ -12,11 +12,11 @@ and a 2-node LangGraph coach (coach <-> tools) that answers from the library
 via `search_library`, with a code-only citation check and local traces. The
 safety check, router and Verifier come next.
 
-> The transcript dataset lives in `$THP_DATA_DIR/clean/<channel>/<video_id>.json`
-> (`THP_DATA_DIR=~/git/thp-ai/data`). It is **private**: read it in place, never
-> copy it into this repo, upload it, or publish it. Everything derived from it
-> (chunks, vectors, eval questions with gold quotes) lives next to it in
-> `$THP_DATA_DIR/{chunks,index,eval}/`, never here. `data/` is gitignored as a safety net.
+> This project is a subfolder of the `thp-ai` repo (`~/git/thp-ai`), which also holds the
+> transcript collection scripts and the data in `~/git/thp-ai/data` (`THP_DATA_DIR`).
+> Transcripts (`raw/`, `clean/`), chunks, the Chroma index, traces and LangGraph checkpoints
+> are gitignored there; templates, eval questions, cleaning rules, listings, the profile and
+> plans are committed. Read data in place via `THP_DATA_DIR`; never copy it into this folder.
 
 ## Layout
 
@@ -55,8 +55,9 @@ tests/                  pytest; mocks the models and blocks all network access
 Requires [uv](https://docs.astral.sh/uv/) and, for local models, [Ollama](https://ollama.com).
 
 ```bash
-cd ~/git/jump-coach-agent
-uv sync                      # creates .venv with Python 3.12 and all deps
+cd ~/git/thp-ai
+uv sync --all-packages --all-groups   # one shared .venv (Python 3.12) for thp-ai and this project
+cd jump-coach-agent
 cp .env.example .env         # then put your key in ANTHROPIC_API_KEY (and check THP_DATA_DIR)
 chmod 600 .env
 
@@ -284,7 +285,6 @@ checked October 29, 2026; discounts/cache billing may differ.
 ## Local chat UI
 
 ```bash
-uv sync --group ui
 uv run streamlit run ui/app.py
 ```
 

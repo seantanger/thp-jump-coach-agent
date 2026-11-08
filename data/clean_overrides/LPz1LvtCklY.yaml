@@ -1,0 +1,11 @@
+- {seg: 138, from: 'yelling', to: 'squatting', uncertain: true, note: 'context is lift numbers'}
+- {seg: 140, from: 'yelled', to: 'squatted', uncertain: true}
+- {seg: 245, from: "reason- reasonably", to: 'reasonably'}
+- {seg: 272, from: "I Isaiah's", to: "Isaiah's"}
+- {seg: 364, from: 'emphasis', to: 'emphases'}
+- {seg: 365, from: 'emphasisi, emphasis-es internally,', to: 'internally,'}
+- {seg: 418, from: 'te- isometrics', to: 'isometrics'}
+- {seg: 530, from: 'For studying Travis', to: 'For studying Travis', uncertain: true, note: 'unclear phrase/name'}
+- {seg: 649, from: 'Schexnayder, set up', to: "Schexnayder, who's", uncertain: true}
+- {seg: 677, from: 'sparring', to: 'sprinting', uncertain: true, note: 'stiff contacts from sprinting year round'}
+- {seg: 700, from: 'Tobin Nudson', to: 'Tobin Knudson', uncertain: true, note: 'surname spelling unverified'}

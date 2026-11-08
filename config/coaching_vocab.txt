@@ -1,0 +1,13 @@
+# Words that signal coaching content. Used by scripts/clean.py to flag Shorts/videos that are
+# music, song lyrics or casual chatter (coaching_content: false). One word per line or space-separated.
+jump jumps jumping jumper jumpers vertical inch inches squat squats squatting deadlift clean cleans
+power strength strong train training trained program plyo plyos plyometric plyometrics tendon tendons
+knee knees achilles patella patellar depth drop drops box rep reps sets set weight lift lifts lifting
+athlete athletes dunk dunking dunker speed sprint sprinting force eccentric concentric isometric
+isometrics stiff stiffness contact ground volume cycle study research body coach coaching muscle
+muscles recovery pain injury approach takeoff hip hips calf calves hamstring quad quads leg legs
+elastic explosive rfd rsi tendinopathy thp
+# added 2026-10-19 after long coaching videos on sprinting/nutrition scored just under the cutoff
+workout workouts exercise exercises sprints run running fast twitch fibers nervous mobility stretch
+stretching warm hurdle hurdles bound bounds fat protein calories diet nutrition sleep eat eating
+technique plant block penultimate swing arm arms progression periodization deload rest

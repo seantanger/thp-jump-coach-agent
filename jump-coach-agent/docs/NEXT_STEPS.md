@@ -223,8 +223,9 @@ other; they share only the tool loop, the rules and the Verifier.
 
 ## Rules that still apply
 
-- Transcripts and anything derived from them (templates, plans, chunk text, traces) stay in
-  `~/git/thp-ai/data`; never in this repo, never uploaded. Claude may write there only in chunks, index,
-  eval, traces, templates and athlete.
+- Data stays in `~/git/thp-ai/data` (this project is now a subfolder of the thp-ai repo, 2026-11-08).
+  Transcripts, chunks, the index, traces and checkpoints are gitignored; templates, eval, cleaning rules,
+  listings, profile and plans are committed. Claude may write there only in chunks, index, eval, traces,
+  templates and athlete.
 - No Ollama / embedding / index rebuilds while the Mac is busy; Claude API calls with a cost estimate first.
-- Commit code only, no data.
+- Never commit the gitignored data (transcripts, chunks, index).

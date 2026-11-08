@@ -1,0 +1,15 @@
+[project]
+name = "thp-ai"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pyyaml>=6.0.3",
+    "yt-dlp>=2026.8.19",
+]
+
+[tool.uv.workspace]
+members = ["jump-coach-agent"]
+
+[tool.uv]
+# onnxruntime (pulled in by chromadb) stopped shipping Intel-Mac wheels after 1.23. uv reads this only from the workspace root.
+constraint-dependencies = ["onnxruntime<1.24; sys_platform == 'darwin' and platform_machine == 'x86_64'"]

@@ -1,0 +1,617 @@
+{
+  "version": 1,
+  "based_on": null,
+  "created_at": "2026-11-07T20:31:26",
+  "change_summary": "A new six-month long-conjugate macrocycle starts Mon 2026-11-09, with six 4-week mesocycles and no event date. Detailed sessions cover only weeks 1–2 of month 1 (volume building): 3 lift days (Mon/Wed/Fri), general days (Tue/Thu) and a Saturday jump session. The tendon track is not started because your knee ache is manageable. Treat pain 24–48 h after jumping, or 6/10 or worse the next day, as the cue to switch to the tendon track.",
+  "profile_snapshot": {
+    "training_age_years": 4.0,
+    "lifts": {
+      "back_squat_lb": 225.0,
+      "half_squat_lb": 245.0,
+      "power_clean_lb": 175.0
+    },
+    "standing_vertical_in": null,
+    "approach_vertical_in": 32.0,
+    "standing_reach_in": 86.5,
+    "height_in": 67.0,
+    "days_per_week": 7,
+    "available_days": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri",
+      "sat",
+      "sun"
+    ],
+    "session_minutes": 90,
+    "equipment": [
+      "barbell",
+      "rack",
+      "platform",
+      "box",
+      "med ball",
+      "safety bar",
+      "belt squat"
+    ],
+    "event": null,
+    "goal": "Dunk off two feet. Approach vertical about 31-33 in, standing reach about 7 ft 2-3 in (needs roughly 10 ft 6 in touch). Back squat is a deep squat; half squat estimated.",
+    "knee_pain": {
+      "status": "ache",
+      "notes": "Knee pain in the past, now manageable."
+    },
+    "injury_notes": "Two-foot jumper. No sport or other jump load during the week."
+  },
+  "macrocycle": {
+    "model": "long_conjugate",
+    "template_id": "long_conjugate_6mo",
+    "start": "2026-11-09",
+    "event_date": null,
+    "end": "taper",
+    "cites": [
+      "1sQ-FOxDP5M@0#0",
+      "Icml891MLHA@209#0",
+      "Icml891MLHA@792#0"
+    ]
+  },
+  "mesocycles": [
+    {
+      "index": 0,
+      "cycle_id": "m1_volume",
+      "name": "Month 1 – volume building",
+      "emphasis": "volume",
+      "start": "2026-11-09",
+      "end": "2026-12-06",
+      "goal": "Build work capacity with general work that looks little like jumping; deload in week 4 (week of 2026-11-30, timing by feel).",
+      "entry_criteria": "Start of the macrocycle.",
+      "exit_criteria": "Four weeks done, including the week-4 deload.",
+      "primes_next": "Volume built here is intensified in month 2.",
+      "cites": [
+        "Icml891MLHA@141#0",
+        "Icml891MLHA@174#0",
+        "Icml891MLHA@209#0"
+      ]
+    },
+    {
+      "index": 1,
+      "cycle_id": "m2_intensify",
+      "name": "Month 2 – intensify, more specific",
+      "emphasis": "intensification (power and 6–8 rep strength)",
+      "start": "2026-12-07",
+      "end": "2027-01-03",
+      "goal": "Intensify the month-1 volume; clean pulls and power cleans for a two-foot jumper; accessories prime month 3.",
+      "entry_criteria": "Month 1 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.",
+      "cites": [
+        "Icml891MLHA@244#0",
+        "Icml891MLHA@282#0",
+        "Icml891MLHA@320#0"
+      ]
+    },
+    {
+      "index": 2,
+      "cycle_id": "m3_absolute_strength",
+      "name": "Month 3 – absolute strength",
+      "emphasis": "absolute strength",
+      "start": "2027-01-04",
+      "end": "2027-01-31",
+      "goal": "Heavy squats and heavy clean pulls; eccentric accessories prime month 4.",
+      "entry_criteria": "Month 2 done.",
+      "exit_criteria": "About 3 weeks done (4 weeks scheduled, with feel-based adjustment).",
+      "primes_next": "Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.",
+      "cites": [
+        "Icml891MLHA@320#0",
+        "Icml891MLHA@354#0",
+        "Icml891MLHA@390#0",
+        "Icml891MLHA@427#0"
+      ]
+    },
+    {
+      "index": 3,
+      "cycle_id": "m4_strength_speed",
+      "name": "Month 4 – strength-speed (fast bars, eccentric overload)",
+      "emphasis": "strength-speed",
+      "start": "2027-02-01",
+      "end": "2027-02-28",
+      "goal": "Power clean to maxes; accentuated eccentric squats and eccentric split squats; general days get more general.",
+      "entry_criteria": "Month 3 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Elastic accessories (high-velocity calf raises, drop RDLs) lead into month 5's speed work.",
+      "cites": [
+        "Icml891MLHA@427#0",
+        "Icml891MLHA@463#0",
+        "Icml891MLHA@501#0",
+        "Icml891MLHA@535#0"
+      ]
+    },
+    {
+      "index": 4,
+      "cycle_id": "m5_speed_strength",
+      "name": "Month 5 – speed-strength (bar speed)",
+      "emphasis": "speed-strength",
+      "start": "2027-03-01",
+      "end": "2027-03-28",
+      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); blend a heavy primer with high-velocity squats; start shock loading at low plyo volume.",
+      "entry_criteria": "Month 4 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Shock-loading accessories (med ball throws, low plyo volume) lead into month 6.",
+      "cites": [
+        "Icml891MLHA@572#0",
+        "Icml891MLHA@609#0",
+        "Icml891MLHA@647#0",
+        "Icml891MLHA@681#0"
+      ]
+    },
+    {
+      "index": 5,
+      "cycle_id": "m6_specificity",
+      "name": "Month 6 – specificity",
+      "emphasis": "specificity",
+      "start": "2027-03-29",
+      "end": "2027-04-25",
+      "goal": "Specificity at its highest; the most plyo intensity and variety of the year; accessories become general and slow.",
+      "entry_criteria": "Month 5 done.",
+      "exit_criteria": "Month done; taper follows.",
+      "primes_next": "Taper.",
+      "cites": [
+        "Icml891MLHA@681#0",
+        "Icml891MLHA@718#0",
+        "Icml891MLHA@754#0"
+      ]
+    }
+  ],
+  "tendon_track": null,
+  "weeks": [
+    {
+      "start": "2026-11-09",
+      "mesocycle_index": 0,
+      "kind": "normal",
+      "volume_modifier": 1.0,
+      "days": [
+        {
+          "date": "2026-11-09",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": null,
+              "rest": null,
+              "notes": "Power exercise first. Fast, crisp reps at a load that keeps bar speed high (your max is about 175 lb); volume builds toward intensification in month 2.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 65.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 145 lb off a 225 lb deep squat. Controlled reps. 65% suits the higher rep range.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "general lower-body accessory",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Sumo deadlift. Hip-dominant accessory for a two-foot jumper. Moderate load, no grinding.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@174#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Optional easy bodyweight/bodybuilding circuit with plenty of variety, plus upper body and core. Nothing that looks like jumping. First thing to drop if tired.",
+              "cites": [
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": null,
+              "rest": null,
+              "notes": "Power exercise first. Same crisp bar speed.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 65.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 145 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "general lower-body accessory",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Single-leg RDL, per leg. Unilateral, hip-dominant work.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@174#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Optional easy general circuit. Keep it general and low-impact.",
+              "cites": [
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": null,
+              "rest": null,
+              "notes": "Power exercise first. Keep reps fast. Leave energy for Saturday's jump session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 65.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 145 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "general lower-body accessory",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Sumo deadlift. Hip-dominant accessory. Moderate load.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@174#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-14",
+          "day_type": "jump",
+          "sessions": [
+            {
+              "exercise": "jump session warm-up jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 35.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Low-effort jumping inside the 40-minute window. Stop if the knee goes above 2–3/10 pain.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session max-effort jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 5.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Max-effort jumping for 5 min at the end of the window.",
+              "cites": [
+                "Icml891MLHA@792#0"
+              ],
+              "deviation": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": "2026-11-16",
+      "mesocycle_index": 0,
+      "kind": "normal",
+      "volume_modifier": 1.0,
+      "days": [
+        {
+          "date": "2026-11-16",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": null,
+              "rest": null,
+              "notes": "Power exercise first. Fast reps. Add a little load only if bar speed stays high.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "back squat",
+              "sets": 5,
+              "reps": 8,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 155 lb. 70% suits the lower rep range.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "general lower-body accessory",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Sumo deadlift. Hip-dominant accessory. Moderate load.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@174#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-17",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Optional easy general circuit with different movements from last week.",
+              "cites": [
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-18",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": null,
+              "rest": null,
+              "notes": "Power exercise first.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "back squat",
+              "sets": 5,
+              "reps": 8,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 155 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "general lower-body accessory",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Single-leg RDL, per leg.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@174#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-19",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Optional easy general circuit.",
+              "cites": [
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-20",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": null,
+              "rest": null,
+              "notes": "Power exercise first. Keep reps fast and leave energy for Saturday.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "back squat",
+              "sets": 5,
+              "reps": 8,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 155 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "general lower-body accessory",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Sumo deadlift. Hip-dominant accessory. Moderate load.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@174#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-21",
+          "day_type": "jump",
+          "sessions": [
+            {
+              "exercise": "jump session warm-up jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 35.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Low-effort jumping inside the 40-minute window. Stop if the knee goes above 2–3/10 pain.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session max-effort jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 5.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Max-effort jumping for 5 min at the end of the window.",
+              "cites": [
+                "Icml891MLHA@792#0"
+              ],
+              "deviation": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

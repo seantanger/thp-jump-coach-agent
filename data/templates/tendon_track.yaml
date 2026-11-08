@@ -1,0 +1,274 @@
+# Drafted 2026-10-30 by Claude from the transcripts only (not the Google Drive sheets).
+# Main source: John Evans – How To Get Rid Of Knee Pain (Full Blueprint), 9X_j-oF2ZDg (2026-10-16),
+# which itself describes a "four-step system" (phases 1-4) after a reactive-tendinopathy check.
+# Pain-score rules cross-checked with THP videos (ZN8wh4FFZuA, VMSF8C25mxY, 72YX7nkYmYE, ZShxHyeTsVk).
+id: tendon_track
+name: Patellar tendon track (Knee Pain Full Blueprint)
+kind: tendon_track
+model: four_phase_tendon
+sources: [9X_j-oF2ZDg, ZN8wh4FFZuA, VMSF8C25mxY, 72YX7nkYmYE, ZShxHyeTsVk, Hhl7vONBAEs]
+
+defaults:
+  values:
+    isometrics_for_life: "3 sets of 45 s isometrics before every session (sprints, squats or jumps) and again ~6 h after the session start, every day."
+    one_knee_exercise: "With jumper's knee, only one knee-dominant exercise (4x6); no extra lunges, leg extensions or hip-extension work that uses the knee."
+    allowed_extras: "RDLs (not deadlifts), calf raises, seated calf raises, band walks, adductor machine."
+    morning_pain_test: "Same provocative movement every morning (e.g. deep bodyweight squat), scored 1-10; pain peaks 24-48 h after loading."
+    flare_up_rule: "After a flare-up keep heavy slow resistance and isometrics; step the elastic session back (slower, back to drops or box jumps)."
+  cites: [9X_j-oF2ZDg@288#0, 9X_j-oF2ZDg@328#0, 9X_j-oF2ZDg@985#0, 9X_j-oF2ZDg@1020#0, 9X_j-oF2ZDg@911#0,
+          9X_j-oF2ZDg@951#0, ZN8wh4FFZuA@187#0, VMSF8C25mxY@421#0]
+
+elastic_exercises: [depth drop, standing box jump, one-step box jump, rim touch, approach jump, jump session max-effort jumps,
+                    jump session warm-up jumps, sprints, plyometrics, power clean]
+
+scheduling:
+  pattern: [elastic, hsr, iso_only]
+  hard_day_types: [elastic, hsr]
+  min_days_between_hard: 2
+  allowed_back_to_back: [[elastic, hsr]]
+  missed_sessions: skip
+  cites: [9X_j-oF2ZDg@365#0, 9X_j-oF2ZDg@603#0, 9X_j-oF2ZDg@686#0, 9X_j-oF2ZDg@804#0, Hhl7vONBAEs@570#0]
+
+cycles:
+  - id: reactive
+    name: Reactive flare-up check
+    emphasis: rest
+    goal: An acute flare-up (day after, or during a session) usually settles with 24-48 h off; then normal training resumes unchanged.
+    weeks: null
+    entry_criteria: Tendon pain flared the day after or during a session, and settles within 24-48 h.
+    exit_criteria: Pain settled within 24-48 h -> back to normal training. Pain returning 24-48 h after every elastic session -> tendon disrepair, phase 1.
+    primes_next: null
+    allowed_jumping: []
+    cites: [9X_j-oF2ZDg@42#0, 9X_j-oF2ZDg@83#0]
+    day_types:
+      - {id: "off", label: 24-48 h off, cites: [9X_j-oF2ZDg@83#0]}
+    prescriptions: []
+
+  - id: phase1_isometrics
+    name: Phase 1 – isometrics only
+    emphasis: pain relief
+    goal: Desensitize the tendon and stimulate collagen production; all elastic loading removed.
+    weeks: null
+    entry_criteria: Tendon disrepair (pain 24-48 h after jumping or other elastic loading).
+    exit_criteria: Walk up and down stairs without pain.
+    primes_next: Heavy slow resistance.
+    allowed_jumping: []
+    cites: [9X_j-oF2ZDg@125#0, 9X_j-oF2ZDg@165#0, 9X_j-oF2ZDg@249#0, 9X_j-oF2ZDg@288#0, 9X_j-oF2ZDg@402#0]
+    day_types:
+      - {id: daily, label: Every day (2+ times), cites: [9X_j-oF2ZDg@249#0]}
+    prescriptions:
+      - day_type: daily
+        exercise: isometric leg extension
+        equipment: []
+        sets: {min: 3, max: 5}
+        reps: {min: 1, max: 1}
+        intensity: {min: 70, max: 70, unit: "%"}
+        rest: about 1 min
+        notes: 45-second holds at ~70% of max voluntary contraction, to about 2-3/10 tendon pain. Manual, machine leg extension (preferred) or ~40 lb kettlebell. At least twice a day; ideally every 6 h.
+        cites: [9X_j-oF2ZDg@125#0, 9X_j-oF2ZDg@165#0, 9X_j-oF2ZDg@211#0, 9X_j-oF2ZDg@249#0]
+
+  - id: phase2_heavy_slow
+    name: Phase 2 – heavy slow resistance
+    emphasis: tendon capacity
+    goal: Build capacity with slow, heavy isotonic work in the knee angles the athlete jumps through.
+    weeks: {min: 2, max: 4}
+    entry_criteria: Stairs pain-free.
+    exit_criteria: Quarter squat ~225 lb or half squat ~185 lb, slowly, without pain (muscle fatiguing while tendon pain falls through the session).
+    primes_next: Elastic storage.
+    allowed_jumping: []
+    cites: [9X_j-oF2ZDg@365#0, 9X_j-oF2ZDg@402#0, 9X_j-oF2ZDg@442#0, 9X_j-oF2ZDg@482#0, 9X_j-oF2ZDg@521#0, 9X_j-oF2ZDg@560#0]
+    day_types:
+      - {id: hsr, label: "Heavy slow resistance (e.g. Mon/Wed/Fri)", cites: [9X_j-oF2ZDg@365#0]}
+      - {id: iso_only, label: Isometrics only (other days and weekends), cites: [9X_j-oF2ZDg@521#0]}
+    prescriptions:
+      - day_type: hsr
+        exercise: half squat
+        equipment: [barbell, rack]
+        sets: {min: 4, max: 4}
+        reps: {min: 6, max: 8}
+        intensity: null
+        rest: null
+        notes: Two-foot jumpers. 4 s down, 1 s pause, 4 s up (metronome). 2-5/10 tendon pain. Add 5-10 lb each session; if worse at 48 h, drop 5-10 lb and slow to a 5-6 count. Isometrics first.
+        cites: [9X_j-oF2ZDg@365#0, 9X_j-oF2ZDg@402#0, 9X_j-oF2ZDg@442#0, 9X_j-oF2ZDg@521#0]
+      - day_type: hsr
+        exercise: quarter squat
+        equipment: [barbell, rack]
+        sets: {min: 4, max: 4}
+        reps: {min: 6, max: 8}
+        intensity: null
+        rest: null
+        notes: One-foot jumpers (or end-range leg extension). Same tempo, pain and progression rules as the half squat.
+        cites: [9X_j-oF2ZDg@365#0, 9X_j-oF2ZDg@442#0]
+      - day_type: iso_only
+        exercise: isometric leg extension
+        equipment: []
+        sets: {min: 3, max: 3}
+        reps: {min: 1, max: 1}
+        intensity: {min: 70, max: 70, unit: "%"}
+        rest: about 1 min
+        notes: 45-second holds.
+        cites: [9X_j-oF2ZDg@288#0, 9X_j-oF2ZDg@521#0]
+
+  - id: phase3_elastic_storage
+    name: Phase 3 – elastic storage (depth drops)
+    emphasis: energy storage
+    goal: Bridge from slow strength to fast loading with depth drops in a 3-day cycle.
+    weeks: null
+    entry_criteria: Phase 2 exit (pain-free slow 225 lb quarter / 185 lb half squat).
+    exit_criteria: Drops progressed session by session without flare-ups; the transcript gives no fixed end height.
+    primes_next: Return to jumping.
+    allowed_jumping: [depth drop]
+    cites: [9X_j-oF2ZDg@560#0, 9X_j-oF2ZDg@603#0, 9X_j-oF2ZDg@646#0, 9X_j-oF2ZDg@686#0, 9X_j-oF2ZDg@725#0]
+    day_types:
+      - {id: elastic, label: "Day 1: isometrics + depth drops", cites: [9X_j-oF2ZDg@603#0]}
+      - {id: hsr, label: "Day 2: heavy slow resistance", cites: [9X_j-oF2ZDg@603#0, 9X_j-oF2ZDg@646#0]}
+      - {id: iso_only, label: "Day 3: isometrics only", cites: [9X_j-oF2ZDg@646#0, 9X_j-oF2ZDg@686#0]}
+    prescriptions:
+      - day_type: elastic
+        exercise: depth drop
+        equipment: [box]
+        sets: null
+        reps: {min: 10, max: 20}
+        intensity: {min: 12, max: 12, unit: in}
+        rest: null
+        notes: Start at a 12 in box and add about 6 in each session (12 -> 18 -> ...); land in a quarter squat. Isometrics and dynamic flexibility first.
+        cites: [9X_j-oF2ZDg@603#0, 9X_j-oF2ZDg@686#0]
+      - day_type: hsr
+        exercise: half squat
+        equipment: [barbell, rack]
+        sets: {min: 4, max: 4}
+        reps: {min: 6, max: 6}
+        intensity: null
+        rest: null
+        notes: Start where phase 2 ended (e.g. ramp 135-155-185-225 lb); add 5-10 lb on the last two sets. Slow tempo.
+        cites: [9X_j-oF2ZDg@646#0, 9X_j-oF2ZDg@686#0]
+      - day_type: iso_only
+        exercise: isometric leg extension
+        equipment: []
+        sets: {min: 3, max: 3}
+        reps: {min: 1, max: 1}
+        intensity: {min: 70, max: 70, unit: "%"}
+        rest: about 1 min
+        notes: 45-second holds; can't really do too many.
+        cites: [9X_j-oF2ZDg@165#0, 9X_j-oF2ZDg@646#0, 9X_j-oF2ZDg@725#0]
+
+  - id: phase4_return_to_jumping
+    name: Phase 4 – return to jumping
+    emphasis: elastic progression
+    goal: Same 3-day cycle; only the elastic day progresses, two sessions per step; heavy slow resistance stays fixed.
+    weeks: null
+    entry_criteria: Phase 3 done (about 8 weeks into rehab).
+    exit_criteria: Court jumping at rising approach intensity without flare-ups; then 1 jump + 1 depth-drop session a week with 2 heavy-slow and 2 isometric sessions until confident, then back to the long conjugate sequence with lighter jump sessions, clean pulls instead of power cleans, and slow main strength lifts.
+    primes_next: long_conjugate_6mo
+    allowed_jumping: [standing box jump, one-step box jump, rim touch, depth drop]
+    cites: [9X_j-oF2ZDg@764#0, 9X_j-oF2ZDg@804#0, 9X_j-oF2ZDg@839#0, 9X_j-oF2ZDg@875#0, 9X_j-oF2ZDg@911#0,
+            9X_j-oF2ZDg@951#0, 9X_j-oF2ZDg@985#0, 9X_j-oF2ZDg@1020#0, 9X_j-oF2ZDg@1061#0]
+    day_types:
+      - {id: elastic, label: "Day 1: isometrics + jumping progression", cites: [9X_j-oF2ZDg@764#0, 9X_j-oF2ZDg@804#0]}
+      - {id: hsr, label: "Day 2: heavy slow resistance (fixed)", cites: [9X_j-oF2ZDg@804#0, 9X_j-oF2ZDg@839#0]}
+      - {id: iso_only, label: "Day 3: isometrics only", cites: [9X_j-oF2ZDg@804#0]}
+    prescriptions:
+      - day_type: elastic
+        exercise: standing box jump
+        equipment: [box]
+        sets: null
+        reps: {min: 10, max: 20}
+        intensity: {min: 24, max: 24, unit: in}
+        rest: null
+        notes: "Step 1 (week 1, two sessions): no step, no approach, up to a 24 in box."
+        cites: [9X_j-oF2ZDg@764#0, 9X_j-oF2ZDg@839#0, 9X_j-oF2ZDg@875#0]
+      - day_type: elastic
+        exercise: one-step box jump
+        equipment: [box]
+        sets: null
+        reps: null
+        intensity: null
+        rest: null
+        notes: "Step 2 (week 2, two sessions): one penultimate step onto the box; landing on the box removes landing forces."
+        cites: [9X_j-oF2ZDg@875#0]
+      - day_type: elastic
+        exercise: rim touch
+        equipment: [court]
+        sets: null
+        reps: {min: 5, max: 5}
+        intensity: null
+        rest: null
+        notes: "Step 3 (week 3+): 5 box jumps then 5 rim touches/grabs, approach intensity rising slowly (e.g. 70% effort first); can stay here 1-2 weeks."
+        cites: [9X_j-oF2ZDg@875#0, 9X_j-oF2ZDg@911#0]
+      - day_type: hsr
+        exercise: half squat
+        equipment: [barbell, rack]
+        sets: {min: 4, max: 4}
+        reps: {min: 6, max: 8}
+        intensity: null
+        rest: null
+        notes: 4 s down, 1 s pause, 4 s up; keep the load the same - don't progress it in this phase.
+        cites: [9X_j-oF2ZDg@839#0]
+      - day_type: iso_only
+        exercise: isometric leg extension
+        equipment: []
+        sets: {min: 3, max: 3}
+        reps: {min: 1, max: 1}
+        intensity: {min: 70, max: 70, unit: "%"}
+        rest: about 1 min
+        notes: 45-second holds.
+        cites: [9X_j-oF2ZDg@165#0, 9X_j-oF2ZDg@804#0]
+
+week_kinds: {}
+
+end: null
+
+gates:
+  - id: stairs_pain_free
+    track: tendon
+    signal: stairs_pain
+    condition: Walking up and down stairs is pain-free.
+    decision: progress
+    cites: [9X_j-oF2ZDg@288#0, 9X_j-oF2ZDg@402#0]
+  - id: hsr_worse_at_48h
+    track: tendon
+    signal: pain_48h_after_hsr
+    condition: Tendon feels worse 48 h after a heavy slow session.
+    decision: hold
+    cites: [9X_j-oF2ZDg@521#0]
+  - id: slow_squat_pain_free
+    track: tendon
+    signal: hsr_load_and_pain
+    condition: Slow quarter squat ~225 lb or half squat ~185 lb without pain, or no pain during heavy slow work.
+    decision: progress
+    cites: [9X_j-oF2ZDg@482#0, 9X_j-oF2ZDg@560#0]
+  - id: next_day_pain_sweet_spot
+    track: tendon
+    signal: next_day_pain
+    condition: Next-day pain about 2-3/10 after an elastic session.
+    decision: progress
+    cites: [9X_j-oF2ZDg@764#0, 9X_j-oF2ZDg@804#0]
+  - id: next_day_pain_too_high
+    track: tendon
+    signal: next_day_pain
+    condition: Next-day pain about 6/10 or more after an elastic session (too many jumps, too intense).
+    decision: step_back
+    cites: [9X_j-oF2ZDg@764#0, 9X_j-oF2ZDg@911#0, 9X_j-oF2ZDg@951#0]
+  - id: morning_pain_back_to_baseline
+    track: tendon
+    signal: morning_pain
+    condition: Next-morning pain test back at baseline after loading (e.g. 4/10 right after, 2-3/10 next morning).
+    decision: hold
+    cites: [VMSF8C25mxY@421#0, VMSF8C25mxY@469#0]
+  - id: morning_pain_above_baseline
+    track: tendon
+    signal: morning_pain
+    condition: Next-morning pain test clearly above baseline (e.g. baseline 1/10 -> 4/10).
+    decision: step_back
+    cites: [VMSF8C25mxY@421#0, ZN8wh4FFZuA@187#0]
+  - id: pain_during_jumping
+    track: tendon
+    signal: session_pain
+    condition: More than 2-3/10 pain while jumping - cut the session short.
+    decision: hold
+    cites: [72YX7nkYmYE@142#0, ZShxHyeTsVk@75#0, ZN8wh4FFZuA@222#0]
+
+review:
+  drafted: 2026-10-30
+  reviewed_by_user: true
+  notes: "The transcript itself calls this a four-step system; the reactive check comes before it. Phase lengths: phase 2 is 2-4 weeks; phase 4 starts about 8 weeks into rehab; phases 1 and 3 have no stated length. THP (72YX7nkYmYE@186#0) also describes four stages with pain scores and strength levels."

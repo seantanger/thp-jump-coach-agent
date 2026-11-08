@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.tmp
+.DS_Store
+logs/
+
+# Data: only the small hand-made files are committed (templates, eval, cleaning rules, listings, profile, plans).
+data/raw/
+data/clean/
+data/chunks/
+data/index/
+data/traces/
+data/athlete/checkpoints.sqlite*
