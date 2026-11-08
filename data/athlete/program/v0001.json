@@ -1,8 +1,8 @@
 {
   "version": 1,
   "based_on": null,
-  "created_at": "2026-11-08T15:21:19",
-  "change_summary": "Proposes a 24-week long-conjugate macrocycle from Mon 2026-11-09 to 2027-04-25 with six monthly mesocycles. Month 1 week 4 is the unload. Day-by-day sessions are written for the first two weeks (Nov 9–22): lifts Mon/Wed/Fri, general days Tue/Thu, and a jump session Saturday.",
+  "created_at": "2026-11-08T15:56:38",
+  "change_summary": "New 6-month long-conjugate outline of six mesocycles, running 9 Nov 2026 to 25 Apr 2027. Weeks 1–2 of Month 1 are written day by day (9–22 Nov). Each week has lifts Mon/Wed/Fri, general days Tue/Thu and a jump session on Sat.",
   "profile_snapshot": {
     "training_age_years": 4.0,
     "lifts": {
@@ -53,7 +53,7 @@
     "cites": [
       "Icml891MLHA@35#0",
       "Icml891MLHA@105#0",
-      "1sQ-FOxDP5M@0#0"
+      "Icml891MLHA@209#0"
     ]
   },
   "mesocycles": [
@@ -64,7 +64,7 @@
       "emphasis": "volume",
       "start": "2026-11-09",
       "end": "2026-12-06",
-      "goal": "Build work capacity with general work that looks little like jumping; week 4 (Nov 30–Dec 6) is the unload.",
+      "goal": "Build work capacity with general work that looks little like jumping; unload in week 4.",
       "entry_criteria": "Start of the macrocycle.",
       "exit_criteria": "Four weeks done, including the week-4 unload.",
       "primes_next": "Volume built here is intensified in month 2.",
@@ -81,10 +81,10 @@
       "emphasis": "intensification (power and 6–8 rep strength)",
       "start": "2026-12-07",
       "end": "2027-01-03",
-      "goal": "Intensify the month-1 volume with clean pulls and power cleans; accessories prime month 3.",
+      "goal": "Intensify the month-1 volume with clean pulls and power cleans; heavier RDL and calf raise accessories prime month 3.",
       "entry_criteria": "Month 1 done.",
       "exit_criteria": "Month done.",
-      "primes_next": "Heavier RDL and calf raises at 4–6 reps lead into the absolute-strength month.",
+      "primes_next": "Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.",
       "cites": [
         "Icml891MLHA@244#0",
         "Icml891MLHA@282#0",
@@ -101,7 +101,7 @@
       "goal": "Heavy squats and heavy clean pulls; eccentric accessories prime month 4.",
       "entry_criteria": "Month 2 done.",
       "exit_criteria": "About 3–4 weeks done.",
-      "primes_next": "Nordics and 2-up-1-down calf raises lead into the eccentric lifts of month 4.",
+      "primes_next": "Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.",
       "cites": [
         "Icml891MLHA@320#0",
         "Icml891MLHA@354#0",
@@ -115,7 +115,7 @@
       "emphasis": "strength-speed (fast bars, eccentric overload)",
       "start": "2027-02-01",
       "end": "2027-02-28",
-      "goal": "Power clean to maxes; accentuated eccentric squats and split squats; general days get more general.",
+      "goal": "Power clean to maxes; accentuated eccentric squats and eccentric split squats; general days get more general.",
       "entry_criteria": "Month 3 done.",
       "exit_criteria": "Month done.",
       "primes_next": "Elastic accessories (high-velocity calf raises, drop RDLs) lead into month 5's speed work.",
@@ -133,10 +133,10 @@
       "emphasis": "speed-strength (bar speed)",
       "start": "2027-03-01",
       "end": "2027-03-28",
-      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); a heavy squat primer plus high-velocity squats; start low-volume shock loading.",
+      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); blend a heavy squat primer with high-velocity squats; start shock loading at low plyo volume.",
       "entry_criteria": "Month 4 done.",
       "exit_criteria": "Month done.",
-      "primes_next": "Med ball throws and low plyo volume lead into month 6.",
+      "primes_next": "Shock-loading accessories (med ball throws, low plyo volume) lead into month 6.",
       "cites": [
         "Icml891MLHA@572#0",
         "Icml891MLHA@609#0",
@@ -151,10 +151,10 @@
       "emphasis": "specificity",
       "start": "2027-03-29",
       "end": "2027-04-25",
-      "goal": "Highest specificity, the most plyo intensity and variety of the year; accessories become general and slow.",
+      "goal": "Specificity at its highest, with the most plyo intensity and variety of the year; accessories become general and slow.",
       "entry_criteria": "Month 5 done.",
-      "exit_criteria": "Month done; taper would follow if an event is set.",
-      "primes_next": "Taper.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Taper, if an event is set.",
       "cites": [
         "Icml891MLHA@681#0",
         "Icml891MLHA@718#0",
@@ -180,23 +180,24 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first; crisp, fast reps at a load that moves well.",
+              "notes": "Power exercise first. Do 3x45 s isometrics before the session.",
               "cites": [
                 "Icml891MLHA@174#0",
-                "Icml891MLHA@209#0"
+                "Icml891MLHA@209#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
             {
               "exercise": "back squat",
-              "sets": 4,
-              "reps": 10,
+              "sets": 5,
+              "reps": 6,
               "intensity": {
-                "value": 65.0,
+                "value": 70.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 145 lb (65% of 225 lb); deep squat, controlled.",
+              "notes": "Percent of your 225 lb back squat (about 158 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -209,7 +210,7 @@
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Hip hinge; general hamstring work that does not mimic jumping.",
+              "notes": "Hip hinge; general accessory.",
               "cites": [
                 "SXjO279Oslw@137#0",
                 "I1baSIlV_pQ@408#0"
@@ -228,7 +229,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Bodyweight or bodybuilding circuit with many different movements; easy and optional.",
+              "notes": "Bodyweight or bodybuilding circuit, upper body, core. Nothing that looks like jumping.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -246,23 +247,24 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first.",
+              "notes": "Power exercise first. Do 3x45 s isometrics before the session.",
               "cites": [
                 "Icml891MLHA@174#0",
-                "Icml891MLHA@209#0"
+                "Icml891MLHA@209#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
             {
               "exercise": "back squat",
               "sets": 4,
-              "reps": 8,
+              "reps": 12,
               "intensity": {
-                "value": 68.0,
+                "value": 65.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 153 lb (68% of 225 lb).",
+              "notes": "Percent of your 225 lb back squat (about 146 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -275,7 +277,7 @@
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Heavy loading with little risk; hips rather than knees.",
+              "notes": "Hip-extension accessory; low risk.",
               "cites": [
                 "OAsUemGRrpw@891#0",
                 "3vmd30VvzRA@855#0"
@@ -294,7 +296,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Different movements from Tuesday; keep it easy.",
+              "notes": "Keep it different from Tuesday's circuit. Easy and general.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -312,23 +314,24 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first.",
+              "notes": "Power exercise first. Do 3x45 s isometrics before the session.",
               "cites": [
                 "Icml891MLHA@174#0",
-                "Icml891MLHA@209#0"
+                "Icml891MLHA@209#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
             {
               "exercise": "back squat",
               "sets": 4,
-              "reps": 6,
+              "reps": 8,
               "intensity": {
-                "value": 70.0,
+                "value": 68.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 158 lb (70% of 225 lb).",
+              "notes": "Percent of your 225 lb back squat (about 153 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -338,10 +341,10 @@
             {
               "exercise": "lying hamstring curl",
               "sets": 3,
-              "reps": 12,
+              "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Barely taxing; finish the session with it.",
+              "notes": "Easy to add at the end; barely taxing.",
               "cites": [
                 "I1baSIlV_pQ@408#0",
                 "3vmd30VvzRA@855#0"
@@ -363,9 +366,10 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Low-effort jumping inside the 40-minute window.",
+              "notes": "Low-effort jumping inside the 40 min window. Do 3x45 s isometrics before the session.",
               "cites": [
-                "Icml891MLHA@792#0"
+                "Icml891MLHA@792#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
@@ -378,9 +382,10 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Max-effort jumping at the end.",
+              "notes": "Max-effort jumps. Stop early if knee pain goes above 2–3/10 while jumping.",
               "cites": [
-                "Icml891MLHA@792#0"
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
               ],
               "deviation": null
             }
@@ -404,23 +409,24 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first; add load only if the bar stays fast.",
+              "notes": "Power exercise first. Do 3x45 s isometrics before the session.",
               "cites": [
                 "Icml891MLHA@174#0",
-                "Icml891MLHA@209#0"
+                "Icml891MLHA@209#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
             {
               "exercise": "back squat",
               "sets": 5,
-              "reps": 10,
+              "reps": 6,
               "intensity": {
-                "value": 65.0,
+                "value": 70.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 145 lb; one more set than last week.",
+              "notes": "Percent of your 225 lb back squat (about 158 lb). Try to add a little load or a rep versus last week.",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -428,15 +434,15 @@
               "deviation": null
             },
             {
-              "exercise": "lying hamstring curl",
+              "exercise": "Nordic hamstring curl",
               "sets": 3,
-              "reps": 12,
+              "reps": 8,
               "intensity": null,
               "rest": null,
-              "notes": "Easy accessory at the end of the session.",
+              "notes": "Knee-flexion option; eccentric emphasis.",
               "cites": [
-                "I1baSIlV_pQ@408#0",
-                "3vmd30VvzRA@855#0"
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
               ],
               "deviation": null
             }
@@ -452,7 +458,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Many different movements; easy and optional.",
+              "notes": "Bodyweight or bodybuilding circuit, upper body, core. Nothing that looks like jumping.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -470,23 +476,24 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first.",
+              "notes": "Power exercise first. Do 3x45 s isometrics before the session.",
               "cites": [
                 "Icml891MLHA@174#0",
-                "Icml891MLHA@209#0"
+                "Icml891MLHA@209#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
             {
               "exercise": "back squat",
-              "sets": 5,
-              "reps": 8,
+              "sets": 4,
+              "reps": 10,
               "intensity": {
-                "value": 68.0,
+                "value": 67.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 153 lb.",
+              "notes": "Percent of your 225 lb back squat (about 151 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -494,12 +501,12 @@
               "deviation": null
             },
             {
-              "exercise": "Nordic hamstring curl",
+              "exercise": "RDL",
               "sets": 3,
-              "reps": 8,
+              "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Eccentric emphasis; stop short of failure.",
+              "notes": "Hip hinge; general accessory.",
               "cites": [
                 "SXjO279Oslw@137#0",
                 "I1baSIlV_pQ@408#0"
@@ -518,7 +525,7 @@
               "reps": null,
               "intensity": null,
               "rest": null,
-              "notes": "Different movements again; keep it easy.",
+              "notes": "Keep it different from Tuesday's circuit. Easy and general.",
               "cites": [
                 "Icml891MLHA@209#0"
               ],
@@ -536,23 +543,24 @@
               "reps": 4,
               "intensity": null,
               "rest": null,
-              "notes": "Power exercise first.",
+              "notes": "Power exercise first. Do 3x45 s isometrics before the session.",
               "cites": [
                 "Icml891MLHA@174#0",
-                "Icml891MLHA@209#0"
+                "Icml891MLHA@209#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
             {
               "exercise": "back squat",
               "sets": 4,
-              "reps": 6,
+              "reps": 8,
               "intensity": {
                 "value": 70.0,
                 "unit": "%"
               },
               "rest": null,
-              "notes": "About 158 lb.",
+              "notes": "Percent of your 225 lb back squat (about 158 lb).",
               "cites": [
                 "Icml891MLHA@141#0",
                 "Icml891MLHA@209#0"
@@ -565,7 +573,7 @@
               "reps": 10,
               "intensity": null,
               "rest": null,
-              "notes": "Hips rather than knees.",
+              "notes": "Hip-extension accessory; low risk.",
               "cites": [
                 "OAsUemGRrpw@891#0",
                 "3vmd30VvzRA@855#0"
@@ -587,9 +595,10 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Low-effort jumping inside the 40-minute window.",
+              "notes": "Low-effort jumping inside the 40 min window. Do 3x45 s isometrics before the session.",
               "cites": [
-                "Icml891MLHA@792#0"
+                "Icml891MLHA@792#0",
+                "9X_j-oF2ZDg@288#0"
               ],
               "deviation": null
             },
@@ -602,9 +611,10 @@
                 "unit": "min"
               },
               "rest": null,
-              "notes": "Max-effort jumping at the end.",
+              "notes": "Max-effort jumps. Stop early if knee pain goes above 2–3/10 while jumping.",
               "cites": [
-                "Icml891MLHA@792#0"
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
               ],
               "deviation": null
             }
