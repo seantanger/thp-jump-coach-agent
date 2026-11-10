@@ -34,13 +34,3 @@ def test_ui_plan_tab_new_plan_flow(ui):
     assert resume.call_args.args[:2] == ("t1", "approve")
     assert "Saved as version 1." in [s.value for s in app.success]
     assert not app.exception
-
-
-def test_chat_routes_plan_requests_to_the_plan_tab(ui, monkeypatch):
-    app, start, _ = ui
-    answer = Mock()
-    monkeypatch.setattr("src.coach.qa.answer_question", answer)
-    app.run()
-    app.chat_input[0].set_value("make me a plan for 3 days a week").run()
-    assert not answer.called and not start.called
-    assert any("Plan tab" in i.value for i in app.info)

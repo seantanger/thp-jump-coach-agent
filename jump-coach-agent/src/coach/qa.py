@@ -6,12 +6,15 @@ import time
 from pathlib import Path
 
 from langchain_core.language_models import BaseChatModel
+import json
+from datetime import date, timedelta
+
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
 from src.coach.citations import check_citations, render, render_compact, parse_answer
-from src.red_flags import mentions_pain, referral_kind, SAFETY_NOTE
 from src.coach.graph import SEARCH_TOOL, build_graph
 from src.kb.paths import traces_dir
+from src.planner.chat_tool import PLAN_TOOL, propose_plan_change
 from src.tools import retrieval_config, retrieval_settings
 from src.trace import Tracer, usage
 from src.verifier import verifier_failures, verifier_warnings
@@ -27,10 +30,38 @@ def answer_verifier():
 
 
 def answer_question(question: str, llm: BaseChatModel | None = None, trace_dir: Path | None = None,
-                    retrieval: dict | None = None, verify: bool = True) -> dict:
-    """Shared CLI/UI/QA entry point; no conversation memory, session-local retrieval."""
+                    retrieval: dict | None = None, verify: bool = True, history: list | None = None,
+                    athlete: bool = False) -> dict:
+    """Shared CLI/UI/QA entry point. `athlete=True` is the chat agent: it sees the athlete's profile and plan,
+    the earlier turns (`history`: [(question, answer dict)]), and may draft a plan change for approval."""
     with retrieval_settings(retrieval):
-        return _answer_question(question, llm, trace_dir, answer_verifier() if verify else None)
+        return _answer_question(question, llm, trace_dir, answer_verifier() if verify else None, history, athlete)
+
+
+def athlete_context(today: date | None = None) -> str:
+    """Today, the profile and the current week of the saved plan, as the chat agent's first message."""
+    from src.planner import store
+    from src.planner.render import render_outline, render_week
+    today = today or date.today()
+    profile, program = store.load_profile(), store.load_program()
+    lines = [f"Today: {today} ({today:%A})",
+             f"Athlete profile: {profile.model_dump_json() if profile else '(none yet)'}"]
+    if program is None:
+        lines.append("Saved plan: none yet.")
+    else:
+        lines += [f"Saved plan v{program.version} (weeks written through "
+                  f"{program.weeks[-1].start + timedelta(days=6) if program.weeks else 'none'}):",
+                  render_outline(program), "Current week:", render_week(program, today)]
+    return "\n".join(lines)
+
+
+def _past_turns(history: list | None, limit: int = 4) -> list:
+    """Earlier turns as messages; answers go back as the JSON the model wrote, so it keeps that format."""
+    out = []
+    for question, result in (history or [])[-limit:]:
+        if result.get("answer"):
+            out += [HumanMessage(question), AIMessage(json.dumps(result["answer"]))]
+    return out
 
 
 def _read_answer(question: str, messages: list, tracer: Tracer) -> tuple[dict, dict, list[str], dict]:
@@ -43,8 +74,6 @@ def _read_answer(question: str, messages: list, tracer: Tracer) -> tuple[dict, d
     raw = messages[-1].text
     try:
         answer = parse_answer(raw)
-        # Code owns the physio line: only pain/injury questions get it, whatever the model wrote.
-        answer["safety_note"] = SAFETY_NOTE if mentions_pain(question) else None
         check = check_citations(answer, retrieved)
     except (ValueError, TypeError) as exc:
         answer = dict(summary="The Coach returned invalid structured output.", points=[],
@@ -55,23 +84,16 @@ def _read_answer(question: str, messages: list, tracer: Tracer) -> tuple[dict, d
     return answer, check, queries, retrieved
 
 
-def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path | None, verifier=None) -> dict:
+def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path | None, verifier=None,
+                     history: list | None = None, athlete: bool = False) -> dict:
     """Returns structured answer, full and compact markdown, check, retrieval, usage and private trace."""
     tracer = Tracer(traces_dir() if trace_dir is None else trace_dir)
     tracer.log("start", question=question, retrieval=retrieval_config())
     t0 = time.perf_counter()
-    referral = referral_kind(question)
-    if referral:
-        note = ("Seek emergency care now for back pain with bladder/bowel changes or groin numbness."
-                if referral == "urgent" else "See a physiotherapist or doctor before continuing to train this issue.")
-        answer = dict(summary="", points=[], takeaway=None, safety_note=note, not_covered=False)
-        check = check_citations(answer, {}, referral=True)
-        tracer.log("end", latency_s=0, tokens={}, queries=[], retrieved=[], cited=[], check=check, answer=answer)
-        return dict(answer=answer, rendered=render(answer, {}, check),
-                    compact=render_compact(answer, {}, check), check=check, queries=[],
-                    retrieved={}, tokens={}, trace=tracer.path, latency_s=time.perf_counter()-t0, referral=referral)
-    graph = build_graph(llm, tracer=tracer, require_search=True)
-    state = graph.invoke({"messages": [HumanMessage(question)], "search_calls": 0}, {"recursion_limit": RECURSION_LIMIT})
+    graph = build_graph(llm, tracer=tracer, require_search=not athlete, extra_tools=[propose_plan_change] if athlete else ())
+    start = [HumanMessage(athlete_context()), *_past_turns(history)] if athlete else []
+    state = graph.invoke({"messages": [*start, HumanMessage(question)], "search_calls": 0, "plan_calls": 0},
+                         {"recursion_limit": RECURSION_LIMIT})
     verdict = None
     for attempt in range(MAX_VERIFY_RETRIES + 1):
         answer, check, queries, retrieved = _read_answer(question, state["messages"], tracer)
@@ -93,7 +115,8 @@ def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path |
             break
         feedback = HumanMessage("A fresh-context check found problems:\n" + "\n".join(f"- {f}" for f in failures)
                                 + "\nRevise and return the complete JSON answer again.")
-        state = graph.invoke({"messages": [*state["messages"], feedback], "search_calls": state.get("search_calls", 0)},
+        state = graph.invoke({"messages": [*state["messages"], feedback], "search_calls": state.get("search_calls", 0),
+                              "plan_calls": state.get("plan_calls", 0)},
                              {"recursion_limit": RECURSION_LIMIT})
     if verdict is not None:
         check = {**check, "verifier": verdict.model_dump(), "verifier_warnings": verifier_warnings(verdict)}
@@ -106,9 +129,11 @@ def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path |
                 tokens[k] = tokens.get(k, 0) + v
     tracer.log("end", latency_s=round(time.perf_counter() - t0, 3), tokens=tokens, queries=queries,
                retrieved=list(retrieved), cited=check["cited"], check=check, answer=answer)
+    plans = [m.artifact for m in messages if isinstance(m, ToolMessage) and m.name == PLAN_TOOL and m.artifact]
     return {
         "latency_s": time.perf_counter() - t0,
         "referral": None,
+        "plan": plans[-1] if plans else None,  # a RunResult; "awaiting_approval" shows Approve / Reject in the UI
         "answer": answer,
         "rendered": render(answer, retrieved, check),
         "compact": render_compact(answer, retrieved, check),

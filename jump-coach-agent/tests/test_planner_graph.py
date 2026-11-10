@@ -170,3 +170,15 @@ def test_context_passes_today_and_last_filled_week(athlete):
     run.start("roll_forward", llm=model, today=TODAY)
     context = model.seen[0][1].content
     assert f"Today: {TODAY}" in context and f"Last filled week starts {MON + timedelta(days=7)}" in context
+
+
+def test_edit_may_change_a_day_that_has_already_passed(athlete):
+    model = scripted(good())
+    first = run.start("new", llm=model, today=TODAY)
+    run.resume(first.thread_id, "approve", llm=model)
+    later = MON + timedelta(days=3)                                   # "today" is after MON's session
+    edit = proposal(kind="edit", with_outline=False, summary="Logged Monday's session as done differently.",
+                    weeks=[week(MON)])
+    model = scripted(edit.model_dump_json())
+    result = run.start("edit", request="I did monday differently", llm=model, today=later)
+    assert result.status == "awaiting_approval" and result.version == 2

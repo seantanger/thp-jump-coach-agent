@@ -25,6 +25,7 @@ class CoachAnswer(BaseModel):
     takeaway: str | None
     safety_note: str | None
     not_covered: bool
+    for_you: str | None = None  # how it fits this athlete's own plan; their data, so no citation
 
 
 def parse_answer(raw: str) -> dict:
@@ -50,7 +51,7 @@ def check_citations(answer: dict, retrieved_ids, *, referral=False) -> dict:
         reasons.append(f"cites {len(fabricated)} chunk ID(s) not retrieved in this run: {', '.join(fabricated)}")
     if uncited:
         reasons.append(f"{len(uncited)} point(s) with no citation")
-    if not answer["points"] and not answer["not_covered"] and not referral:
+    if not answer["points"] and not answer["not_covered"] and not referral and not answer["for_you"]:
         reasons.append("no points without not_covered or referral")
     return dict(passed=not reasons, cited=cited, fabricated=fabricated,
                 uncited_claims=uncited, not_covered=answer["not_covered"], reasons=reasons)
@@ -64,6 +65,8 @@ def render(answer: dict, retrieved: dict[str, dict], check: dict | None = None) 
         parts.append(f"- {point['text']} {links}".rstrip())
     if answer.get("takeaway"):
         parts.append(answer["takeaway"])
+    if answer.get("for_you"):
+        parts.append(f"**For you:** {answer['for_you']}")
     if answer.get("safety_note"):
         parts.append(answer["safety_note"])
     text = "\n\n".join(p for p in parts if p)
@@ -83,6 +86,8 @@ def render_compact(answer: dict, retrieved: dict[str, dict], check: dict | None 
     parts = [answer["summary"], "\n".join(bullets)]
     if answer.get("takeaway"):
         parts.append(answer["takeaway"])
+    if answer.get("for_you"):
+        parts.append(f"**For you:** {answer['for_you']}")
     if answer.get("safety_note"):
         parts.append(f"*{answer['safety_note']}*")
     if numbers:

@@ -15,35 +15,28 @@ from src.llm import model_spec_for, get_llm
 from src.planner import run, store
 from src.planner.render import render_outline, render_proposal, render_week
 from src.planner.schema import WEEKDAYS, Profile
-from src.router import route
 from src.tools import retrieval_config, retrieval_settings
-
-PLAN_HINT = 'This looks like a plan request — use the Plan tab to make or change your plan.'
-
 
 def chat_tab(st, developer, model, retrieval):
     history = st.session_state.setdefault('chat', [])
-    if question := st.chat_input('Ask a jump-training question'):
-        if route(question) == 'program':
-            history.append((question, {'routed': 'program'}))
-        elif not model.startswith('anthropic:'):
+    if question := st.chat_input('Ask a question, tell me what you did, or ask to change your plan'):
+        if not model.startswith('anthropic:'):
             st.error('This UI uses the Claude API only. Choose an anthropic: model.')
         else:
             try:
-                with st.spinner('Searching the library…'):
-                    result = qa.answer_question(question, llm=get_llm('coach', model_spec=model), retrieval=retrieval)
+                with st.spinner('Thinking…'):
+                    result = qa.answer_question(question, llm=get_llm('coach', model_spec=model), retrieval=retrieval,
+                                                history=history, athlete=True)
                 history.append((question, result))
             except Exception as exc:
                 st.error(f'Question failed: {type(exc).__name__}')
-    for question, result in history:
+    for i, (question, result) in enumerate(history):
         with st.chat_message('user'):
             st.write(question)
         with st.chat_message('assistant'):
-            if result.get('routed') == 'program':
-                st.info(PLAN_HINT)
-                continue
             body = result['rendered'] if developer else result.get('compact', result['rendered'])
             (st.warning if result['referral'] else st.markdown)(body)
+            plan_review(st, result, i, developer, retrieval)
             check = result['check']
             if not developer:
                 continue
@@ -60,6 +53,22 @@ def chat_tab(st, developer, model, retrieval):
             with st.expander('Search queries'):
                 for query in result['queries']: st.write(query)
             st.caption(f"{result['latency_s']:.1f}s · Tokens: {result['tokens']}")
+
+
+def plan_review(st, result, i, developer, retrieval):
+    """A drafted plan change under the chat answer: shown for Approve / Reject until decided."""
+    plan = result.get('plan')
+    if plan is None or plan.status not in ('awaiting_approval', 'saved', 'rejected'):
+        return
+    st.text(render_proposal(plan, full=developer))
+    if plan.status != 'awaiting_approval':
+        return
+    a, r = st.columns(2)
+    decision = 'approve' if a.button('Approve', key=f'chat_approve_{i}') else 'reject' if r.button('Reject', key=f'chat_reject_{i}') else None
+    if decision:
+        with st.spinner('Saving…'), retrieval_settings(retrieval):
+            result['plan'] = run.resume(plan.thread_id, decision)
+        st.rerun()
 
 
 def profile_form(st):

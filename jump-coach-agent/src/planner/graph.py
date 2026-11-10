@@ -134,7 +134,9 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
         retrieved = _retrieved_ids(state["messages"])
         failures = [f.model_dump() for f in run_checks(
             candidate, previous=current, profile=candidate.profile_snapshot, templates=templates,
-            retrieved_ids=retrieved, gates=[], today=date.fromisoformat(state["today"]))]
+            retrieved_ids=retrieved, gates=[],
+            # edits may change past days ("I did this today"); only new weeks must start in the future
+            today=date.fromisoformat(state["today"]) if proposal.kind in ("new", "roll_forward") else date.min)]
         changes = diff_programs(current, candidate)
         verifier = None
         if not failures and verify is not None:

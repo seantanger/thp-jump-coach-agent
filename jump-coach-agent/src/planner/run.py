@@ -85,7 +85,7 @@ def _result(thread_id: str, state: dict, tracer: Tracer) -> RunResult:
                      verifier=state.get("verifier"), version=version, trace=tracer.path)
 
 
-def start(action: Literal["new", "roll_forward"], request: str | None = None, llm: BaseChatModel | None = None,
+def start(action: Literal["new", "roll_forward", "edit", "life_change"], request: str | None = None, llm: BaseChatModel | None = None,
           verify: Verify | None = DEFAULT, thread_id: str | None = None, today: date | None = None) -> RunResult:
     thread_id = thread_id or uuid.uuid4().hex[:12]
     graph, config, tracer = _graph(thread_id, llm, _verifier(verify))

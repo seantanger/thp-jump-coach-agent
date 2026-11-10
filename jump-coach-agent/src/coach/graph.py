@@ -24,16 +24,18 @@ SEARCH_CAP = 4
 
 class CoachState(MessagesState):
     search_calls: int
+    plan_calls: int
 
 
 def build_graph(llm: BaseChatModel | None = None, role: str = "coach", tracer: Tracer | None = None,
-                search_cap: int = SEARCH_CAP, require_search: bool = False):
+                search_cap: int = SEARCH_CAP, require_search: bool = False, extra_tools=()):
     """Compile the agent graph. Pass `llm` to inject a model (tests, comparisons)."""
     llm = llm or get_llm(role)
-    llm_with_tools = llm.bind_tools(TOOLS)
+    all_tools = [*TOOLS, *extra_tools]
+    llm_with_tools = llm.bind_tools(all_tools)
     system = SystemMessage(content=load_prompt(role))
     tracer = tracer or Tracer()
-    tools = {t.name: t for t in TOOLS}
+    tools = {t.name: t for t in all_tools}
 
     def coach(state: CoachState) -> dict:
         t0 = time.perf_counter()
@@ -49,8 +51,9 @@ def build_graph(llm: BaseChatModel | None = None, role: str = "coach", tracer: T
 
     def run_tools(state: CoachState) -> dict:
         out, used = run_capped(state["messages"][-1].tool_calls, tools,
-                               {SEARCH_TOOL: state.get("search_calls", 0)}, {SEARCH_TOOL: search_cap}, None, tracer)
-        return {"messages": out, "search_calls": used[SEARCH_TOOL]}
+                               {SEARCH_TOOL: state.get("search_calls", 0), "propose_plan_change": state.get("plan_calls", 0)},
+                               {SEARCH_TOOL: search_cap, "propose_plan_change": 1}, None, tracer)
+        return {"messages": out, "search_calls": used[SEARCH_TOOL], "plan_calls": used.get("propose_plan_change", 0)}
 
     graph = StateGraph(CoachState)
     graph.add_node("coach", coach)
