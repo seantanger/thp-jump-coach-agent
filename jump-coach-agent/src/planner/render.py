@@ -62,6 +62,35 @@ def render_week(program: Program, today: date, full: bool = False, sources: dict
     return "\n".join(lines)
 
 
+def week_header(program: Program, week: Week) -> str:
+    meso = program.mesocycles[week.mesocycle_index]
+    weeks_in = math.ceil(((meso.end - meso.start).days + 1) / 7)
+    return (f"Month {meso.index + 1} of {len(program.mesocycles)} · {meso.emphasis} · "
+            f"Week {(week.start - meso.start).days // 7 + 1} of {weeks_in}"
+            + (f" · {week.kind} week" if week.kind != "normal" else ""))
+
+
+def week_rows(week: Week) -> list[dict]:
+    """One table row per session (a rest-only day gets one row), athlete units, no chunk IDs."""
+    rows = []
+    for d in week.days:
+        for i, s in enumerate(d.sessions or [None]):
+            m = s.model_dump(mode="json") if s else None
+            dose = (f"{m['sets']}×{m['reps']}" if m["sets"] and m["reps"] else f"{m['reps']} reps" if m["reps"]
+                    else f"{m['sets']} sets" if m["sets"] else "") if m else ""
+            rows.append({"Day": f"{d.date:%a %b} {d.date.day}" if i == 0 else "", "Type": d.day_type if i == 0 else "",
+                         "Exercise": m["exercise"] if m else "", "Sets×Reps": dose,
+                         "Load": display(Quantity(**m["intensity"])) if m and m["intensity"] else "",
+                         "Notes": (m["notes"] or "") if m else ""})
+    return rows
+
+
+def outline_rows(program: Program) -> list[dict]:
+    rows = [{"Month": m.index + 1, "Dates": f"{_day(m.start)} – {_day(m.end)}", "Emphasis": m.emphasis, "Goal": m.goal}
+            for m in program.mesocycles]
+    return rows
+
+
 def render_outline(program: Program, full: bool = False) -> str:
     lines = [f"Month {m.index + 1} · {_day(m.start)} – {_day(m.end)} · {m.emphasis} · {m.goal}"
              + (f"  [{', '.join(m.cites)}]" if full else "") for m in program.mesocycles]

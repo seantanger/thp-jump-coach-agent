@@ -60,6 +60,11 @@ For `edit` and `life_change`, call `get_program` first and return only the weeks
 that change (`replace_weeks`), with `replace_outline` null unless the months
 change. Set `kind` to the action and `request` to the athlete's words.
 
+- Change only what was asked. Copy every other session in a week you return
+  exactly as it is in `get_program` (same cites, notes and deviations); do not
+  add notes, cites or new content to them, and do not mention them in `summary`.
+  To log what the athlete did, edit just that session (for example its
+  exercise or a note), not the rest of the day or week.
 - The athlete may change any date, past included ("I did X today instead").
   Treat what they report as what happened and adjust the weeks after it.
 - Style requests (swap an exercise, tweak sets or reps, move a day) are

@@ -38,6 +38,19 @@ def _changed_weeks(candidate: Program, previous: Program | None) -> list[Week]:
     return [w for w in candidate.weeks if old.get(w.start) != w.model_dump(mode="json")]
 
 
+def _changed_sessions(weeks: list[Week], previous: Program | None) -> list[Week]:
+    """The same weeks cut down to sessions that differ from the saved plan, so approved content isn't re-judged."""
+    if previous is None:
+        return weeks
+    old = {d.date: [s.model_dump(mode="json") for s in d.sessions] for w in previous.weeks for d in w.days}
+    out = []
+    for w in weeks:
+        days = [d.model_copy(update={"sessions": kept}) for d in w.days
+                if (kept := [s for s in d.sessions if s.model_dump(mode="json") not in old.get(d.date, [])])]
+        out.append(w.model_copy(update={"days": days}))
+    return out
+
+
 class _Context:
     """Which template and cycle a day belongs to: the tendon stage if it defines the day type, else the mesocycle."""
 
@@ -270,6 +283,7 @@ def run_checks(candidate: Program, *, profile: Profile, templates: dict[str, Tem
     """All failures of checks 2–8, in order; [] means the candidate passes."""
     ctx = _Context(candidate, templates)
     weeks = _changed_weeks(candidate, previous)
-    return (_provenance(candidate, previous, retrieved_ids) + _coverage(candidate, weeks)
-            + _fidelity(ctx, weeks) + _calendar(ctx, candidate, weeks, profile, today)
-            + _week_kinds(ctx, weeks) + _gates(ctx, candidate, weeks, gates) + _equipment(ctx, weeks, profile))
+    sessions = _changed_sessions(weeks, previous)  # per-session checks skip what the athlete already approved
+    return (_provenance(candidate, previous, retrieved_ids) + _coverage(candidate, sessions)
+            + _fidelity(ctx, sessions) + _calendar(ctx, candidate, weeks, profile, today)
+            + _week_kinds(ctx, weeks) + _gates(ctx, candidate, weeks, gates) + _equipment(ctx, sessions, profile))

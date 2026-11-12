@@ -235,3 +235,13 @@ def test_slot_option_needs_no_deviation_and_uses_its_own_equipment():
     assert kinds(failures) == ["equipment"] and "curl machine" in failures[0].reason
     w.days[0].sessions[0] = session("RDL", 9, 10, None)           # the slot's sets range still applies
     assert kinds(check_slots(candidate(weeks=[w]))) == ["fidelity"]
+
+
+def test_approved_sessions_in_a_changed_week_are_not_rejudged():
+    old = session("core circuit")                                       # outside the template, already approved
+    before = candidate(weeks=[week(days=[day(MON, "lift", [old])])])
+    assert kinds(check(before)) == ["fidelity"]                         # a new plan would fail it
+    edited = candidate(weeks=[week(days=[day(MON, "lift", [old]), day(MON + timedelta(days=2), "lift", [session()])])])
+    assert check(edited, previous=before) == []                         # an edit elsewhere in the week doesn't
+    edited.weeks[0].days[0].sessions[0] = session("core circuit", 3, 10, None)
+    assert kinds(check(edited, previous=before)) == ["fidelity"]        # but touching it brings it back under the checks

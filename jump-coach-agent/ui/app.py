@@ -13,7 +13,8 @@ os.environ['STREAMLIT_BROWSER_GATHER_USAGE_STATS'] = 'false'
 from src.coach import qa
 from src.llm import model_spec_for, get_llm
 from src.planner import run, store
-from src.planner.render import render_outline, render_proposal, render_week
+from src.planner.render import (_current_week, outline_rows, render_proposal, render_week, week_header,
+                                week_rows)
 from src.planner.schema import WEEKDAYS, Profile
 from src.tools import retrieval_config, retrieval_settings
 
@@ -145,8 +146,23 @@ def plan_tab(st, developer, retrieval):
             from src.planner.templates import TEMPLATE_METHOD
             sources = chunk_meta({c for w in program.weeks for d in w.days for s in d.sessions for c in s.cites},
                                  method=TEMPLATE_METHOD)
-        st.text(render_outline(program, full=developer))
-        st.text(render_week(program, date.today(), full=developer, sources=sources))
+        st.dataframe(outline_rows(program), hide_index=True, use_container_width=True)
+        if program.tendon_track:
+            st.caption(f"Knee: {program.tendon_track.stage_id} (next: {program.tendon_track.gate_to_next})")
+        today = date.today()
+        current = _current_week(program, today)
+        starts = [w.start for w in program.weeks]
+        if starts:
+            start = st.selectbox('Week', starts, index=starts.index(current.start) if current else 0,
+                                 format_func=lambda d: f"Week of {d:%b} {d.day}" + (' (this week)' if current and d == current.start else ''))
+            week = next(w for w in program.weeks if w.start == start)
+            st.caption(week_header(program, week))
+            st.dataframe(week_rows(week), hide_index=True, use_container_width=True,
+                         column_config={'Notes': st.column_config.TextColumn(width='large')})
+            if developer:
+                st.text(render_week(program, today, full=True, sources=sources))
+        else:
+            st.info('No weeks written yet. Press "Next weeks".')
 
 
 def main():

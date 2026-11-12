@@ -83,3 +83,11 @@ def test_render_proposal_status_messages():
     assert "plan profile" in render_proposal(pending([], status="needs_profile"))
     assert "version 3" in render_proposal(pending([], status="saved", version=3))
     assert "changed" in render_proposal(pending([], status="stale")).lower()
+
+
+def test_week_rows_one_row_per_session_without_chunk_ids():
+    from tests.planner_fixtures import MON, week
+    from src.planner.render import week_rows
+    rows = week_rows(week(MON))
+    assert rows and set(rows[0]) == {"Day", "Type", "Exercise", "Sets×Reps", "Load", "Notes"}
+    assert not any("@" in str(v) for r in rows for v in r.values())

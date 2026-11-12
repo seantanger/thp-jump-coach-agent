@@ -95,3 +95,13 @@ def test_athlete_chat_can_draft_a_plan_change_for_approval(fake_search, tmp_path
     assert started.call_args.kwargs == {'request': 'I did 135 today'} and started.call_args.args == ('edit',)
     assert result['plan'] is draft and result['check']['passed']
     assert '**For you:** Wednesday stays as planned.' in result['rendered']
+
+
+def test_plan_tool_gives_the_model_the_check_failures(monkeypatch):
+    from src.planner.chat_tool import propose_plan_change
+    from src.planner.run import RunResult
+    failed = RunResult(thread_id='t', status='failed',
+                       failures=[{'check': 'fidelity', 'path': 'weeks[x]', 'reason': 'core circuit is not in the template'}])
+    monkeypatch.setattr('src.planner.run.start', Mock(return_value=failed))
+    content, artifact = propose_plan_change.func('edit', 'log my hip thrust')
+    assert '[fidelity]' in content and 'not in the template' in content and artifact is failed

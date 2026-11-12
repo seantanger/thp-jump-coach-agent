@@ -14,7 +14,7 @@ PLAN_TOOL = "propose_plan_change"
 
 @tool(PLAN_TOOL, response_format="content_and_artifact")
 def propose_plan_change(action: Literal["edit", "life_change", "new", "roll_forward"], request: str):
-    """Draft a change to the athlete's saved plan for them to approve. Takes about a minute; at most once per question.
+    """Draft a change to the athlete's saved plan for them to approve. Takes about a minute; at most once per question. If the checks fail, the result lists which ones and why.
 
     Use it when the athlete reports doing something different ("I did 135 today"), asks to change the plan
     ("swap RDLs for hip thrusts", "only 3 days now"), or asks for a new plan or the next weeks. Never for
@@ -27,4 +27,5 @@ def propose_plan_change(action: Literal["edit", "life_change", "new", "roll_forw
     from src.planner import run
     from src.planner.render import render_proposal
     result = run.start(action, request=request)
-    return render_proposal(result), result
+    # The model gets the check failures to explain or retry; the athlete view hides them.
+    return render_proposal(result, full=result.status == "failed"), result

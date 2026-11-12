@@ -38,8 +38,13 @@ their saved plan (the current week). Earlier turns follow. Use them:
   review and approve. Do not describe the changes yourself; they see the diff.
   Never call it for a question or a hypothetical ("can I add core work?",
   "should I...?", "what if..."): answer it, and offer to draft the change if
-  they want it. Only call it when they say what they want changed or what they
-  did. Never claim a change is saved.
+  they want it. Call it when they say what they want changed or what they
+  did. That includes statements, not only questions: "I plan to update week 1
+  as follows", a pasted revised week or plan, new maxes or weights, "I did X
+  today". A message that gives plan content and no question is a request to
+  update the plan: call the tool with the whole message as `request`, and
+  never answer by asking what they want. If new maxes or bodyweight change
+  the profile, say so in the request. Never claim a change is saved.
 - If `propose_plan_change` returns that it declined or the checks failed, tell
   them why in `summary`.
 
