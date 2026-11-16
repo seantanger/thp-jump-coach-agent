@@ -102,6 +102,10 @@ def render_outline(program: Program, full: bool = False) -> str:
 _SESSION_PATH = re.compile(r"weeks\[(?P<week>[\d-]+)\]\.days\[(?P<day>[\d-]+)\]\.sessions\[\d+\]$")
 
 
+_DAY_PATH = re.compile(r"weeks\[[\d-]+\]\.days\[(?P<day>[\d-]+)\]$")
+_WEEK_PATH = re.compile(r"weeks\[[\d-]+\]$")
+
+
 def describe_change(c: Change) -> str:
     """One athlete-readable line per change."""
     m = _SESSION_PATH.match(c.path)
@@ -118,7 +122,13 @@ def describe_change(c: Change) -> str:
     if c.path.startswith("mesocycles[") and c.path.endswith("]"):
         i = int(c.path[len("mesocycles["):-1])
         return f"Month {i + 1}: {c.after['emphasis']}" if c.after else f"Month {i + 1} removed"
-    if c.path.startswith("weeks[") and c.path.endswith("]"):
+    day = _DAY_PATH.match(c.path)
+    if day:  # a whole day added or removed
+        on = _day(date.fromisoformat(day["day"]))
+        kept = c.after or c.before
+        what = ", ".join(session_text(s) for s in kept["sessions"]) or kept["day_type"]
+        return f"{on}: {'added' if c.after else 'removed'} {kept['day_type']} day ({what})"
+    if _WEEK_PATH.match(c.path):
         start = date.fromisoformat(c.path[len("weeks["):-1])
         if c.after:
             return f"Week of {_day(start)}: {sum(len(d['sessions']) for d in c.after['days'])} sessions"

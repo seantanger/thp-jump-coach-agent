@@ -52,7 +52,8 @@ def run_capped(calls: list[dict], tools: dict, used: dict[str, int], caps: dict[
         returned = message.artifact if isinstance(message.artifact, list) else None
         tracer.log("tools", tool=name, args=call["args"], status=message.status, capped=capped,
                    chunk_ids=[r["chunk_id"] for r in returned if "chunk_id" in r] if returned is not None else None,
-                   latency_s=round(time.perf_counter() - t0, 3))
+                   latency_s=round(time.perf_counter() - t0, 3),
+                   error=message.content[:400] if message.status == "error" else None)
         out.append(message)
     used.setdefault(SEARCH_TOOL, 0)
     return out, used

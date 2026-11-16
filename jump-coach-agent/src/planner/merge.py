@@ -16,6 +16,12 @@ class Change(BaseModel):
     after: Any
 
 
+def apply_profile_changes(profile: dict, changes: dict) -> dict:
+    """Profile with `changes` applied; dict fields (lifts) merge, so a new clean max keeps the other lifts."""
+    return {**profile, **{k: {**profile[k], **v} if isinstance(v, dict) and isinstance(profile.get(k), dict) else v
+                          for k, v in changes.items()}}
+
+
 def merge_proposal(current: Program | None, proposal: Proposal, profile: Profile, now: datetime) -> Program:
     """Candidate next version. Nothing is saved here; the stored profile is not touched."""
     if proposal.kind == "new" and proposal.replace_outline is None:
@@ -24,7 +30,7 @@ def merge_proposal(current: Program | None, proposal: Proposal, profile: Profile
         raise ValueError("no current program to change; make a new plan first")
     snapshot = profile.model_copy(deep=True)
     if proposal.profile_changes:
-        snapshot = Profile.model_validate({**snapshot.model_dump(), **proposal.profile_changes}, strict=False)
+        snapshot = Profile.model_validate(apply_profile_changes(snapshot.model_dump(), proposal.profile_changes), strict=False)
 
     base = None if proposal.kind == "new" else current.model_copy(deep=True)
     outline = proposal.replace_outline

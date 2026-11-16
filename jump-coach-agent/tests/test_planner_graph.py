@@ -182,3 +182,9 @@ def test_edit_may_change_a_day_that_has_already_passed(athlete):
     model = scripted(edit.model_dump_json())
     result = run.start("edit", request="I did monday differently", llm=model, today=later)
     assert result.status == "awaiting_approval" and result.version == 2
+
+
+def test_a_decline_may_leave_out_the_empty_fields(athlete):
+    reply = '{"kind": "edit", "decision": "decline", "summary": "Not safe: jumping daily skips recovery."}'
+    result = run.start("edit", request="jump every day", llm=scripted(reply), today=TODAY)
+    assert result.status == "declined" and "recovery" in result.proposal["summary"]

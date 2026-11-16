@@ -91,3 +91,13 @@ def test_week_rows_one_row_per_session_without_chunk_ids():
     rows = week_rows(week(MON))
     assert rows and set(rows[0]) == {"Day", "Type", "Exercise", "Sets×Reps", "Load", "Notes"}
     assert not any("@" in str(v) for r in rows for v in r.values())
+
+
+def test_describe_change_handles_a_whole_day_added_or_removed():
+    from src.planner.merge import Change
+    from src.planner.render import describe_change
+    day = {"date": "2026-11-17", "day_type": "general", "sessions": [
+        {"exercise": "general circuit", "sets": None, "reps": None, "intensity": None}]}
+    path = "weeks[2026-11-16].days[2026-11-17]"
+    assert describe_change(Change(path=path, before=day, after=None)) == "Tue Nov 17: removed general day (general circuit)"
+    assert describe_change(Change(path=path, before=None, after=day)).startswith("Tue Nov 17: added general day")

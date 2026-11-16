@@ -105,3 +105,11 @@ def test_plan_tool_gives_the_model_the_check_failures(monkeypatch):
     monkeypatch.setattr('src.planner.run.start', Mock(return_value=failed))
     content, artifact = propose_plan_change.func('edit', 'log my hip thrust')
     assert '[fidelity]' in content and 'not in the template' in content and artifact is failed
+
+
+def test_an_empty_final_answer_is_asked_for_again(fake_search, tmp_path, monkeypatch):
+    monkeypatch.setattr('src.coach.qa.athlete_context', lambda: 'ctx')
+    reply = dict(summary='Done.', points=[], takeaway=None, safety_note=None, not_covered=False, for_you='Nothing to change.')
+    model = ScriptedChatModel(responses=[AIMessage(''), AIMessage(json.dumps(reply))])
+    result = answer_question('anything', llm=model, trace_dir=tmp_path, athlete=True)
+    assert result['check']['passed'] and result['answer']['summary'] == 'Done.'

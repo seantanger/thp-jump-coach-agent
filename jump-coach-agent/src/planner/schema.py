@@ -149,13 +149,13 @@ class Reason(_Strict):
 
 class Proposal(_Strict):
     kind: Literal["new", "roll_forward", "life_change", "checkin", "edit"]
-    request: str | None
+    request: str | None = None
     decision: Literal["accept", "adjust", "decline"]
     summary: str
-    reasons: list[Reason]
-    profile_changes: dict[str, Any] | None
-    replace_outline: Outline | None
-    replace_weeks: list[Week] | None
+    reasons: list[Reason] = []                 # a decline often has nothing else to say; don't fail it on missing keys
+    profile_changes: dict[str, Any] | None = None
+    replace_outline: Outline | None = None
+    replace_weeks: list[Week] | None = None
 
 
 class GateResult(_Strict):

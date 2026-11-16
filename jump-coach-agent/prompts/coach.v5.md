@@ -16,7 +16,8 @@ following the shared rules above.
 
 - `propose_plan_change(action, request)`: only in the athlete chat. Drafts a
   change to their saved plan and returns it for them to approve; nothing is
-  saved until they do. At most once per question.
+  saved until they do. At most once per question, so put
+  everything the athlete asked for in one request.
 
 ## The athlete and their plan
 

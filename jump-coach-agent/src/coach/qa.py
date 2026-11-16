@@ -74,7 +74,8 @@ def _read_answer(question: str, messages: list, tracer: Tracer) -> tuple[dict, d
     raw = messages[-1].text
     try:
         answer = parse_answer(raw)
-        check = check_citations(answer, retrieved)
+        drafted = any(isinstance(m, ToolMessage) and m.name == PLAN_TOOL and m.artifact for m in messages)
+        check = check_citations(answer, retrieved, referral=drafted)  # a plan draft needs no transcript points
     except (ValueError, TypeError) as exc:
         answer = dict(summary="The Coach returned invalid structured output.", points=[],
                       takeaway=None, safety_note=None, not_covered=False)
@@ -94,6 +95,10 @@ def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path |
     start = [HumanMessage(athlete_context()), *_past_turns(history)] if athlete else []
     state = graph.invoke({"messages": [*start, HumanMessage(question)], "search_calls": 0, "plan_calls": 0},
                          {"recursion_limit": RECURSION_LIMIT})
+    if not state["messages"][-1].text.strip():  # e.g. the model went quiet after a refused tool call
+        nudge = HumanMessage("Return the complete JSON answer now.")
+        state = graph.invoke({"messages": [*state["messages"], nudge], "search_calls": state.get("search_calls", 0),
+                              "plan_calls": state.get("plan_calls", 0)}, {"recursion_limit": RECURSION_LIMIT})
     verdict = None
     for attempt in range(MAX_VERIFY_RETRIES + 1):
         answer, check, queries, retrieved = _read_answer(question, state["messages"], tracer)

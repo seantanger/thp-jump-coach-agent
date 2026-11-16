@@ -94,3 +94,10 @@ def test_parse_proposal_rejects_extra_keys():
     raw = proposal().model_dump_json()[:-1] + ', "bonus": 1}'
     with pytest.raises(ValidationError):
         parse_proposal(raw)
+
+
+def test_profile_changes_merge_dict_fields_so_other_lifts_survive():
+    from src.planner.merge import apply_profile_changes
+    out = apply_profile_changes({"lifts": {"back_squat_lb": 225, "power_clean_lb": 175}, "days_per_week": 4},
+                                {"lifts": {"power_clean_lb": 185}, "days_per_week": 3})
+    assert out == {"lifts": {"back_squat_lb": 225, "power_clean_lb": 185}, "days_per_week": 3}

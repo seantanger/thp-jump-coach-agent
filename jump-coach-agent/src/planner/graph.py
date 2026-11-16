@@ -20,7 +20,7 @@ from src.agent import SEARCH_TOOL, run_capped
 from src.llm import get_llm
 from src.planner import store
 from src.planner.checks import run_checks
-from src.planner.merge import Change, diff_programs, merge_proposal
+from src.planner.merge import Change, apply_profile_changes, diff_programs, merge_proposal
 from src.planner.schema import Profile, Program, Proposal, parse_proposal
 from src.planner.templates import list_templates, load_template
 from src.planner.tools import MAX_RETRIES, PLAN_CAPS, PLAN_TOOLS, PLAN_TOTAL_CAP
@@ -175,7 +175,7 @@ def build_plan_graph(llm: BaseChatModel | None = None, verify: Verify | None = N
             return {"status": "stale"}
         if changes := state["proposal"].get("profile_changes"):
             # Applied to the profile as it is now, so an edit made while the proposal waited is kept.
-            store.save_profile(Profile.model_validate({**store.load_profile().model_dump(), **changes}, strict=False))
+            store.save_profile(Profile.model_validate(apply_profile_changes(store.load_profile().model_dump(), changes), strict=False))
         tracer.log("save", status="saved", version=candidate.version, profile_changes=changes)
         return {"status": "saved", "saved_version": candidate.version}
 
