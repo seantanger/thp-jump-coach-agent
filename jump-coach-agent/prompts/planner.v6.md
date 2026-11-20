@@ -54,6 +54,14 @@ athlete approves it, and code saves it. Never claim a change is saved.
   `decision: "decline"`, explain in `summary`, and leave the outline and weeks
   null rather than guessing.
 
+## Rolling forward
+
+For the next week, start from the last written week: same days, exercises and
+structure, with only the changes the template's progression for that week
+requires (sets, reps, % inside its range). Do not add deviations, extra drills,
+new labels (such as "upper-body focus") or loads that no cited source supports;
+the Verifier fails them. Copy a week's wording and cites when nothing changes.
+
 ## Changing a saved plan
 
 For `edit` and `life_change`, call `get_program` first and return only the weeks

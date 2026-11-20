@@ -22,9 +22,9 @@ class CoachAnswer(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
     summary: str
     points: list[Point]
-    takeaway: str | None
-    safety_note: str | None
-    not_covered: bool
+    takeaway: str | None = None   # always null by the prompt; a missing key is not worth rejecting an answer
+    safety_note: str | None = None
+    not_covered: bool = False
     for_you: str | None = None  # how it fits this athlete's own plan; their data, so no citation
 
 

@@ -98,7 +98,8 @@ def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path |
     start = [HumanMessage(athlete_context()), *_past_turns(history)] if athlete else []
     state = graph.invoke({"messages": [*start, HumanMessage(question)], "search_calls": 0, "plan_calls": 0},
                          {"recursion_limit": RECURSION_LIMIT})
-    if not state["messages"][-1].text.strip():  # e.g. the model went quiet after a refused tool call
+    last = state["messages"][-1].text
+    if not last.strip() or (athlete and "{" not in last):  # went quiet after a refused tool call, or answered in prose
         nudge = HumanMessage("Return the complete JSON answer now.")
         state = graph.invoke({"messages": [*state["messages"], nudge], "search_calls": state.get("search_calls", 0),
                               "plan_calls": state.get("plan_calls", 0)}, {"recursion_limit": RECURSION_LIMIT})

@@ -64,3 +64,10 @@ def test_chat_can_log_a_report(fake_search, tmp_path):  # noqa: F811
     result = answer_question("I squatted 4x9 at 160", llm=model, trace_dir=tmp_path, athlete=True)
     assert load_log()[0]["text"] == "squat 4x9 at 160" and result["check"]["passed"]
     assert {"log_workout", "read_log"} <= set(model.bound_tools)
+
+
+def test_placeholder_or_tiny_entries_are_rejected():
+    for text in ("placeholder", "ok", "Placeholder for the question"):
+        with pytest.raises(ValueError, match="actually did"):
+            add_entry("2026-11-19", text)
+    assert load_log() == []

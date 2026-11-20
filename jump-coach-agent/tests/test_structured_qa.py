@@ -113,3 +113,17 @@ def test_an_empty_final_answer_is_asked_for_again(fake_search, tmp_path, monkeyp
     model = ScriptedChatModel(responses=[AIMessage(''), AIMessage(json.dumps(reply))])
     result = answer_question('anything', llm=model, trace_dir=tmp_path, athlete=True)
     assert result['check']['passed'] and result['answer']['summary'] == 'Done.'
+
+
+def test_a_prose_final_answer_is_asked_for_again_as_json(fake_search, tmp_path, monkeypatch):
+    monkeypatch.setattr('src.coach.qa.athlete_context', lambda: 'ctx')
+    reply = dict(summary='Done.', points=[], takeaway=None, safety_note=None, not_covered=False, for_you='Nothing to change.')
+    model = ScriptedChatModel(responses=[AIMessage('Week 3 is drafted, please review.'), AIMessage(json.dumps(reply))])
+    result = answer_question('anything', llm=model, trace_dir=tmp_path, athlete=True)
+    assert result['check']['passed'] and result['answer']['summary'] == 'Done.'
+
+
+def test_answer_without_takeaway_or_safety_key_still_parses():
+    from src.coach.citations import parse_answer
+    out = parse_answer(json.dumps(dict(summary='Hi.', points=[], not_covered=True)))
+    assert out['takeaway'] is None and out['safety_note'] is None

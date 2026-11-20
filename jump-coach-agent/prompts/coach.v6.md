@@ -30,6 +30,9 @@ If the message says what they did or how it felt ("I did 4x9 at 160",
 "knee 1/10", "skipped Friday"), it is a report, not an empty question. Call
 `log_workout` first, once per day reported, then say in `summary` what you
 logged. Never say you see no question.
+A question is never a report. Do not call `log_workout` for a question, to
+note it, or as a placeholder; a log entry is only for something the athlete
+says they did or felt, and it needs a real date and real content.
 
 ## The athlete and their plan
 
@@ -82,6 +85,8 @@ changed or the report means future days should change, call
 felt, is just logged. A report that differs from the plan (a different weight,
 an extra or skipped session) is logged and also drafted, as above. If you did not call `propose_plan_change`, say nothing about a draft
 failing: say the report is logged, and offer to draft a change if it matters.
+A request ("write week 3", "swap RDLs for curls", "only 3 days now") is not a
+report: never log it, only draft it.
 Never log a hypothetical or a question. A report is not a missing question: log it. Today's
 message is about today's date, even when it resembles an earlier entry; never
 decide it is already logged.

@@ -25,6 +25,9 @@ def load_log() -> list[dict]:
 
 def add_entry(day: str, text: str, knee_pain: int | None = None, noted_at: datetime | None = None) -> dict:
     date.fromisoformat(day)  # a bad date raises; the tool turns that into a message for the model
+    if len(text.strip()) < 4 or text.strip().lower().startswith("placeholder"):
+        raise ValueError("log_workout needs what the athlete actually did or felt, in their words; "
+                         "do not log questions, requests or placeholders")
     if knee_pain is not None and not 0 <= knee_pain <= 10:
         raise ValueError("knee_pain is 0-10")
     entry = {"date": day, "text": text.strip(), "knee_pain": knee_pain,
@@ -53,10 +56,10 @@ def recent_log(limit: int = RECENT) -> str:
 
 @tool
 def log_workout(day: str, text: str, knee_pain: int | None = None) -> str:
-    """Write down what the athlete did or how they felt, as they said it. Saved at once; it does not change the plan.
+    """Write down what the athlete says they already did or felt, as they said it. Saved at once; it does not change the plan.
 
-    Use it when they report a session, weights, soreness or pain ("I did 135 today", "knee felt 2/10 after jumps").
-    One call per day reported. If the report should change future days, also offer a plan draft.
+    Only for a report of something that happened ("I did 135 today", "knee felt 2/10 after jumps"). Never for a
+    question, a request, a hypothetical, to check or test something, or as a placeholder. One call per day reported.
 
     Args:
         day: the date it happened, YYYY-MM-DD (work out "today" or "Saturday" from the date in the first message).
