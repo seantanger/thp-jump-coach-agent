@@ -7,6 +7,7 @@ import json
 from langchain_core.tools import tool
 
 from src.planner import store
+from src.planner.log import read_log
 from src.planner.templates import get_cycle
 from src.tools import jump_height, search_library
 
@@ -35,4 +36,4 @@ def get_program(version: int | None = None) -> tuple[str, dict | None]:
     return json.dumps(data), data
 
 
-PLAN_TOOLS = [get_cycle, get_profile, get_program, search_library, jump_height]
+PLAN_TOOLS = [get_cycle, get_profile, get_program, read_log, search_library, jump_height]

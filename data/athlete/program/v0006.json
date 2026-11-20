@@ -1,0 +1,871 @@
+{
+  "version": 6,
+  "based_on": 5,
+  "created_at": "2026-11-14T12:58:42",
+  "change_summary": "On Sat 2026-11-14, I logged the 10 penultimate-step reps, the slow pickleball warm-up and the 15 or so max-effort jumps on the three jump-day sessions.",
+  "profile_snapshot": {
+    "training_age_years": 4.0,
+    "lifts": {
+      "back_squat_lb": 225.0,
+      "half_squat_lb": 250.0,
+      "power_clean_lb": 185.0
+    },
+    "standing_vertical_in": 28.5,
+    "approach_vertical_in": 32.0,
+    "standing_reach_in": 86.5,
+    "height_in": 67.0,
+    "days_per_week": 7,
+    "available_days": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri",
+      "sat",
+      "sun"
+    ],
+    "session_minutes": 90,
+    "equipment": [
+      "barbell",
+      "rack",
+      "platform",
+      "box",
+      "med ball",
+      "safety bar",
+      "belt squat",
+      "bench",
+      "hamstring curl machine",
+      "hip thrust machine"
+    ],
+    "event": null,
+    "goal": "Dunk off two feet. Approach vertical about 31-33 in, standing reach about 7 ft 2-3 in (needs roughly 10 ft 6 in touch). Back squat is a deep squat; half squat estimated.",
+    "knee_pain": {
+      "status": "ache",
+      "notes": "Knee pain in the past, now manageable."
+    },
+    "injury_notes": "Two-foot jumper. No sport or other jump load during the week. Bodyweight about 140 lb. Power clean max estimated about 185 lb (175 lb for 2 reps); half squat estimated about 250 lb. Standing vertical estimated 28-29 in."
+  },
+  "macrocycle": {
+    "model": "long_conjugate",
+    "template_id": "long_conjugate_6mo",
+    "start": "2026-11-09",
+    "event_date": null,
+    "end": "taper",
+    "cites": [
+      "Icml891MLHA@35#0",
+      "Icml891MLHA@105#0",
+      "Icml891MLHA@209#0"
+    ]
+  },
+  "mesocycles": [
+    {
+      "index": 0,
+      "cycle_id": "m1_volume",
+      "name": "Month 1 – volume building",
+      "emphasis": "volume",
+      "start": "2026-11-09",
+      "end": "2026-12-06",
+      "goal": "Build work capacity with general work that looks little like jumping; unload in week 4.",
+      "entry_criteria": "Start of the macrocycle.",
+      "exit_criteria": "Four weeks done, including the week-4 unload.",
+      "primes_next": "Volume built here is intensified in month 2.",
+      "cites": [
+        "Icml891MLHA@141#0",
+        "Icml891MLHA@174#0",
+        "Icml891MLHA@209#0"
+      ]
+    },
+    {
+      "index": 1,
+      "cycle_id": "m2_intensify",
+      "name": "Month 2 – intensify, more specific",
+      "emphasis": "intensification (power and 6–8 rep strength)",
+      "start": "2026-12-07",
+      "end": "2027-01-03",
+      "goal": "Intensify the month-1 volume with clean pulls and power cleans; heavier RDL and calf raise accessories prime month 3.",
+      "entry_criteria": "Month 1 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.",
+      "cites": [
+        "Icml891MLHA@244#0",
+        "Icml891MLHA@282#0",
+        "Icml891MLHA@320#0"
+      ]
+    },
+    {
+      "index": 2,
+      "cycle_id": "m3_absolute_strength",
+      "name": "Month 3 – absolute strength",
+      "emphasis": "absolute strength",
+      "start": "2027-01-04",
+      "end": "2027-01-31",
+      "goal": "Heavy squats and heavy clean pulls; eccentric accessories prime month 4.",
+      "entry_criteria": "Month 2 done.",
+      "exit_criteria": "About 3–4 weeks done.",
+      "primes_next": "Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.",
+      "cites": [
+        "Icml891MLHA@320#0",
+        "Icml891MLHA@354#0",
+        "Icml891MLHA@390#0"
+      ]
+    },
+    {
+      "index": 3,
+      "cycle_id": "m4_strength_speed",
+      "name": "Month 4 – strength-speed",
+      "emphasis": "strength-speed (fast bars, eccentric overload)",
+      "start": "2027-02-01",
+      "end": "2027-02-28",
+      "goal": "Power clean to maxes; accentuated eccentric squats and eccentric split squats; general days get more general.",
+      "entry_criteria": "Month 3 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Elastic accessories (high-velocity calf raises, drop RDLs) lead into month 5's speed work.",
+      "cites": [
+        "Icml891MLHA@427#0",
+        "Icml891MLHA@463#0",
+        "Icml891MLHA@501#0",
+        "Icml891MLHA@535#0"
+      ]
+    },
+    {
+      "index": 4,
+      "cycle_id": "m5_speed_strength",
+      "name": "Month 5 – speed-strength",
+      "emphasis": "speed-strength (bar speed)",
+      "start": "2027-03-01",
+      "end": "2027-03-28",
+      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); blend a heavy squat primer with high-velocity squats; start shock loading at low plyo volume.",
+      "entry_criteria": "Month 4 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Shock-loading accessories (med ball throws, low plyo volume) lead into month 6.",
+      "cites": [
+        "Icml891MLHA@572#0",
+        "Icml891MLHA@609#0",
+        "Icml891MLHA@647#0",
+        "Icml891MLHA@681#0"
+      ]
+    },
+    {
+      "index": 5,
+      "cycle_id": "m6_specificity",
+      "name": "Month 6 – specificity",
+      "emphasis": "specificity",
+      "start": "2027-03-29",
+      "end": "2027-04-25",
+      "goal": "Specificity at its highest, with the most plyo intensity and variety of the year; accessories become general and slow.",
+      "entry_criteria": "Month 5 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Taper, if an event is set.",
+      "cites": [
+        "Icml891MLHA@681#0",
+        "Icml891MLHA@718#0",
+        "Icml891MLHA@754#0"
+      ]
+    }
+  ],
+  "tendon_track": null,
+  "weeks": [
+    {
+      "start": "2026-11-09",
+      "mesocycle_index": 0,
+      "kind": "normal",
+      "volume_modifier": 1.0,
+      "days": [
+        {
+          "date": "2026-11-09",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 73.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Done: 135 lb (about 73% of your 185 lb max). Power exercise first, 3x45 s isometrics before.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "Athlete did 135 lb, about 73% of the 185 lb max, near the 70% clip; the template gives no Month 1 intensity.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 69.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Done: 155 lb (about 69% of your 225 lb squat).",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "RDL",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Done: about 155 lb. Hip hinge; general accessory.",
+              "cites": [
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus (pressing, pulling, core), easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "McGill Big 3 core holds",
+              "sets": 3,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Low-fatigue and fine on a general day. Curl-up, side plank and bird dog, each as a 5-30 s hold with a stable, neutral spine. Do not push into back pain; do not add core on lift days.",
+              "cites": [
+                "xcmVCG2F2E0@40#0",
+                "CZBzHWsnKDY@686#0"
+              ],
+              "deviation": {
+                "reason": "Low-fatigue core work (McGill Big 3: curl-up, side plank, bird dog) held for 5-30 s, kept on general days. The template's general day lists only a varied circuit.",
+                "cites": [
+                  "xcmVCG2F2E0@40#0",
+                  "CZBzHWsnKDY@686#0"
+                ],
+                "requested_by_user": true,
+                "equipment": []
+              }
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 72.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Done as planned. Do 3x45 s isometrics first. Power exercise first in the session. About 130–135 lb, roughly 70–73% of your new 185 lb max.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for about 130–135 lb, roughly 70–73% of the updated 185 lb max, in line with the 70% clip.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 69.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Done as planned: 155 lb (about 69% of your 225 lb squat). Lower for 3 s with no bounce at the bottom, then drive up. If your back is sore (not sharp pain), swap the back squat for belt squat at the same sets and reps and go for an easy walk with arm swings afterwards; if it is pain, stop.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0",
+                "LuJ9CXwsY8c@1036#0",
+                "CZBzHWsnKDY@686#0",
+                "bS0bWHXYAFU@159#0"
+              ],
+              "deviation": {
+                "reason": "Athlete asked for a 3 s controlled lowering with no bounce. Sets, reps and load stay inside the template ranges; a 3–4 s eccentric is described as tendon-stiffening.",
+                "cites": [
+                  "LuJ9CXwsY8c@1036#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "rack"
+                ]
+              }
+            },
+            {
+              "exercise": "hip thrust (machine)",
+              "sets": 1,
+              "reps": 10,
+              "intensity": {
+                "value": 270.0,
+                "unit": "lb"
+              },
+              "rest": null,
+              "notes": "Done on a machine instead of the barbell. Set 1: 3 x 45 lb plates per side (270 lb of plates, not counting any sled weight).",
+              "cites": [
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0",
+                "HR-mKLBgVdM@211#0"
+              ],
+              "deviation": {
+                "reason": "Athlete did the hip thrust on a machine instead of the barbell. It is the same hip-extension job, and sets and reps stay at 3x10.",
+                "cites": [
+                  "HR-mKLBgVdM@211#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "hip thrust machine"
+                ]
+              }
+            },
+            {
+              "exercise": "hip thrust (machine)",
+              "sets": 2,
+              "reps": 10,
+              "intensity": {
+                "value": 320.0,
+                "unit": "lb"
+              },
+              "rest": null,
+              "notes": "Done on a machine. Sets 2 and 3: 3 x 45 lb plates plus 25 lb per side (320 lb of plates, not counting any sled weight).",
+              "cites": [
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0",
+                "HR-mKLBgVdM@211#0"
+              ],
+              "deviation": {
+                "reason": "Athlete did the hip thrust on a machine instead of the barbell. It is the same hip-extension job, and sets and reps stay at 3x10.",
+                "cites": [
+                  "HR-mKLBgVdM@211#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "hip thrust machine"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Easy and general, upper-body focus. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "McGill Big 3 core holds",
+              "sets": 3,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Low-fatigue and fine on a general day. Curl-up, side plank and bird dog, each as a 5-30 s hold with a stable, neutral spine. Do not push into back pain; do not add core on lift days.",
+              "cites": [
+                "xcmVCG2F2E0@40#0",
+                "CZBzHWsnKDY@686#0"
+              ],
+              "deviation": {
+                "reason": "Low-fatigue core work (McGill Big 3: curl-up, side plank, bird dog) held for 5-30 s, kept on general days. The template's general day lists only a varied circuit.",
+                "cites": [
+                  "xcmVCG2F2E0@40#0",
+                  "CZBzHWsnKDY@686#0"
+                ],
+                "requested_by_user": true,
+                "equipment": []
+              }
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 72.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Do 3x45 s isometrics first. Power exercise first in the session. About 130–135 lb, roughly 70–73% of your 185 lb max.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for about 130–135 lb, roughly 70–73% of the updated 185 lb max, in line with the 70% clip.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 69.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "155 lb (about 69% of your 225 lb squat). If your back is sore (not sharp pain), swap the back squat for belt squat at the same sets and reps and go for an easy walk with arm swings afterwards; if it is pain, stop.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0",
+                "CZBzHWsnKDY@686#0",
+                "bS0bWHXYAFU@159#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "lying hamstring curl",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Easy to add at the end; barely taxing. Go lighter if your hamstrings are still sore.",
+              "cites": [
+                "I1baSIlV_pQ@408#0",
+                "3vmd30VvzRA@855#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-14",
+          "day_type": "jump",
+          "sessions": [
+            {
+              "exercise": "penultimate-step cone drill",
+              "sets": null,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Done: 10 penultimate-step reps before the jumping. Technique work for the approach-standing gap.",
+              "cites": [
+                "zutbPL4Aze0@157#0"
+              ],
+              "deviation": {
+                "reason": "Technique drill for the penultimate step (a penultimate jump for two-foot jumpers) that fits the jump session. It is not in the template's Month 1 jump day. The cones are only markers.",
+                "cites": [
+                  "zutbPL4Aze0@157#0"
+                ],
+                "requested_by_user": true,
+                "equipment": []
+              }
+            },
+            {
+              "exercise": "jump session warm-up jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 35.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Done: pickleball warm-up, taken really slowly, in place of the low-effort jumping.",
+              "cites": [
+                "Icml891MLHA@792#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session max-effort jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 5.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Done: about 15 max-effort jumps.",
+              "cites": [
+                "Icml891MLHA@792#0"
+              ],
+              "deviation": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": "2026-11-16",
+      "mesocycle_index": 0,
+      "kind": "normal",
+      "volume_modifier": 1.0,
+      "days": [
+        {
+          "date": "2026-11-16",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Do 3x45 s isometrics first. Power exercise first in the session. About 130 lb, 70% of your 185 lb max.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for about 130 lb, 70% of the updated 185 lb max, matching the 70% clip.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 9,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 158 lb (70% of your 225 lb squat). If your back is sore (not sharp pain), swap the back squat for belt squat at the same sets and reps and go for an easy walk with arm swings afterwards; if it is pain, stop.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0",
+                "xcmVCG2F2E0@0#0",
+                "CZBzHWsnKDY@316#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "RDL",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Hip hinge; general accessory. Only do this if your hamstrings have cleared. If they are still sore or you feel anything sharp, skip it.",
+              "cites": [
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-17",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus (pressing, pulling, core), easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0",
+                "Icml891MLHA@282#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "core circuit (Tue/Thu)",
+              "sets": 3,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Low-fatigue, fine on a general day. Hollow hold 20-30 s, side plank 20-30 s each side, hanging leg raise 8-10, plus McGill Big 3 holds (curl-up, side bridge, bird dog) 5-10 s holds. Do not push into back pain; do not add core on lift days.",
+              "cites": [
+                "QW6jQufKVU4@189#0",
+                "QW6jQufKVU4@468#0",
+                "xcmVCG2F2E0@40#0",
+                "xcmVCG2F2E0@83#0",
+                "WvYDOa3-gVQ@767#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-18",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Do 3x45 s isometrics first. Power exercise first in the session. About 130 lb, 70% of your 185 lb max.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for about 130 lb, 70% of the updated 185 lb max, matching the 70% clip.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 9,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 158 lb (70% of your 225 lb squat). If your back is sore (not sharp pain), swap the back squat for belt squat at the same sets and reps and go for an easy walk with arm swings afterwards; if it is pain, stop.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0",
+                "xcmVCG2F2E0@0#0",
+                "CZBzHWsnKDY@316#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "hip thrust",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Hip-extension accessory; low risk.",
+              "cites": [
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-19",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus again, with different movements from Tuesday. Easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0",
+                "Icml891MLHA@282#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "core circuit (Tue/Thu)",
+              "sets": 3,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Low-fatigue, fine on a general day. Hollow hold 20-30 s, side plank 20-30 s each side, hanging leg raise 8-10, plus McGill Big 3 holds (curl-up, side bridge, bird dog) 5-10 s holds. Do not push into back pain; do not add core on lift days.",
+              "cites": [
+                "QW6jQufKVU4@189#0",
+                "QW6jQufKVU4@468#0",
+                "xcmVCG2F2E0@40#0",
+                "xcmVCG2F2E0@83#0",
+                "WvYDOa3-gVQ@767#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-20",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Do 3x45 s isometrics first. Power exercise first in the session. About 130 lb, 70% of your 185 lb max.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for about 130 lb, 70% of the updated 185 lb max, matching the 70% clip.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 9,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "About 158 lb (70% of your 225 lb squat). If your back is sore (not sharp pain), swap the back squat for belt squat at the same sets and reps and go for an easy walk with arm swings afterwards; if it is pain, stop.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0",
+                "xcmVCG2F2E0@0#0",
+                "CZBzHWsnKDY@316#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "lying hamstring curl",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Easy to add at the end; barely taxing.",
+              "cites": [
+                "I1baSIlV_pQ@408#0",
+                "3vmd30VvzRA@855#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-21",
+          "day_type": "jump",
+          "sessions": [
+            {
+              "exercise": "penultimate-step cone drill",
+              "sets": null,
+              "reps": 12,
+              "intensity": null,
+              "rest": null,
+              "notes": "10-15 easy reps of the approach's second-to-last step over cones, before the low-effort jumping. Technique work for the approach-standing gap.",
+              "cites": [
+                "Vxa0d1AlyrA@225#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session warm-up jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 35.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Low-effort jumping inside the 40 min window. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session max-effort jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 5.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Max-effort jumps. Stop early if knee pain goes above 2–3/10 while jumping.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
+              ],
+              "deviation": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

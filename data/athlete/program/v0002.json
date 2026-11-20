@@ -1,0 +1,713 @@
+{
+  "version": 2,
+  "based_on": 1,
+  "created_at": "2026-11-08T16:21:42",
+  "change_summary": "Sets power clean at 70% of your 175 lb max (about 120–125 lb) on all six lift days in weeks 1 and 2 (9, 11, 13, 16, 18 and 20 Nov). Tuesday and Thursday (10, 12, 17 and 19 Nov) become upper-body-focus general days.",
+  "profile_snapshot": {
+    "training_age_years": 4.0,
+    "lifts": {
+      "back_squat_lb": 225.0,
+      "power_clean_lb": 175.0
+    },
+    "standing_vertical_in": null,
+    "approach_vertical_in": 32.0,
+    "standing_reach_in": 86.5,
+    "height_in": 67.0,
+    "days_per_week": 7,
+    "available_days": [
+      "mon",
+      "tue",
+      "wed",
+      "thu",
+      "fri",
+      "sat",
+      "sun"
+    ],
+    "session_minutes": 90,
+    "equipment": [
+      "barbell",
+      "rack",
+      "platform",
+      "box",
+      "med ball",
+      "safety bar",
+      "belt squat",
+      "bench",
+      "hamstring curl machine"
+    ],
+    "event": null,
+    "goal": "Dunk off two feet. Approach vertical about 31-33 in, standing reach about 7 ft 2-3 in (needs roughly 10 ft 6 in touch). Back squat is a deep squat; half squat estimated.",
+    "knee_pain": {
+      "status": "ache",
+      "notes": "Knee pain in the past, now manageable."
+    },
+    "injury_notes": "Two-foot jumper. No sport or other jump load during the week."
+  },
+  "macrocycle": {
+    "model": "long_conjugate",
+    "template_id": "long_conjugate_6mo",
+    "start": "2026-11-09",
+    "event_date": null,
+    "end": "taper",
+    "cites": [
+      "Icml891MLHA@35#0",
+      "Icml891MLHA@105#0",
+      "Icml891MLHA@209#0"
+    ]
+  },
+  "mesocycles": [
+    {
+      "index": 0,
+      "cycle_id": "m1_volume",
+      "name": "Month 1 – volume building",
+      "emphasis": "volume",
+      "start": "2026-11-09",
+      "end": "2026-12-06",
+      "goal": "Build work capacity with general work that looks little like jumping; unload in week 4.",
+      "entry_criteria": "Start of the macrocycle.",
+      "exit_criteria": "Four weeks done, including the week-4 unload.",
+      "primes_next": "Volume built here is intensified in month 2.",
+      "cites": [
+        "Icml891MLHA@141#0",
+        "Icml891MLHA@174#0",
+        "Icml891MLHA@209#0"
+      ]
+    },
+    {
+      "index": 1,
+      "cycle_id": "m2_intensify",
+      "name": "Month 2 – intensify, more specific",
+      "emphasis": "intensification (power and 6–8 rep strength)",
+      "start": "2026-12-07",
+      "end": "2027-01-03",
+      "goal": "Intensify the month-1 volume with clean pulls and power cleans; heavier RDL and calf raise accessories prime month 3.",
+      "entry_criteria": "Month 1 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Heavier accessories (RDL, calf raise at 4–6 reps) lead into the absolute-strength month.",
+      "cites": [
+        "Icml891MLHA@244#0",
+        "Icml891MLHA@282#0",
+        "Icml891MLHA@320#0"
+      ]
+    },
+    {
+      "index": 2,
+      "cycle_id": "m3_absolute_strength",
+      "name": "Month 3 – absolute strength",
+      "emphasis": "absolute strength",
+      "start": "2027-01-04",
+      "end": "2027-01-31",
+      "goal": "Heavy squats and heavy clean pulls; eccentric accessories prime month 4.",
+      "entry_criteria": "Month 2 done.",
+      "exit_criteria": "About 3–4 weeks done.",
+      "primes_next": "Eccentric accessories (Nordics, 2-up-1-down calf raises) lead into the eccentric main lifts of month 4.",
+      "cites": [
+        "Icml891MLHA@320#0",
+        "Icml891MLHA@354#0",
+        "Icml891MLHA@390#0"
+      ]
+    },
+    {
+      "index": 3,
+      "cycle_id": "m4_strength_speed",
+      "name": "Month 4 – strength-speed",
+      "emphasis": "strength-speed (fast bars, eccentric overload)",
+      "start": "2027-02-01",
+      "end": "2027-02-28",
+      "goal": "Power clean to maxes; accentuated eccentric squats and eccentric split squats; general days get more general.",
+      "entry_criteria": "Month 3 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Elastic accessories (high-velocity calf raises, drop RDLs) lead into month 5's speed work.",
+      "cites": [
+        "Icml891MLHA@427#0",
+        "Icml891MLHA@463#0",
+        "Icml891MLHA@501#0",
+        "Icml891MLHA@535#0"
+      ]
+    },
+    {
+      "index": 4,
+      "cycle_id": "m5_speed_strength",
+      "name": "Month 5 – speed-strength",
+      "emphasis": "speed-strength (bar speed)",
+      "start": "2027-03-01",
+      "end": "2027-03-28",
+      "goal": "Move bars fast (lighter cleans, power snatch, hang cleans); blend a heavy squat primer with high-velocity squats; start shock loading at low plyo volume.",
+      "entry_criteria": "Month 4 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Shock-loading accessories (med ball throws, low plyo volume) lead into month 6.",
+      "cites": [
+        "Icml891MLHA@572#0",
+        "Icml891MLHA@609#0",
+        "Icml891MLHA@647#0",
+        "Icml891MLHA@681#0"
+      ]
+    },
+    {
+      "index": 5,
+      "cycle_id": "m6_specificity",
+      "name": "Month 6 – specificity",
+      "emphasis": "specificity",
+      "start": "2027-03-29",
+      "end": "2027-04-25",
+      "goal": "Specificity at its highest, with the most plyo intensity and variety of the year; accessories become general and slow.",
+      "entry_criteria": "Month 5 done.",
+      "exit_criteria": "Month done.",
+      "primes_next": "Taper, if an event is set.",
+      "cites": [
+        "Icml891MLHA@681#0",
+        "Icml891MLHA@718#0",
+        "Icml891MLHA@754#0"
+      ]
+    }
+  ],
+  "tendon_track": null,
+  "weeks": [
+    {
+      "start": "2026-11-09",
+      "mesocycle_index": 0,
+      "kind": "normal",
+      "volume_modifier": 1.0,
+      "days": [
+        {
+          "date": "2026-11-09",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Power exercise first. 70% of your 175 lb power clean is about 120–125 lb. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for 70% of power clean, which matches a THP clip where cleans are worked at about 70%.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 5,
+              "reps": 6,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "70% of your 225 lb back squat is about 158 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "RDL",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Hip hinge; general accessory.",
+              "cites": [
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus (pressing, pulling, core), easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0",
+                "Icml891MLHA@282#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Power exercise first. 70% of your 175 lb power clean is about 120–125 lb. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for 70% of power clean, which matches a THP clip where cleans are worked at about 70%.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 12,
+              "intensity": {
+                "value": 65.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "65% of your 225 lb back squat is about 146 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "hip thrust",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Hip-extension accessory; low risk.",
+              "cites": [
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus again, with different movements from Tuesday. Easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0",
+                "Icml891MLHA@282#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Power exercise first. 70% of your 175 lb power clean is about 120–125 lb. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for 70% of power clean, which matches a THP clip where cleans are worked at about 70%.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 8,
+              "intensity": {
+                "value": 68.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "68% of your 225 lb back squat is about 153 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "lying hamstring curl",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Easy to add at the end; barely taxing.",
+              "cites": [
+                "I1baSIlV_pQ@408#0",
+                "3vmd30VvzRA@855#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-14",
+          "day_type": "jump",
+          "sessions": [
+            {
+              "exercise": "jump session warm-up jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 35.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Low-effort jumping inside the 40 min window. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session max-effort jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 5.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Max-effort jumps. Stop early if knee pain goes above 2–3/10 while jumping.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
+              ],
+              "deviation": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "start": "2026-11-16",
+      "mesocycle_index": 0,
+      "kind": "normal",
+      "volume_modifier": 1.0,
+      "days": [
+        {
+          "date": "2026-11-16",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Power exercise first. 70% of your 175 lb power clean is about 120–125 lb. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for 70% of power clean, which matches a THP clip where cleans are worked at about 70%.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 5,
+              "reps": 6,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "70% of your 225 lb back squat is about 158 lb. Try to add a little load or a rep versus last week.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "Nordic hamstring curl",
+              "sets": 3,
+              "reps": 8,
+              "intensity": null,
+              "rest": null,
+              "notes": "Knee-flexion option; eccentric emphasis.",
+              "cites": [
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-17",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus (pressing, pulling, core), easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0",
+                "Icml891MLHA@282#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-18",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Power exercise first. 70% of your 175 lb power clean is about 120–125 lb. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for 70% of power clean, which matches a THP clip where cleans are worked at about 70%.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 10,
+              "intensity": {
+                "value": 67.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "67% of your 225 lb back squat is about 151 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "RDL",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Hip hinge; general accessory.",
+              "cites": [
+                "SXjO279Oslw@137#0",
+                "I1baSIlV_pQ@408#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-19",
+          "day_type": "general",
+          "sessions": [
+            {
+              "exercise": "general circuit (varied movements)",
+              "sets": null,
+              "reps": null,
+              "intensity": null,
+              "rest": null,
+              "notes": "Upper-body focus again, with different movements from Tuesday. Easy and general. No leg-heavy or jump-like work.",
+              "cites": [
+                "Icml891MLHA@209#0",
+                "Icml891MLHA@282#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-20",
+          "day_type": "lift",
+          "sessions": [
+            {
+              "exercise": "power clean",
+              "sets": 5,
+              "reps": 4,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "Power exercise first. 70% of your 175 lb power clean is about 120–125 lb. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@174#0",
+                "Icml891MLHA@209#0",
+                "7YrHqAUddEs@63#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": {
+                "reason": "The template gives no intensity for Month 1 power cleans. The athlete asked for 70% of power clean, which matches a THP clip where cleans are worked at about 70%.",
+                "cites": [
+                  "7YrHqAUddEs@63#0"
+                ],
+                "requested_by_user": true,
+                "equipment": [
+                  "barbell",
+                  "platform"
+                ]
+              }
+            },
+            {
+              "exercise": "back squat",
+              "sets": 4,
+              "reps": 8,
+              "intensity": {
+                "value": 70.0,
+                "unit": "%"
+              },
+              "rest": null,
+              "notes": "70% of your 225 lb back squat is about 158 lb.",
+              "cites": [
+                "Icml891MLHA@141#0",
+                "Icml891MLHA@209#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "hip thrust",
+              "sets": 3,
+              "reps": 10,
+              "intensity": null,
+              "rest": null,
+              "notes": "Hip-extension accessory; low risk.",
+              "cites": [
+                "OAsUemGRrpw@891#0",
+                "3vmd30VvzRA@855#0"
+              ],
+              "deviation": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-21",
+          "day_type": "jump",
+          "sessions": [
+            {
+              "exercise": "jump session warm-up jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 35.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Low-effort jumping inside the 40 min window. Do 3x45 s isometrics before the session.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "9X_j-oF2ZDg@288#0"
+              ],
+              "deviation": null
+            },
+            {
+              "exercise": "jump session max-effort jumps",
+              "sets": null,
+              "reps": null,
+              "intensity": {
+                "value": 5.0,
+                "unit": "min"
+              },
+              "rest": null,
+              "notes": "Max-effort jumps. Stop early if knee pain goes above 2–3/10 while jumping.",
+              "cites": [
+                "Icml891MLHA@792#0",
+                "72YX7nkYmYE@142#0"
+              ],
+              "deviation": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

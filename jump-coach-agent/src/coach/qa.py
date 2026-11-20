@@ -15,6 +15,7 @@ from src.coach.citations import check_citations, render, render_compact, parse_a
 from src.coach.graph import SEARCH_TOOL, build_graph
 from src.kb.paths import traces_dir
 from src.planner.chat_tool import PLAN_TOOL, propose_plan_change
+from src.planner.log import log_workout, read_log, recent_log
 from src.tools import retrieval_config, retrieval_settings
 from src.trace import Tracer, usage
 from src.verifier import verifier_failures, verifier_warnings
@@ -52,6 +53,8 @@ def athlete_context(today: date | None = None) -> str:
         lines += [f"Saved plan v{program.version} (weeks written through "
                   f"{program.weeks[-1].start + timedelta(days=6) if program.weeks else 'none'}):",
                   render_outline(program), "Current week:", render_week(program, today)]
+    lines += ["Training log (what the athlete reported, newest last):", recent_log(),
+              "---", "That is all background. The athlete's own message follows."]
     return "\n".join(lines)
 
 
@@ -91,7 +94,7 @@ def _answer_question(question: str, llm: BaseChatModel | None, trace_dir: Path |
     tracer = Tracer(traces_dir() if trace_dir is None else trace_dir)
     tracer.log("start", question=question, retrieval=retrieval_config())
     t0 = time.perf_counter()
-    graph = build_graph(llm, tracer=tracer, require_search=not athlete, extra_tools=[propose_plan_change] if athlete else ())
+    graph = build_graph(llm, tracer=tracer, require_search=not athlete, extra_tools=[propose_plan_change, log_workout, read_log] if athlete else ())
     start = [HumanMessage(athlete_context()), *_past_turns(history)] if athlete else []
     state = graph.invoke({"messages": [*start, HumanMessage(question)], "search_calls": 0, "plan_calls": 0},
                          {"recursion_limit": RECURSION_LIMIT})

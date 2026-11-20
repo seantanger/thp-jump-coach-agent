@@ -20,6 +20,7 @@ from src.agent import SEARCH_TOOL, run_capped
 from src.llm import get_llm
 from src.planner import store
 from src.planner.checks import run_checks
+from src.planner.log import recent_log
 from src.planner.merge import Change, apply_profile_changes, diff_programs, merge_proposal
 from src.planner.schema import Profile, Program, Proposal, parse_proposal
 from src.planner.templates import list_templates, load_template
@@ -61,6 +62,7 @@ def _context_message(state: PlanState, profile, program: Program | None) -> Huma
         last = program.weeks[-1].start if program.weeks else None
         lines += [f"Current program: v{program.version}; mesocycles {meso}",
                   f"Last filled week starts {last}" if last else "No weeks filled yet."]
+    lines += ["Training log (what the athlete reported doing and feeling, newest last):", recent_log()]
     return HumanMessage("\n".join(lines))
 
 
